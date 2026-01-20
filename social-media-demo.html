@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media Section Comparison</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --zoho-red: #E42527;
+            --color-bg: #ffffff;
+            --color-surface: #f5f5f5;
+            --color-border: #e0e0e0;
+            --color-text-primary: #333333;
+            --color-text-secondary: #666666;
+            --spacing-sm: 1rem;
+            --spacing-md: 1.5rem;
+            --radius-md: 10px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
+            padding: 2rem;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--color-text-primary);
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .option-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius-md);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .option-card h2 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--zoho-red);
+            border-bottom: 2px solid var(--color-border);
+            padding-bottom: 0.5rem;
+        }
+
+        .divider {
+            height: 1px;
+            background: var(--color-border);
+            margin: 1.5rem 0;
+        }
+
+        .section-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--color-text-primary);
+            margin-bottom: 1rem;
+        }
+
+        /* Option 1: Current Design (Checkbox with Pills) */
+        .social-header-1 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .checkbox-option input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--zoho-red);
+        }
+
+        .social-display-toggle {
+            display: flex;
+            gap: 4px;
+            background: var(--color-surface);
+            border-radius: 6px;
+            padding: 2px;
+        }
+
+        .toggle-option {
+            padding: 4px 12px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .toggle-option.active {
+            background: var(--zoho-red);
+            color: white;
+            font-weight: 500;
+        }
+
+        .social-channels {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+        }
+
+        .social-channel-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+
+        .social-channel-option:hover {
+            background: var(--color-surface);
+        }
+
+        .social-channel-option input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            accent-color: var(--zoho-red);
+        }
+
+        .social-icon {
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        /* Option 2: Toggle Switch with Dropdown */
+        .toggle-switch {
+            position: relative;
+            width: 48px;
+            height: 26px;
+            background: var(--color-border);
+            border-radius: 100px;
+            cursor: pointer;
+            transition: background 0.3s;
+            flex-shrink: 0;
+        }
+
+        .toggle-switch.active {
+            background: var(--zoho-red);
+        }
+
+        .toggle-switch::before {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .toggle-switch.active::before {
+            transform: translateX(22px);
+        }
+
+        .social-dropdown {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--color-surface);
+            border-radius: 8px;
+        }
+
+        .social-dropdown-label {
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        /* Option 3: Card-based Selection */
+        .social-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .social-card {
+            padding: 1rem;
+            border: 2px solid var(--color-border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .social-card:hover {
+            border-color: var(--zoho-red);
+            background: #fff5f5;
+        }
+
+        .social-card.selected {
+            border-color: var(--zoho-red);
+            background: #fff5f5;
+            box-shadow: 0 0 0 2px rgba(228, 37, 39, 0.2);
+        }
+
+        .social-card-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .social-card-name {
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        /* Option 4: Horizontal Pills */
+        .social-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .social-pill {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--color-border);
+            border-radius: 100px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .social-pill:hover {
+            border-color: var(--zoho-red);
+        }
+
+        .social-pill.selected {
+            background: var(--zoho-red);
+            border-color: var(--zoho-red);
+            color: white;
+        }
+
+        /* Option 5: Compact Inline */
+        .social-inline {
+            margin-top: 1rem;
+        }
+
+        .social-inline-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .social-inline-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--color-text-secondary);
+        }
+
+        .social-inline-icons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .social-icon-btn {
+            width: 36px;
+            height: 36px;
+            border: 2px solid var(--color-border);
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .social-icon-btn:hover {
+            border-color: var(--zoho-red);
+            transform: scale(1.1);
+        }
+
+        .social-icon-btn.selected {
+            background: var(--zoho-red);
+            border-color: var(--zoho-red);
+            color: white;
+        }
+
+        /* Option 6: List with Toggle Switches */
+        .social-list {
+            margin-top: 1rem;
+        }
+
+        .social-list-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            background: var(--color-surface);
+        }
+
+        .social-list-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .social-list-icon {
+            font-size: 1.5rem;
+            width: 32px;
+            text-align: center;
+        }
+
+        .social-list-name {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .note {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            border-radius: 4px;
+            color: #155724;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Social Media Section Comparison - Pick Your Favorite! 🎨</h1>
+
+        <div class="comparison-grid">
+            <!-- Option 1: Current Design -->
+            <div class="option-card">
+                <h2>1. Current Design (Checkbox + Pills)</h2>
+                <div class="divider"></div>
+                <div class="section-title">Zoho Social Media</div>
+
+                <div class="social-header-1">
+                    <label class="checkbox-option">
+                        <input type="checkbox" checked>
+                        <span>Include Zoho's official social handles</span>
+                    </label>
+                    <div class="social-display-toggle">
+                        <div class="toggle-option active">Text</div>
+                        <div class="toggle-option">Icons</div>
+                    </div>
+                </div>
+
+                <div class="social-channels">
+                    <label class="social-channel-option">
+                        <input type="checkbox" checked>
+                        <span class="social-icon">𝕏</span>
+                        <span>Twitter/X</span>
+                    </label>
+                    <label class="social-channel-option">
+                        <input type="checkbox" checked>
+                        <span class="social-icon">in</span>
+                        <span>LinkedIn</span>
+                    </label>
+                    <label class="social-channel-option">
+                        <input type="checkbox" checked>
+                        <span class="social-icon">f</span>
+                        <span>Facebook</span>
+                    </label>
+                    <label class="social-channel-option">
+                        <input type="checkbox" checked>
+                        <span class="social-icon">📸</span>
+                        <span>Instagram</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Option 2: Toggle Switch with Dropdown -->
+            <div class="option-card">
+                <h2>2. Toggle Switch + Dropdown</h2>
+                <div class="divider"></div>
+                <div class="section-title">Zoho Social Media</div>
+
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <div class="toggle-switch active"></div>
+                    <span>Include Zoho's official social handles</span>
+                </div>
+
+                <div class="social-dropdown">
+                    <label class="social-dropdown-label">Select channels to include:</label>
+                    <div class="social-channels">
+                        <label class="social-channel-option">
+                            <input type="checkbox" checked>
+                            <span class="social-icon">𝕏</span>
+                            <span>Twitter/X</span>
+                        </label>
+                        <label class="social-channel-option">
+                            <input type="checkbox" checked>
+                            <span class="social-icon">in</span>
+                            <span>LinkedIn</span>
+                        </label>
+                        <label class="social-channel-option">
+                            <input type="checkbox" checked>
+                            <span class="social-icon">f</span>
+                            <span>Facebook</span>
+                        </label>
+                        <label class="social-channel-option">
+                            <input type="checkbox" checked>
+                            <span class="social-icon">📸</span>
+                            <span>Instagram</span>
+                        </label>
+                    </div>
+                    <div style="margin-top: 0.75rem;">
+                        <div class="social-display-toggle">
+                            <div class="toggle-option active">Text</div>
+                            <div class="toggle-option">Icons</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Option 3: Card-based Selection -->
+            <div class="option-card">
+                <h2>3. Card-based Selection</h2>
+                <div class="divider"></div>
+                <div class="section-title">Zoho Social Media</div>
+
+                <label class="checkbox-option">
+                    <input type="checkbox" checked>
+                    <span>Include Zoho's official social handles</span>
+                </label>
+
+                <div class="social-cards">
+                    <div class="social-card selected">
+                        <div class="social-card-icon">𝕏</div>
+                        <div class="social-card-name">Twitter/X</div>
+                    </div>
+                    <div class="social-card selected">
+                        <div class="social-card-icon">in</div>
+                        <div class="social-card-name">LinkedIn</div>
+                    </div>
+                    <div class="social-card selected">
+                        <div class="social-card-icon">f</div>
+                        <div class="social-card-name">Facebook</div>
+                    </div>
+                    <div class="social-card selected">
+                        <div class="social-card-icon">📸</div>
+                        <div class="social-card-name">Instagram</div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 1rem;">
+                    <div class="social-display-toggle">
+                        <div class="toggle-option active">Text</div>
+                        <div class="toggle-option">Icons</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Option 4: Horizontal Pills -->
+            <div class="option-card">
+                <h2>4. Horizontal Pills (One-click)</h2>
+                <div class="divider"></div>
+                <div class="section-title">Zoho Social Media</div>
+
+                <p style="font-size: 0.875rem; color: #666; margin-bottom: 0.5rem;">Click to toggle channels:</p>
+
+                <div class="social-pills">
+                    <div class="social-pill selected">
+                        <span class="social-icon">𝕏</span>
+                        <span>Twitter/X</span>
+                    </div>
+                    <div class="social-pill selected">
+                        <span class="social-icon">in</span>
+                        <span>LinkedIn</span>
+                    </div>
+                    <div class="social-pill selected">
+                        <span class="social-icon">f</span>
+                        <span>Facebook</span>
+                    </div>
+                    <div class="social-pill selected">
+                        <span class="social-icon">📸</span>
+                        <span>Instagram</span>
+                    </div>
+                </div>
+
+                <div style="margin-top: 1rem;">
+                    <div class="social-display-toggle">
+                        <div class="toggle-option active">Text</div>
+                        <div class="toggle-option">Icons</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Option 5: Compact Inline -->
+            <div class="option-card">
+                <h2>5. Compact Inline (Icon Only)</h2>
+                <div class="divider"></div>
+                <div class="section-title">Zoho Social Media</div>
+
+                <div class="social-inline">
+                    <div class="social-inline-header">
+                        <span class="social-inline-label">Select channels:</span>
+                    </div>
+                    <div class="social-inline-icons">
+                        <button class="social-icon-btn selected">𝕏</button>
+                        <button class="social-icon-btn selected">in</button>
+                        <button class="social-icon-btn selected">f</button>
+                        <button class="social-icon-btn selected">📸</button>
+                    </div>
+                </div>
+
+                <div style="margin-top: 1rem;">
+                    <div class="social-display-toggle">
+                        <div class="toggle-option active">Text</div>
+                        <div class="toggle-option">Icons</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Option 6: List with Toggle Switches -->
+            <div class="option-card">
+                <h2>6. List with Toggle Switches</h2>
+                <div class="divider"></div>
+                <div class="section-title">Zoho Social Media</div>
+
+                <div class="social-list">
+                    <div class="social-list-item">
+                        <div class="social-list-left">
+                            <span class="social-list-icon">𝕏</span>
+                            <span class="social-list-name">Twitter/X</span>
+                        </div>
+                        <div class="toggle-switch active"></div>
+                    </div>
+                    <div class="social-list-item">
+                        <div class="social-list-left">
+                            <span class="social-list-icon">in</span>
+                            <span class="social-list-name">LinkedIn</span>
+                        </div>
+                        <div class="toggle-switch active"></div>
+                    </div>
+                    <div class="social-list-item">
+                        <div class="social-list-left">
+                            <span class="social-list-icon">f</span>
+                            <span class="social-list-name">Facebook</span>
+                        </div>
+                        <div class="toggle-switch active"></div>
+                    </div>
+                    <div class="social-list-item">
+                        <div class="social-list-left">
+                            <span class="social-list-icon">📸</span>
+                            <span class="social-list-name">Instagram</span>
+                        </div>
+                        <div class="toggle-switch active"></div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 1rem;">
+                    <div class="social-display-toggle">
+                        <div class="toggle-option active">Text</div>
+                        <div class="toggle-option">Icons</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="note">
+            <strong>🎯 Try them all!</strong> Each design offers different benefits:<br>
+            • <strong>Option 1</strong>: Current - familiar, compact<br>
+            • <strong>Option 2</strong>: Toggle switch - clearer hierarchy<br>
+            • <strong>Option 3</strong>: Cards - visual, easy to scan<br>
+            • <strong>Option 4</strong>: Pills - minimal, one-click toggle<br>
+            • <strong>Option 5</strong>: Inline - most compact, icon-focused<br>
+            • <strong>Option 6</strong>: List - iOS-style, consistent with field toggles
+        </div>
+    </div>
+</body>
+</html>

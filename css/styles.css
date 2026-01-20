@@ -524,6 +524,21 @@ body {
 
 .preview-container.dark-mode {
     background: #1a1a1a;
+    border-color: #333333;
+}
+
+/* Override signature colors in dark mode for better readability */
+.preview-container.dark-mode .signature-preview {
+    filter: brightness(1.1) contrast(0.95);
+}
+
+.preview-container.dark-mode .signature-preview a {
+    color: #9ca3af !important;
+}
+
+.preview-container.dark-mode .signature-preview td,
+.preview-container.dark-mode .signature-preview div {
+    color: #e5e7eb !important;
 }
 
 .signature-preview {

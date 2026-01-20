@@ -65,7 +65,7 @@ const SignatureGenerator = {
             twitter: { url: 'https://twitter.com/Zoho', text: 'Twitter', icon: '𝕏' },
             linkedin: { url: 'https://www.linkedin.com/company/zoho', text: 'LinkedIn', icon: 'in' },
             facebook: { url: 'https://www.facebook.com/zoho', text: 'Facebook', icon: 'f' },
-            instagram: { url: 'https://www.instagram.com/zoho/', text: 'Instagram', icon: '📷' }
+            instagram: { url: 'https://www.instagram.com/zoho/', text: 'Instagram', icon: '📸' }
         };
 
         const links = [];
@@ -264,6 +264,8 @@ const SignatureGenerator = {
 
     /**
      * Generate preview HTML
+     * Note: Preview container background is controlled by CSS (.preview-container.dark-mode)
+     * Signature itself should maintain email-compatible colors (works on both light/dark)
      */
     generatePreview(data, style = 'classic', socialOptions = {enabled: false, channels: [], displayType: 'text'}) {
         if (!data.name) {
@@ -308,6 +310,34 @@ const SignatureGenerator = {
      */
     isValidEmail(email) {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    },
+
+    /**
+     * Validate phone number format
+     * Accepts formats like: +1 (512) 555-1234, +1-512-555-1234, 512-555-1234, etc.
+     */
+    isValidPhone(phone) {
+        // Remove all non-digit characters except + at the start
+        const cleaned = phone.replace(/[^\d+]/g, '');
+        // Check if we have at least 10 digits (US number) or starts with + and has 10+ digits
+        return /^\+?\d{10,}$/.test(cleaned);
+    },
+
+    /**
+     * Clean LinkedIn URL by removing tracking parameters
+     * Converts https://linkedin.com/in/username?tracking=xyz to https://linkedin.com/in/username
+     */
+    cleanLinkedInUrl(url) {
+        try {
+            const urlObj = new URL(this.normalizeUrl(url));
+            if (urlObj.hostname.includes('linkedin.com')) {
+                // Keep only the pathname, remove query parameters
+                return `${urlObj.protocol}//${urlObj.hostname}${urlObj.pathname}`.replace(/\/$/, '');
+            }
+            return url;
+        } catch {
+            return url;
+        }
     },
 
     /**

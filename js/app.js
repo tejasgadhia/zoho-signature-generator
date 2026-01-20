@@ -420,21 +420,41 @@ function validateField(input) {
         return;
     }
 
-    // Validate email
+    // Validate email - must end with @zohocorp.com
     if (input.type === 'email' && value) {
         if (!SignatureGenerator.isValidEmail(value)) {
             input.setCustomValidity('Please enter a valid email address');
+        } else if (!value.endsWith('@zohocorp.com')) {
+            input.setCustomValidity('Email must be a @zohocorp.com address');
         } else {
             input.setCustomValidity('');
         }
     }
 
-    // Validate URLs
+    // Validate phone - accept common formats
+    if (input.type === 'tel' && value) {
+        if (!SignatureGenerator.isValidPhone(value)) {
+            input.setCustomValidity('Please enter a valid phone number (e.g., +1 (512) 555-1234)');
+        } else {
+            input.setCustomValidity('');
+        }
+    }
+
+    // Validate URLs and clean up LinkedIn URLs
     if (input.type === 'url' && value) {
         if (!SignatureGenerator.isValidUrl(value)) {
             input.setCustomValidity('Please enter a valid URL');
         } else {
             input.setCustomValidity('');
+
+            // Clean up LinkedIn URLs
+            if (input.name === 'linkedin' && value.includes('linkedin.com')) {
+                const cleanedUrl = SignatureGenerator.cleanLinkedInUrl(value);
+                if (cleanedUrl !== value) {
+                    input.value = cleanedUrl;
+                    AppState.formData.linkedin = cleanedUrl;
+                }
+            }
         }
     }
 }
