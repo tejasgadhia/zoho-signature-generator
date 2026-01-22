@@ -2,21 +2,35 @@
 
 A professional email signature generator for Zoho employees. Create beautiful, email-compatible HTML signatures with live preview and multiple styles.
 
-![Version](https://img.shields.io/badge/version-0.3.0-blue.svg)
+![Version](https://img.shields.io/badge/version-0.4.0-blue.svg)
 ![License](https://img.shields.io/badge/license-Internal-green.svg)
 
 **Live Demo**: [https://tejasgadhia.github.io/signature-generator](https://tejasgadhia.github.io/signature-generator)
 
-## What's New (v0.3.0)
+## What's New (v0.4.0)
 
-- ✨ **Social Media Redesign**: iOS-style toggle list replaces checkbox-based controls
-- 🎯 **Drag-and-Drop Reordering**: Live reordering with smooth animations (200ms transitions)
-- ⌨️ **Full Keyboard Support**: Space to grab, Arrow keys to move, Space to drop
-- 🔊 **Screen Reader Announcements**: ARIA live regions for accessibility (WCAG 2.2)
-- 📱 **Haptic Feedback**: Vibration on mobile for grab/move/drop actions
-- 🎨 **Visual Polish**: Always-visible drag handles, hover effects, smooth animations
-- 🔧 **Consistent Ordering**: Social channels maintain order when toggled on/off
-- 💾 **Order Persistence**: Custom channel order saves to localStorage
+### Layout & Branding
+- 🏢 **Three-Column Desktop Layout**: Sidebar (320px) + Form (~450px) + Preview (flex)
+- 🎨 **Official Zoho Branding**: Zoho logo, official colors, professional appearance
+- 📱 **No Scrolling**: All content visible in viewport on 1440x900+ displays
+- ⚠️ **Community Tool Disclaimer**: Clear indication this is unofficial
+
+### Form UX Improvements
+- 📧 **Email Auto-Generation**: firstname.lastname@zohocorp.com (auto-populated from name)
+- 🔗 **Smart URL Inputs**: LinkedIn and Twitter use username-only inputs with fixed prefixes
+- ℹ️ **Info Icon Tooltips**: Helpful guidance on all special fields
+- ✅ **Always-Visible Fields**: All form fields visible (no collapsing)
+
+### Social Media Section
+- 🎴 **Horizontal Card Layout**: 4-column grid with click-to-toggle
+- 🎯 **Live Reordering**: Drag-and-drop left/right with smooth animations
+- ⌨️ **Full Keyboard Support**: Space + Arrow keys for keyboard users
+- 🔊 **Screen Reader Support**: ARIA announcements for accessibility (WCAG 2.2)
+
+### Import Instructions
+- 🟦 **Zoho Mail Button**: Official logo, prominent placement
+- 🟩 **Zoho Desk Button**: Official logo, prominent placement
+- 📮 **Other Email Clients**: Gmail, Apple Mail, Outlook (secondary buttons)
 
 ## Features
 
@@ -123,6 +137,29 @@ Works with:
 
 ## Changelog
 
+### v0.4.0 (January 22, 2026)
+- Three-column desktop layout (Sidebar + Form + Preview)
+- Official Zoho logo and branding throughout
+- Email auto-generation from name (firstname.lastname@zohocorp.com)
+- LinkedIn/Twitter username-only inputs with fixed URL prefixes
+- Horizontal social media card layout with click-to-toggle
+- Drag-and-drop reordering (left/right movement)
+- Info icon tooltips on all special fields
+- Zoho Mail & Zoho Desk import buttons with official SVG logos
+- Community tool disclaimer box in sidebar
+- Style usage recommendations on signature cards
+- Light mode only for site UI (dark mode toggle affects preview only)
+- All form fields always visible (no collapsing)
+
+### v0.3.0 (January 21, 2026)
+- Premium drag-and-drop social media reordering
+- iOS-style toggle list for social channels
+- Full keyboard support (Space + Arrow keys)
+- ARIA live regions for screen reader announcements
+- Haptic feedback on mobile devices
+- Consistent channel ordering when toggled on/off
+- Order persistence to localStorage
+
 ### v0.2.0 (January 21, 2026)
 - Design system with 370+ CSS custom property tokens
 - Keyboard-accessible toggle switches (Enter/Space keys)
@@ -145,12 +182,27 @@ Works with:
 
 ## Future Enhancements
 
-- [ ] Enhanced social media section UI (6 design options in development)
+See `PHASE-2-PLAN.md` for detailed v0.5.0 roadmap.
+
+### v0.5.0 (Planned)
+- [ ] Fix logo display issues (Mail logo rendering)
+- [ ] Improve text readability (darker label colors)
+- [ ] Pin disclaimer to bottom of sidebar
+- [ ] Compact social media cards
+- [ ] Reposition tooltips to right side
+- [ ] Title case enforcement for name fields
+- [ ] Bookings URL with fixed base pattern
+- [ ] Official Gmail/Apple Mail/Outlook logos
+- [ ] Dark mode text contrast (WCAG compliance)
+- [ ] Logo inversion for dark mode
+
+### Future Releases
 - [ ] Save/load multiple signature profiles
 - [ ] Export as image (PNG/JPG)
 - [ ] QR code generation
 - [ ] Bulk generation for teams (CSV import)
 - [ ] Custom color scheme picker
+- [ ] Additional signature styles (5 & 6)
 
 ## Development
 
@@ -201,6 +253,7 @@ Internal tool for Zoho employees. Not for public distribution.
 
 ---
 
-**Version**: 0.2.0
-**Release Date**: January 21, 2026
+**Version**: 0.4.0
+**Release Date**: January 22, 2026
 **Repository**: https://github.com/tejasgadhia/signature-generator
+**Status**: See `docs/STATUS.md` for current project status
