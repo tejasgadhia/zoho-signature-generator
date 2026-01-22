@@ -383,6 +383,13 @@ body {
     background: var(--color-surface);
 }
 
+.input-wrapper input[readonly] {
+    background: var(--color-surface);
+    cursor: not-allowed;
+    color: var(--color-neutral-700);  /* Make URL text darker */
+    font-weight: 500;                 /* Make it stand out more */
+}
+
 .input-wrapper input:focus {
     outline: none;
     border-color: var(--zoho-red);
