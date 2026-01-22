@@ -310,7 +310,7 @@ body {
 .input-group label {
     font-size: 0.875rem;
     font-weight: 500;
-    color: var(--color-text-secondary);
+    color: var(--color-neutral-700);  /* Darker for better readability (11:1 contrast) */
     text-align: right;
     padding-right: var(--spacing-xs);
 }
