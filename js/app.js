@@ -457,35 +457,47 @@ function validateField(input) {
     // Skip validation if empty (except for required fields)
     if (!value) {
         input.setCustomValidity('');
+        displayValidationError(input, '');
         return;
     }
 
     // Validate email - must end with @zohocorp.com
     if (input.type === 'email' && value) {
         if (!SignatureGenerator.isValidEmail(value)) {
-            input.setCustomValidity('Please enter a valid email address');
+            const message = 'Please enter a valid email address';
+            input.setCustomValidity(message);
+            displayValidationError(input, message);
         } else if (!value.endsWith('@zohocorp.com')) {
-            input.setCustomValidity('Email must be a @zohocorp.com address');
+            const message = 'Email must be a @zohocorp.com address';
+            input.setCustomValidity(message);
+            displayValidationError(input, message);
         } else {
             input.setCustomValidity('');
+            displayValidationError(input, '');
         }
     }
 
     // Validate phone - accept common formats
     if (input.type === 'tel' && value) {
         if (!SignatureGenerator.isValidPhone(value)) {
-            input.setCustomValidity('Please enter a valid phone number (e.g., +1 (512) 555-1234)');
+            const message = 'Please enter a valid phone number (e.g., +1 (512) 555-1234)';
+            input.setCustomValidity(message);
+            displayValidationError(input, message);
         } else {
             input.setCustomValidity('');
+            displayValidationError(input, '');
         }
     }
 
     // Validate URLs and clean up LinkedIn URLs
     if (input.type === 'url' && value) {
         if (!SignatureGenerator.isValidUrl(value)) {
-            input.setCustomValidity('Please enter a valid URL');
+            const message = 'Please enter a valid URL';
+            input.setCustomValidity(message);
+            displayValidationError(input, message);
         } else {
             input.setCustomValidity('');
+            displayValidationError(input, '');
 
             // Clean up LinkedIn URLs
             if (input.name === 'linkedin' && value.includes('linkedin.com')) {
@@ -496,6 +508,48 @@ function validateField(input) {
                 }
             }
         }
+    }
+}
+
+/**
+ * Display or hide error message for an input
+ */
+function displayValidationError(input, message) {
+    const inputGroup = input.closest('.input-group');
+    if (!inputGroup) return;
+
+    // Find or create error message element
+    let errorElement = inputGroup.querySelector('.error-message');
+
+    if (!errorElement) {
+        errorElement = document.createElement('div');
+        errorElement.className = 'error-message';
+        errorElement.setAttribute('role', 'alert');
+        errorElement.setAttribute('aria-live', 'polite');
+
+        // Insert after input-wrapper
+        const inputWrapper = inputGroup.querySelector('.input-wrapper');
+        if (inputWrapper) {
+            inputWrapper.parentNode.insertBefore(errorElement, inputWrapper.nextSibling);
+        }
+    }
+
+    // Set error ID for aria-describedby
+    const errorId = `${input.id}-error`;
+    errorElement.id = errorId;
+
+    if (message) {
+        // Show error
+        errorElement.textContent = message;
+        errorElement.classList.add('visible');
+        input.setAttribute('aria-describedby', errorId);
+        input.setAttribute('aria-invalid', 'true');
+    } else {
+        // Hide error
+        errorElement.textContent = '';
+        errorElement.classList.remove('visible');
+        input.removeAttribute('aria-describedby');
+        input.removeAttribute('aria-invalid');
     }
 }
 
