@@ -86,12 +86,12 @@ body {
 .disclaimer-box {
     flex-shrink: 0;        /* Never shrink */
     background: #F9B21D;
-    padding: 16px 24px;    /* Horizontal padding matches sidebar */
-    margin: 0;             /* Remove margin-bottom */
+    padding: 16px;
+    margin: 0 24px 24px 24px;  /* Match sidebar padding, keep rounded look */
+    border-radius: 8px;
     display: flex;
     gap: 12px;
     align-items: flex-start;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);  /* Subtle separator */
 }
 
 .disclaimer-icon {
