@@ -5,8 +5,21 @@
 Zoho Email Signature Generator is a professional, privacy-first web application that allows Zoho employees to create beautiful, email-compatible HTML email signatures. It offers 4 signature styles with live preview, iOS-style toggles, and one-click copy to clipboard.
 
 **Live Demo**: https://tejasgadhia.github.io/signature-generator
-**Version**: 0.2.0
-**Last Updated**: January 21, 2026
+**Version**: 0.2.1
+**Last Updated**: January 22, 2026
+
+## Recent Changes (v0.2.1)
+
+### Polish Improvements
+- **Design system consistency** - All hardcoded colors and spacing replaced with design tokens
+- **Button accessibility** - Increased tap targets to 44x44px minimum (WCAG compliance)
+- **Copy button loading state** - Shows "Copying..." feedback during clipboard operation
+- **Visual validation feedback** - Error messages display below inputs with ARIA support
+- **Defensive coding** - Null checks prevent crashes if DOM elements missing
+
+### Bug Fixes
+- **GitHub Pages deployment** - Added `.nojekyll` file to serve `.ui-design` directory
+- **Pre-deployment checklist** - Added comprehensive testing steps to catch deployment issues
 
 ## Recent Changes (v0.2.0)
 
@@ -474,6 +487,116 @@ function escapeHtml(text) {
 - Feature branches for development
 - Descriptive commit messages
 - Test locally before pushing
+
+## GitHub Pages Deployment
+
+### Critical Requirements
+
+**REQUIRED: `.nojekyll` file in repository root**
+- GitHub Pages uses Jekyll by default, which blocks directories starting with `.` or `_`
+- Our `.ui-design` directory would return 404 without this file
+- The `.nojekyll` file disables Jekyll processing and serves all files
+
+### Pre-Push Checklist
+
+**ALWAYS run this checklist before pushing to main:**
+
+```bash
+# 1. Verify JavaScript syntax
+node --check js/app.js && node --check js/modal.js && node --check js/signature.js
+
+# 2. Check for broken CSS (unmatched braces)
+python3 -c "
+content = open('css/styles.css').read()
+braces = content.count('{') - content.count('}')
+assert braces == 0, f'Unmatched braces: {braces}'
+print('✓ CSS braces balanced')
+"
+
+# 3. Verify .nojekyll exists
+test -f .nojekyll && echo "✓ .nojekyll exists" || echo "❌ MISSING .nojekyll"
+
+# 4. Check for hidden directory CSS imports
+grep -r "@import.*'\.\." css/ && echo "⚠️  Check: Hidden dirs accessible?" || echo "✓ No hidden dir imports"
+
+# 5. Test locally in browser
+open index.html
+# MANUALLY verify: styling loads, forms work, dark mode toggles
+
+# 6. If all pass, push
+git push origin main
+```
+
+### GitHub Pages Gotchas
+
+**Problem 1: Dot-prefixed directories (`.ui-design`, `.github`)**
+- **Symptom**: CSS fails to load, 404 errors in browser console
+- **Cause**: Jekyll blocks hidden directories by default
+- **Fix**: Ensure `.nojekyll` file exists in root
+- **Test**: Visit `https://tejasgadhia.github.io/signature-generator/.ui-design/tokens/tokens.css` (should NOT 404)
+
+**Problem 2: CSS `@import` with relative paths**
+- **Symptom**: Styles don't load on GitHub Pages but work locally
+- **Cause**: Path resolution differs between local and GitHub Pages
+- **Fix**: Test `@import` paths are correct: `@import '../.ui-design/tokens/tokens.css';`
+- **Test**: Check browser Network tab for 404 errors
+
+**Problem 3: Case-sensitive file paths**
+- **Symptom**: Works on Mac/Windows, breaks on GitHub Pages (Linux)
+- **Cause**: GitHub Pages is case-sensitive, local filesystems may not be
+- **Fix**: Ensure file paths match exact case: `styles.css` not `Styles.css`
+- **Test**: `git ls-files` shows correct case
+
+**Problem 4: Caching issues after deployment**
+- **Symptom**: Old version still visible after push
+- **Cause**: Browser cache or GitHub Pages CDN cache
+- **Fix**: Hard refresh (Cmd+Shift+R / Ctrl+Shift+R), wait 2-3 minutes for CDN
+- **Test**: Check deployment timestamp in GitHub Actions
+
+### Testing Deployed Site
+
+After pushing, wait 1-2 minutes for deployment, then test:
+
+```bash
+# 1. Check if CSS loads
+curl -I https://tejasgadhia.github.io/signature-generator/css/styles.css
+# Should return: HTTP/2 200
+
+# 2. Check if design tokens load
+curl -I https://tejasgadhia.github.io/signature-generator/.ui-design/tokens/tokens.css
+# Should return: HTTP/2 200 (NOT 404)
+
+# 3. Open in browser and check console
+open https://tejasgadhia.github.io/signature-generator/
+# Should have NO 404 errors in Network tab
+```
+
+### Rollback Procedure
+
+If a push breaks production:
+
+```bash
+# 1. Find last working commit
+git log --oneline -10
+
+# 2. Revert to that commit
+git revert <broken-commit-hash>
+
+# 3. Push revert
+git push origin main
+
+# 4. Wait 1-2 minutes for deployment
+```
+
+### Key Files That Must Be Accessible
+
+These files MUST return HTTP 200 on GitHub Pages:
+- ✓ `index.html`
+- ✓ `css/styles.css`
+- ✓ `.ui-design/tokens/tokens.css` (requires `.nojekyll`)
+- ✓ `js/app.js`
+- ✓ `js/modal.js`
+- ✓ `js/signature.js`
 
 ## Troubleshooting
 
