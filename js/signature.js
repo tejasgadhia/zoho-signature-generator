@@ -34,10 +34,16 @@ const SignatureGenerator = {
 
     /**
      * Get logo URLs for both light and dark modes
+     * Uses relative paths for local development and absolute URLs for production
      * @returns {Object} {light: string, dark: string}
      */
     getLogoUrls() {
-        const baseUrl = 'https://tejasgadhia.github.io/signature-generator/assets';
+        // Check if we're on GitHub Pages or local
+        const isProduction = window.location.hostname.includes('github.io');
+        const baseUrl = isProduction
+            ? 'https://tejasgadhia.github.io/signature-generator/assets'
+            : './assets';
+
         return {
             light: `${baseUrl}/zoho-logo-light.png`,
             dark: `${baseUrl}/zoho-logo-dark.png`
