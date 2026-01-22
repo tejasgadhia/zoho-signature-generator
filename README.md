@@ -2,17 +2,17 @@
 
 A professional email signature generator for Zoho employees. Create beautiful, email-compatible HTML signatures with live preview and multiple styles.
 
-![Version](https://img.shields.io/badge/version-0.2.0-blue.svg)
+![Version](https://img.shields.io/badge/version-0.2.1-blue.svg)
 ![License](https://img.shields.io/badge/license-Internal-green.svg)
 
 **Live Demo**: [https://tejasgadhia.github.io/signature-generator](https://tejasgadhia.github.io/signature-generator)
 
-## What's New (v0.2.0)
+## What's New (v0.2.1)
 
-- ✅ **Design System**: 370+ CSS design tokens for consistent theming
-- ✅ **Keyboard Accessibility**: Toggle switches now work with Enter/Space keys
-- ✅ **Visual Validation**: Form inputs show red/green borders for invalid/valid states
-- ✅ **Bug Fixes**: Fixed modal memory leak, improved clear button tap targets
+- ✅ **Polish Improvements**: 44x44px button tap targets, loading states, error messages
+- ✅ **Design System**: All hardcoded colors/spacing replaced with design tokens
+- ✅ **Deployment Safety**: Pre-push check script to catch GitHub Pages issues
+- ✅ **Bug Fix**: Added `.nojekyll` file to serve design tokens on GitHub Pages
 
 ## Features
 
@@ -147,6 +147,43 @@ Works with:
 - [ ] QR code generation
 - [ ] Bulk generation for teams (CSV import)
 - [ ] Custom color scheme picker
+
+## Development
+
+### Before Pushing Changes
+
+Always run the pre-push check script to catch deployment issues:
+
+```bash
+./pre-push-check.sh
+```
+
+This script verifies:
+- ✅ JavaScript syntax is valid
+- ✅ CSS braces are balanced
+- ✅ `.nojekyll` file exists (required for GitHub Pages)
+- ✅ All required files are present
+- ⚠️ Hidden directory imports are flagged
+
+### Testing Locally
+
+```bash
+# Option 1: Open directly in browser
+open index.html
+
+# Option 2: Serve with live reload
+npx serve
+# Visit http://localhost:3000
+```
+
+### Deployment
+
+Changes pushed to `main` automatically deploy to GitHub Pages:
+- **Live URL**: https://tejasgadhia.github.io/signature-generator/
+- **Deployment time**: 1-2 minutes after push
+- **Cache**: Hard refresh (Cmd+Shift+R) if changes don't appear
+
+See `CLAUDE.md` for detailed development guidelines and troubleshooting.
 
 ## License
 
