@@ -302,7 +302,7 @@ const SignatureGenerator = {
      */
     generateMinimalStyle(data, websiteUrl, contacts, zohoSocialHtml) {
         const contactsHtml = contacts.length > 0
-            ? contacts.join(' <span style="color: #cccccc;">•</span> ')
+            ? contacts.join(' <span class="sig-separator" style="color: #cccccc;">•</span> ')
             : '';
 
         const titleParts = [];
@@ -310,15 +310,15 @@ const SignatureGenerator = {
         if (data.department) titleParts.push(this.escapeHtml(data.department));
         const titleLine = titleParts.join(' | ');
 
-        return `
+        return this.getDarkModeStyles() + `
 <table cellpadding="0" cellspacing="0" border="0" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.6; color: #333333;">
     <tr>
         <td>
-            <div style="font-size: 16px; font-weight: bold; color: ${this.ZOHO_RED}; margin-bottom: 4px;">
+            <div class="sig-name" style="font-size: 16px; font-weight: bold; color: ${this.ZOHO_RED}; margin-bottom: 4px;">
                 ${this.escapeHtml(data.name)}
             </div>
             ${titleLine ? `
-            <div style="font-size: 13px; color: #666666; margin-bottom: 6px;">
+            <div class="sig-title" style="font-size: 13px; color: #666666; margin-bottom: 6px;">
                 ${titleLine}
             </div>
             ` : ''}
@@ -328,7 +328,7 @@ const SignatureGenerator = {
             </div>
             ` : ''}
             <div style="font-size: 12px; color: #999999;">
-                <a href="${websiteUrl}" style="color: ${this.ZOHO_RED}; text-decoration: none; font-weight: 500;">Zoho Corporation</a>
+                <a href="${websiteUrl}" class="sig-link" style="color: ${this.ZOHO_RED}; text-decoration: none; font-weight: 500;">Zoho Corporation</a>
             </div>
             ${zohoSocialHtml}
         </td>
