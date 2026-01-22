@@ -263,7 +263,7 @@ const SignatureGenerator = {
      */
     generateModernStyle(data, logoUrl, websiteUrl, contacts, zohoSocialHtml) {
         const contactsHtml = contacts.length > 0
-            ? contacts.join(' <span style="color: #cccccc;">•</span> ')
+            ? contacts.join(' <span class="sig-separator" style="color: #cccccc;">•</span> ')
             : '';
 
         const titleParts = [];
@@ -271,20 +271,18 @@ const SignatureGenerator = {
         if (data.department) titleParts.push(this.escapeHtml(data.department));
         const titleLine = titleParts.join(' | ');
 
-        return `
+        return this.getDarkModeStyles() + `
 <table cellpadding="0" cellspacing="0" border="0" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.6; color: #333333;">
     <tr>
         <td style="padding-right: 16px; vertical-align: top; border-right: 3px solid ${this.ZOHO_RED};">
-            <a href="${websiteUrl}" style="text-decoration: none; display: inline-block;">
-                <img src="${logoUrl}" alt="Zoho" style="height: 48px; display: block; border: 0;" height="48">
-            </a>
+            ${this.generateDualLogos(websiteUrl, 48)}
         </td>
         <td style="padding-left: 16px; vertical-align: top;">
-            <div style="font-size: 16px; font-weight: bold; color: #333333; margin-bottom: 4px;">
+            <div class="sig-name" style="font-size: 16px; font-weight: bold; color: #333333; margin-bottom: 4px;">
                 ${this.escapeHtml(data.name)}
             </div>
             ${titleLine ? `
-            <div style="font-size: 13px; color: #666666; margin-bottom: 6px;">
+            <div class="sig-title" style="font-size: 13px; color: #666666; margin-bottom: 6px;">
                 ${titleLine}
             </div>
             ` : ''}
