@@ -13,6 +13,7 @@ const AppState = {
         phone: '',
         linkedin: '',
         twitter: '',
+        bookings: '',
         website: 'https://www.zoho.com'
     },
     fieldToggles: {
@@ -22,7 +23,8 @@ const AppState = {
         phone: true,
         linkedin: true,
         twitter: true,
-        website: true
+        bookings: false,
+        website: false  // Website is now locked, not toggleable
     },
     signatureStyle: 'classic',
     socialOptions: {
@@ -30,7 +32,7 @@ const AppState = {
         channels: ['twitter', 'linkedin', 'facebook', 'instagram'],
         displayType: 'text'
     },
-    isDarkMode: false
+    isDarkModePreview: false  // Changed from isDarkMode - only affects preview
 };
 
 // Expose AppState globally for debugging and testing
@@ -42,9 +44,9 @@ const elements = {
     preview: document.getElementById('signaturePreview'),
     previewContainer: document.getElementById('previewContainer'),
     copyButton: document.getElementById('copyButton'),
-    howToButton: document.getElementById('howToButton'),
     themeToggle: document.getElementById('themeToggle'),
-    toast: document.getElementById('toast')
+    toast: document.getElementById('toast'),
+    importButtons: document.querySelectorAll('.import-btn')
 };
 
 /**
@@ -86,7 +88,7 @@ function init() {
     setupZohoSocialControls();
     setupCopyButton();
     setupThemeToggle();
-    setupHowToButton();
+    setupImportButtons();  // New: Setup sidebar import buttons
 
     // Initial preview update
     updatePreview();
@@ -109,12 +111,95 @@ function loadInitialFormData() {
 }
 
 /**
+ * Auto-generate email prefix from full name
+ */
+function generateEmailPrefix(fullName) {
+    const cleaned = fullName.trim().toLowerCase();
+    const parts = cleaned.split(/\s+/);
+
+    if (parts.length >= 2) {
+        const first = parts[0].replace(/[^a-z]/g, '');
+        const last = parts[parts.length - 1].replace(/[^a-z]/g, '');
+        return `${first}.${last}`;
+    } else if (parts.length === 1 && parts[0]) {
+        return parts[0].replace(/[^a-z]/g, '');
+    }
+    return '';
+}
+
+/**
  * Setup form input listeners for live preview
  */
 function setupFormListeners() {
     const textInputs = elements.form.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], input[type="url"]');
+    const nameInput = document.getElementById('name');
+    const emailPrefixInput = document.getElementById('email-prefix');
+
+    // Special handler for name field to auto-generate email
+    if (nameInput && emailPrefixInput) {
+        nameInput.addEventListener('input', (e) => {
+            const fullName = e.target.value;
+
+            // Auto-generate email prefix
+            const emailPrefix = generateEmailPrefix(fullName);
+            emailPrefixInput.value = emailPrefix;
+
+            // Update both name and email in state
+            AppState.formData.name = fullName.trim();
+            AppState.formData.email = `${emailPrefix}@zohocorp.com`;
+
+            updatePreview();
+        });
+    }
+
+    // Listen to email prefix changes
+    if (emailPrefixInput) {
+        emailPrefixInput.addEventListener('input', (e) => {
+            const prefix = e.target.value.trim();
+            AppState.formData.email = `${prefix}@zohocorp.com`;
+            updatePreview();
+        });
+
+        emailPrefixInput.addEventListener('blur', (e) => {
+            validateField(e.target);
+        });
+    }
+
+    // LinkedIn username handler
+    const linkedinUsernameInput = document.getElementById('linkedin-username');
+    if (linkedinUsernameInput) {
+        linkedinUsernameInput.addEventListener('input', (e) => {
+            const username = e.target.value.trim();
+            AppState.formData.linkedin = username ? `https://linkedin.com/in/${username}` : '';
+            updatePreview();
+        });
+
+        linkedinUsernameInput.addEventListener('blur', (e) => {
+            validateField(e.target);
+        });
+    }
+
+    // Twitter username handler
+    const twitterUsernameInput = document.getElementById('twitter-username');
+    if (twitterUsernameInput) {
+        twitterUsernameInput.addEventListener('input', (e) => {
+            const username = e.target.value.trim();
+            AppState.formData.twitter = username ? `@${username}` : '';
+            updatePreview();
+        });
+
+        twitterUsernameInput.addEventListener('blur', (e) => {
+            validateField(e.target);
+        });
+    }
 
     textInputs.forEach(input => {
+        // Skip special handling for name, email-prefix, linkedin-username, twitter-username (handled above)
+        if (input.id === 'name' || input.id === 'email-prefix' ||
+            input.id === 'linkedin-username' || input.id === 'twitter-username') {
+            return;
+        }
+
         // Update on input (real-time)
         input.addEventListener('input', (e) => {
             const fieldName = e.target.name;
@@ -140,7 +225,16 @@ function setupFieldToggles() {
 
     toggles.forEach(toggle => {
         const fieldName = toggle.dataset.field;
-        const input = document.getElementById(fieldName);
+        // Special handling for username-based fields
+        let inputId = fieldName;
+        if (fieldName === 'email') {
+            inputId = 'email-prefix';
+        } else if (fieldName === 'linkedin') {
+            inputId = 'linkedin-username';
+        } else if (fieldName === 'twitter') {
+            inputId = 'twitter-username';
+        }
+        const input = document.getElementById(inputId);
 
         // Set initial state based on active class
         const isActive = toggle.classList.contains('active');
@@ -174,7 +268,21 @@ function setupFieldToggles() {
                     AppState.formData[fieldName] = '';
                 } else {
                     // Restore the value if re-enabled
-                    AppState.formData[fieldName] = input.value.trim();
+                    if (fieldName === 'email') {
+                        // For email, construct full email from prefix
+                        const prefix = input.value.trim();
+                        AppState.formData[fieldName] = `${prefix}@zohocorp.com`;
+                    } else if (fieldName === 'linkedin') {
+                        // For LinkedIn, construct full URL from username
+                        const username = input.value.trim();
+                        AppState.formData[fieldName] = username ? `https://linkedin.com/in/${username}` : '';
+                    } else if (fieldName === 'twitter') {
+                        // For Twitter, add @ to username
+                        const username = input.value.trim();
+                        AppState.formData[fieldName] = username ? `@${username}` : '';
+                    } else {
+                        AppState.formData[fieldName] = input.value.trim();
+                    }
                 }
             }
 
@@ -230,13 +338,9 @@ function setupStyleSelector() {
 }
 
 /**
- * Setup Zoho social media controls
+ * Setup Zoho social media controls (Horizontal Compact Cards)
  */
 function setupZohoSocialControls() {
-    // Get all social toggle switches
-    const socialToggles = document.querySelectorAll('[data-field^="social-"]');
-    const socialDisplayRadios = document.querySelectorAll('input[name="socialDisplay"]');
-
     // Define canonical order for social channels (this determines display order)
     const canonicalOrder = ['twitter', 'linkedin', 'facebook', 'instagram'];
 
@@ -251,24 +355,78 @@ function setupZohoSocialControls() {
     AppState.socialOptions.enabled = true;
     AppState.socialOptions.channels = [...canonicalOrder]; // Use spread to create a copy
 
-    // Setup individual toggle handlers
-    socialToggles.forEach(toggle => {
-        const channel = toggle.dataset.field.replace('social-', ''); // Extract channel name
+    // Setup master toggle
+    const masterToggle = document.getElementById('master-social-toggle');
+    const socialGrid = document.getElementById('socialCompactGrid');
 
-        // Handle toggle action (shared between click and keyboard)
-        const handleToggle = () => {
-            // Toggle the active state
-            const isNowActive = !toggle.classList.contains('active');
+    if (masterToggle) {
+        const handleMasterToggle = () => {
+            const isNowActive = !masterToggle.classList.contains('active');
 
-            // Update visual state
+            // Toggle visual state
             if (isNowActive) {
-                toggle.classList.add('active');
+                masterToggle.classList.add('active');
+                socialGrid.style.display = 'grid';
             } else {
-                toggle.classList.remove('active');
+                masterToggle.classList.remove('active');
+                socialGrid.style.display = 'none';
             }
 
-            // Update ARIA state for accessibility
-            toggle.setAttribute('aria-checked', isNowActive);
+            // Update ARIA
+            masterToggle.setAttribute('aria-checked', isNowActive);
+
+            // Update state
+            AppState.socialOptions.enabled = isNowActive;
+
+            updatePreview();
+        };
+
+        masterToggle.addEventListener('click', handleMasterToggle);
+        masterToggle.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                handleMasterToggle();
+            }
+        });
+    }
+
+    // Setup individual card click-to-toggle
+    const cards = document.querySelectorAll('.social-compact-card');
+
+    cards.forEach(card => {
+        const channel = card.dataset.channel;
+
+        // Handle card click to toggle (but not when dragging)
+        let isDragging = false;
+
+        card.addEventListener('mousedown', () => {
+            isDragging = false;
+        });
+
+        card.addEventListener('mousemove', () => {
+            isDragging = true;
+        });
+
+        card.addEventListener('click', (e) => {
+            // Don't toggle if we're dragging
+            if (isDragging) {
+                isDragging = false;
+                return;
+            }
+
+            // Don't toggle if clicking the drag handle
+            if (e.target.classList.contains('social-drag-handle')) {
+                return;
+            }
+
+            // Toggle active state
+            const isNowActive = !card.classList.contains('active');
+
+            if (isNowActive) {
+                card.classList.add('active');
+            } else {
+                card.classList.remove('active');
+            }
 
             // Update AppState channels array
             if (isNowActive) {
@@ -287,25 +445,14 @@ function setupZohoSocialControls() {
             AppState.socialOptions.enabled = AppState.socialOptions.channels.length > 0;
 
             updatePreview();
-        };
+        });
 
-        // Listen for clicks
-        toggle.addEventListener('click', handleToggle);
-
-        // Listen for keyboard events (Enter and Space)
-        toggle.addEventListener('keydown', (e) => {
+        // Keyboard support for toggle
+        card.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
-                handleToggle();
+                card.click();
             }
-        });
-    });
-
-    // Text/Icon display toggle (unchanged)
-    socialDisplayRadios.forEach(radio => {
-        radio.addEventListener('change', (e) => {
-            AppState.socialOptions.displayType = e.target.value;
-            updatePreview();
         });
     });
 
@@ -314,17 +461,17 @@ function setupZohoSocialControls() {
 }
 
 /**
- * Setup drag-and-drop functionality for social media list
+ * Setup drag-and-drop functionality for social media compact grid (Horizontal)
  * Implements modern UX best practices:
- * - Mouse drag with visual feedback
+ * - Mouse drag with visual feedback (left/right positioning)
  * - Keyboard navigation (Space to grab, Arrow keys to move, Space to drop)
  * - Screen reader announcements
  * - Touch support
  * - Smooth animations
  */
 function setupSocialDragAndDrop(canonicalOrder, sortChannels) {
-    const socialList = document.querySelector('.social-list');
-    const listItems = document.querySelectorAll('.social-list-item');
+    const socialGrid = document.getElementById('socialCompactGrid');
+    const cards = document.querySelectorAll('.social-compact-card');
 
     // Create ARIA live region for screen reader announcements
     const liveRegion = document.createElement('div');
@@ -335,8 +482,8 @@ function setupSocialDragAndDrop(canonicalOrder, sortChannels) {
     document.body.appendChild(liveRegion);
 
     // State management
-    let draggedItem = null;
-    let keyboardGrabbedItem = null;
+    let draggedCard = null;
+    let keyboardGrabbedCard = null;
 
     // Helper: Announce to screen readers
     const announce = (message) => {
@@ -344,19 +491,19 @@ function setupSocialDragAndDrop(canonicalOrder, sortChannels) {
     };
 
     // Helper: Get current position
-    const getItemPosition = (item) => {
-        return Array.from(socialList.children).indexOf(item) + 1;
+    const getCardPosition = (card) => {
+        return Array.from(socialGrid.children).indexOf(card) + 1;
     };
 
-    // Helper: Get item label
-    const getItemLabel = (item) => {
-        return item.querySelector('.social-list-name').textContent;
+    // Helper: Get card label
+    const getCardLabel = (card) => {
+        return card.querySelector('.social-compact-label').textContent;
     };
 
     // Helper: Save order to state and localStorage
     const saveOrder = () => {
-        const newOrder = Array.from(socialList.querySelectorAll('.social-list-item'))
-            .map(item => item.dataset.channel);
+        const newOrder = Array.from(socialGrid.querySelectorAll('.social-compact-card'))
+            .map(card => card.dataset.channel);
 
         canonicalOrder.length = 0;
         canonicalOrder.push(...newOrder);
@@ -367,42 +514,32 @@ function setupSocialDragAndDrop(canonicalOrder, sortChannels) {
     };
 
     // Helper: Animate drop with smooth transition
-    const animateDrop = (item) => {
-        item.style.transition = 'all 100ms ease-out';
+    const animateDrop = (card) => {
+        card.style.transition = 'all 200ms cubic-bezier(0.2, 0, 0, 1)';
         setTimeout(() => {
-            item.style.transition = '';
-        }, 100);
+            card.style.transition = '';
+        }, 200);
     };
 
-    // Setup mouse/touch drag for each item
-    listItems.forEach((item) => {
-        const dragHandle = item.querySelector('.drag-handle');
-        const toggle = item.querySelector('.toggle-switch');
-
-        // Make drag handle focusable
-        dragHandle.setAttribute('tabindex', '0');
-        dragHandle.setAttribute('role', 'button');
-        dragHandle.setAttribute('aria-label', `Reorder ${getItemLabel(item)}. Press space to grab, arrow keys to move, space to drop.`);
-
-        // Prevent drag from triggering on toggle switch
-        toggle.addEventListener('mousedown', (e) => {
-            e.stopPropagation();
-        });
+    // Setup mouse/touch drag for each card
+    cards.forEach((card) => {
+        // Make cards focusable for keyboard navigation
+        card.setAttribute('aria-label', `${getCardLabel(card)} - Click to toggle, drag to reorder, or press space for keyboard reordering`);
 
         // Mouse drag events
-        item.addEventListener('dragstart', (e) => {
-            draggedItem = item;
-            item.classList.add('dragging');
-            socialList.classList.add('drag-active');
+        card.addEventListener('dragstart', (e) => {
+            draggedCard = card;
+            card.classList.add('dragging');
+            socialGrid.classList.add('drag-active');
 
             e.dataTransfer.effectAllowed = 'move';
-            e.dataTransfer.setData('text/html', item.innerHTML);
+            e.dataTransfer.setData('text/html', card.innerHTML);
 
             // Custom drag image with offset
-            const rect = item.getBoundingClientRect();
-            e.dataTransfer.setDragImage(item, e.clientX - rect.left, e.clientY - rect.top);
+            const rect = card.getBoundingClientRect();
+            e.dataTransfer.setDragImage(card, e.clientX - rect.left, e.clientY - rect.top);
 
-            announce(`Grabbed ${getItemLabel(item)}`);
+            announce(`Grabbed ${getCardLabel(card)}`);
 
             // Haptic feedback on mobile
             if (navigator.vibrate) {
@@ -410,76 +547,77 @@ function setupSocialDragAndDrop(canonicalOrder, sortChannels) {
             }
         });
 
-        item.addEventListener('dragend', () => {
-            item.classList.remove('dragging');
-            socialList.classList.remove('drag-active');
+        card.addEventListener('dragend', () => {
+            card.classList.remove('dragging');
+            socialGrid.classList.remove('drag-active');
 
             // Remove all drag-over classes
-            listItems.forEach(i => {
-                i.classList.remove('drag-over-top', 'drag-over-bottom');
+            cards.forEach(c => {
+                c.classList.remove('drag-over-left', 'drag-over-right');
             });
 
-            animateDrop(item);
+            animateDrop(card);
             saveOrder();
 
-            announce(`Dropped ${getItemLabel(item)} at position ${getItemPosition(item)}`);
+            announce(`Dropped ${getCardLabel(card)} at position ${getCardPosition(card)}`);
 
             // Haptic feedback on mobile
             if (navigator.vibrate) {
                 navigator.vibrate(20);
             }
 
-            draggedItem = null;
+            draggedCard = null;
         });
 
-        // Drag over - live reordering with visual feedback
-        item.addEventListener('dragover', (e) => {
+        // Drag over - live reordering with visual feedback (horizontal)
+        card.addEventListener('dragover', (e) => {
             e.preventDefault();
             e.dataTransfer.dropEffect = 'move';
 
-            if (draggedItem && draggedItem !== item) {
-                const rect = item.getBoundingClientRect();
+            if (draggedCard && draggedCard !== card) {
+                const rect = card.getBoundingClientRect();
 
-                // Live reorder: move items in real-time as user drags
-                const afterElement = (e.clientY - rect.top) > (rect.height / 2);
+                // Live reorder: move cards in real-time as user drags horizontally
+                const afterElement = (e.clientX - rect.left) > (rect.width / 2);
 
                 if (afterElement) {
-                    // Insert after this item
-                    const nextSibling = item.nextSibling;
-                    if (nextSibling !== draggedItem) {
-                        socialList.insertBefore(draggedItem, nextSibling);
+                    // Insert after this card
+                    const nextSibling = card.nextSibling;
+                    if (nextSibling !== draggedCard) {
+                        socialGrid.insertBefore(draggedCard, nextSibling);
                     }
                 } else {
-                    // Insert before this item
-                    if (item !== draggedItem) {
-                        socialList.insertBefore(draggedItem, item);
+                    // Insert before this card
+                    if (card !== draggedCard) {
+                        socialGrid.insertBefore(draggedCard, card);
                     }
                 }
             }
         });
 
         // Drop - just finalize the position and save
-        item.addEventListener('drop', (e) => {
+        card.addEventListener('drop', (e) => {
             e.preventDefault();
             e.stopPropagation();
             // Position is already set from live reordering in dragover
         });
 
-        // Keyboard navigation
-        dragHandle.addEventListener('keydown', (e) => {
+        // Keyboard navigation (horizontal)
+        card.addEventListener('keydown', (e) => {
             // Space to grab/drop
-            if (e.key === ' ') {
+            if (e.key === ' ' && !e.target.classList.contains('social-compact-card')) {
+                // Only handle space on the card itself, not when focused on other elements
                 e.preventDefault();
 
-                if (keyboardGrabbedItem === item) {
+                if (keyboardGrabbedCard === card) {
                     // Drop
-                    item.classList.remove('keyboard-grabbed');
-                    keyboardGrabbedItem = null;
-                    
-                    animateDrop(item);
+                    card.classList.remove('keyboard-grabbed');
+                    keyboardGrabbedCard = null;
+
+                    animateDrop(card);
                     saveOrder();
 
-                    announce(`Dropped ${getItemLabel(item)} at position ${getItemPosition(item)}`);
+                    announce(`Dropped ${getCardLabel(card)} at position ${getCardPosition(card)}`);
 
                     // Haptic feedback
                     if (navigator.vibrate) {
@@ -487,10 +625,10 @@ function setupSocialDragAndDrop(canonicalOrder, sortChannels) {
                     }
                 } else {
                     // Grab
-                    keyboardGrabbedItem = item;
-                    item.classList.add('keyboard-grabbed');
+                    keyboardGrabbedCard = card;
+                    card.classList.add('keyboard-grabbed');
 
-                    announce(`Grabbed ${getItemLabel(item)} at position ${getItemPosition(item)}. Use arrow keys to move, space to drop.`);
+                    announce(`Grabbed ${getCardLabel(card)} at position ${getCardPosition(card)}. Use left/right arrow keys to move, space to drop.`);
 
                     // Haptic feedback
                     if (navigator.vibrate) {
@@ -499,21 +637,21 @@ function setupSocialDragAndDrop(canonicalOrder, sortChannels) {
                 }
             }
 
-            // Arrow keys to move when grabbed
-            if (keyboardGrabbedItem === item && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) {
+            // Arrow keys to move when grabbed (horizontal: left/right)
+            if (keyboardGrabbedCard === card && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
                 e.preventDefault();
 
-                const allItems = Array.from(socialList.children);
-                const currentIndex = allItems.indexOf(item);
+                const allCards = Array.from(socialGrid.children);
+                const currentIndex = allCards.indexOf(card);
 
-                if (e.key === 'ArrowUp' && currentIndex > 0) {
-                    // Move up
-                    socialList.insertBefore(item, allItems[currentIndex - 1]);
-                    announce(`Moved ${getItemLabel(item)} to position ${getItemPosition(item)}`);
-                } else if (e.key === 'ArrowDown' && currentIndex < allItems.length - 1) {
-                    // Move down
-                    socialList.insertBefore(item, allItems[currentIndex + 2]);
-                    announce(`Moved ${getItemLabel(item)} to position ${getItemPosition(item)}`);
+                if (e.key === 'ArrowLeft' && currentIndex > 0) {
+                    // Move left
+                    socialGrid.insertBefore(card, allCards[currentIndex - 1]);
+                    announce(`Moved ${getCardLabel(card)} to position ${getCardPosition(card)}`);
+                } else if (e.key === 'ArrowRight' && currentIndex < allCards.length - 1) {
+                    // Move right
+                    socialGrid.insertBefore(card, allCards[currentIndex + 2]);
+                    announce(`Moved ${getCardLabel(card)} to position ${getCardPosition(card)}`);
                 }
 
                 // Haptic feedback
@@ -523,10 +661,10 @@ function setupSocialDragAndDrop(canonicalOrder, sortChannels) {
             }
 
             // Escape to cancel
-            if (e.key === 'Escape' && keyboardGrabbedItem === item) {
-                item.classList.remove('keyboard-grabbed');
-                keyboardGrabbedItem = null;
-                                announce(`Cancelled reordering ${getItemLabel(item)}`);
+            if (e.key === 'Escape' && keyboardGrabbedCard === card) {
+                card.classList.remove('keyboard-grabbed');
+                keyboardGrabbedCard = null;
+                announce(`Cancelled reordering ${getCardLabel(card)}`);
             }
         });
     });
@@ -541,9 +679,9 @@ function setupSocialDragAndDrop(canonicalOrder, sortChannels) {
             canonicalOrder.push(...customOrder);
 
             customOrder.forEach(channel => {
-                const item = socialList.querySelector(`[data-channel="${channel}"]`);
-                if (item) {
-                    socialList.appendChild(item);
+                const card = socialGrid.querySelector(`[data-channel="${channel}"]`);
+                if (card) {
+                    socialGrid.appendChild(card);
                 }
             });
 
@@ -673,7 +811,7 @@ function showCopySuccess() {
  */
 function setupThemeToggle() {
     elements.themeToggle.addEventListener('change', (e) => {
-        AppState.isDarkMode = e.target.checked;
+        AppState.isDarkModePreview = e.target.checked;
         applyTheme();
         saveThemePreference();
     });
@@ -683,7 +821,7 @@ function setupThemeToggle() {
  * Apply theme to preview container
  */
 function applyTheme() {
-    if (AppState.isDarkMode) {
+    if (AppState.isDarkModePreview) {
         elements.previewContainer.classList.add('dark-mode');
     } else {
         elements.previewContainer.classList.remove('dark-mode');
@@ -694,9 +832,9 @@ function applyTheme() {
  * Load theme preference from localStorage
  */
 function loadThemePreference() {
-    const savedTheme = localStorage.getItem('zoho-signature-theme');
+    const savedTheme = localStorage.getItem('zoho-signature-preview-theme');
     if (savedTheme === 'dark') {
-        AppState.isDarkMode = true;
+        AppState.isDarkModePreview = true;
         elements.themeToggle.checked = true;
         applyTheme();
     }
@@ -706,15 +844,18 @@ function loadThemePreference() {
  * Save theme preference to localStorage
  */
 function saveThemePreference() {
-    localStorage.setItem('zoho-signature-theme', AppState.isDarkMode ? 'dark' : 'light');
+    localStorage.setItem('zoho-signature-preview-theme', AppState.isDarkModePreview ? 'dark' : 'light');
 }
 
 /**
- * Setup how-to button to open modal
+ * Setup import button handlers (sidebar)
  */
-function setupHowToButton() {
-    elements.howToButton.addEventListener('click', () => {
-        ModalController.open();
+function setupImportButtons() {
+    elements.importButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const clientType = button.dataset.client;
+            ModalController.open(clientType);
+        });
     });
 }
 
@@ -744,7 +885,25 @@ function validateField(input) {
         return;
     }
 
-    // Validate email - must end with @zohocorp.com
+    // Validate email prefix - must be alphanumeric + dots
+    if (input.id === 'email-prefix' && value) {
+        // Email prefix validation: lowercase letters, numbers, dots
+        const prefixRegex = /^[a-z0-9.]+$/;
+        if (!prefixRegex.test(value)) {
+            const message = 'Email prefix can only contain lowercase letters, numbers, and dots';
+            input.setCustomValidity(message);
+            displayValidationError(input, message);
+        } else if (value.startsWith('.') || value.endsWith('.') || value.includes('..')) {
+            const message = 'Dots cannot be at the start, end, or consecutive';
+            input.setCustomValidity(message);
+            displayValidationError(input, message);
+        } else {
+            input.setCustomValidity('');
+            displayValidationError(input, '');
+        }
+    }
+
+    // Validate email - must end with @zohocorp.com (legacy support)
     if (input.type === 'email' && value) {
         if (!SignatureGenerator.isValidEmail(value)) {
             const message = 'Please enter a valid email address';
