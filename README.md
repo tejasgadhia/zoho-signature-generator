@@ -2,7 +2,7 @@
 
 A professional email signature generator for Zoho employees. Create beautiful, email-compatible HTML signatures with live preview and multiple styles.
 
-![Version](https://img.shields.io/badge/version-0.4.0-blue.svg)
+![Version](https://img.shields.io/badge/version-0.6.0-blue.svg)
 ![License](https://img.shields.io/badge/license-Internal-green.svg)
 
 **Live Demo**: [https://tejasgadhia.github.io/signature-generator](https://tejasgadhia.github.io/signature-generator)
@@ -34,6 +34,7 @@ A professional email signature generator for Zoho employees. Create beautiful, e
 
 ## Features
 
+- **🌓 Dark Mode Support**: Signatures automatically adapt to dark mode in Gmail and Apple Mail with WCAG AA compliant text colors
 - **4 Signature Styles**: Classic, Compact, Modern, and Minimal layouts
 - **iOS-Style Toggle Switches**: Professional UI with full keyboard accessibility
 - **Live Preview**: Real-time updates with light/dark mode toggle
@@ -46,6 +47,22 @@ A professional email signature generator for Zoho employees. Create beautiful, e
 - **Zero Dependencies**: Pure vanilla HTML, CSS, and JavaScript
 - **Email Compatible**: Table-based layouts with inline styles
 - **Privacy-First**: All processing happens locally in your browser
+
+## Email Client Compatibility
+
+### Dark Mode Support
+
+| Email Client | Platform | Dark Mode | Status |
+|--------------|----------|-----------|--------|
+| Gmail | Web + Mobile | ✅ Full Support | Signatures adapt with media queries |
+| Apple Mail | macOS + iOS | ✅ Full Support | Signatures adapt with media queries |
+| Outlook | Web | ⚠️ Partial | May strip some styles, test required |
+| Outlook | Desktop | ❌ Fallback | Shows light mode (inline styles only) |
+
+**What this means:**
+- ✅ **Gmail & Apple Mail users** see beautiful dark mode signatures with white text and light logo
+- ⚠️ **Outlook Web users** may see partial dark mode (depends on version)
+- ❌ **Outlook Desktop users** see standard light mode signatures (still readable)
 
 ## Quick Start
 
