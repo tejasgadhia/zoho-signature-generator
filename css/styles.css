@@ -161,12 +161,34 @@ body {
     font-family: inherit;
 }
 
-.import-btn-primary {
+/* Split button style (logo on white, text on color) */
+.import-btn-split {
     height: 48px;
+    padding: 0;
+    overflow: hidden;
+    margin-bottom: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.import-btn-logo-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #FFFFFF;
+    padding: 0 12px;
+    height: 100%;
+    border-right: 1px solid rgba(0,0,0,0.1);
+}
+
+.import-btn-text {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: #FFFFFF;
     font-size: 16px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    margin-bottom: 8px;
+    font-weight: 600;
+    padding: 0 16px;
 }
 
 .import-btn-zoho-mail {
@@ -236,11 +258,14 @@ body {
 
 .import-btn-logo {
     height: 24px;
-    width: auto;  /* Changed from fixed 24px to allow natural scaling */
-    margin-right: 8px;
+    width: auto;
     display: block;
     object-fit: contain;
-    vertical-align: middle;
+}
+
+/* For non-split buttons (Gmail, Apple Mail, Outlook) */
+.import-btn-secondary .import-btn-logo {
+    margin-right: 8px;
 }
 
 /* Form Section */
