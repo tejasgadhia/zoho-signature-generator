@@ -8,6 +8,67 @@ const SignatureGenerator = {
     ZOHO_RED: '#E42527',
 
     /**
+     * Generate dark mode CSS style block
+     * Includes media queries for prefers-color-scheme: dark
+     * @returns {string} <style> block with dark mode overrides
+     */
+    getDarkModeStyles() {
+        return `
+<style>
+  @media (prefers-color-scheme: dark) {
+    /* Text colors - High contrast for WCAG AA compliance */
+    .sig-name { color: #FFFFFF !important; }
+    .sig-title { color: #E0E0E0 !important; }
+    .sig-link { color: #4A9EFF !important; }
+    .sig-separator { color: #666666 !important; }
+
+    /* Logo switching - hide light, show dark */
+    .sig-logo-light { display: none !important; }
+    .sig-logo-dark { display: inline-block !important; }
+  }
+
+  /* Default: hide dark logo */
+  .sig-logo-dark { display: none; }
+</style>`.trim();
+    },
+
+    /**
+     * Get logo URLs for both light and dark modes
+     * @returns {Object} {light: string, dark: string}
+     */
+    getLogoUrls() {
+        const baseUrl = 'https://tejasgadhia.github.io/signature-generator/assets';
+        return {
+            light: `${baseUrl}/zoho-logo-light.png`,
+            dark: `${baseUrl}/zoho-logo-dark.png`
+        };
+    },
+
+    /**
+     * Generate dual logo HTML (light + dark versions)
+     * Both logos included, CSS media query controls visibility
+     * @param {string} websiteUrl - URL to wrap logos in
+     * @param {number} height - Logo height in pixels
+     * @returns {string} HTML with both logo variants
+     */
+    generateDualLogos(websiteUrl, height = 32) {
+        const logos = this.getLogoUrls();
+        return `
+<a href="${websiteUrl}" style="text-decoration: none; display: inline-block;">
+    <img src="${logos.light}"
+         alt="Zoho"
+         class="sig-logo-light"
+         style="height: ${height}px; display: block; border: 0;"
+         height="${height}">
+    <img src="${logos.dark}"
+         alt="Zoho"
+         class="sig-logo-dark"
+         style="height: ${height}px; display: none; border: 0;"
+         height="${height}">
+</a>`.trim();
+    },
+
+    /**
      * Generate HTML signature from form data
      * @param {Object} data - Form data object
      * @param {string} style - Signature style (classic, compact, modern, minimal)
