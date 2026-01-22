@@ -350,8 +350,8 @@ body {
     font-size: 0.95rem;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
-    background: #FFFFFF;  /* Always white background */
-    color: var(--color-text-primary);
+    background: #FFFFFF;
+    color: #333333;  /* Dark text for readability */
     transition: all var(--transition-base);
     min-height: 42px;
 }
@@ -968,6 +968,7 @@ body {
     font-size: 0.95rem;
     outline: none;
     background: transparent;
+    color: #333333;  /* Dark text for readability */
     min-height: 38px;
 }
 
@@ -1065,6 +1066,7 @@ body {
     font-size: 0.95rem;
     outline: none;
     background: transparent;
+    color: #333333;  /* Dark text for readability */
     min-height: 38px;
 }
 
