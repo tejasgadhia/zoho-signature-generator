@@ -341,7 +341,7 @@ const SignatureGenerator = {
      * Note: Preview container background is controlled by CSS (.preview-container.dark-mode)
      * Signature itself should maintain email-compatible colors (works on both light/dark)
      */
-    generatePreview(data, style = 'classic', socialOptions = {enabled: false, channels: [], displayType: 'text'}) {
+    generatePreview(data, style = 'classic', socialOptions = {enabled: false, channels: [], displayType: 'text'}, accentColor = '#E42527') {
         if (!data.name) {
             return `
                 <div style="text-align: center; padding: 40px 20px; color: #999999;">
@@ -350,7 +350,7 @@ const SignatureGenerator = {
             `;
         }
 
-        return this.generate(data, style, socialOptions);
+        return this.generate(data, style, socialOptions, accentColor);
     },
 
     /**

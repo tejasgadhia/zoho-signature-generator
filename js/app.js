@@ -893,7 +893,8 @@ function setupCopyButton() {
             const signatureHtml = SignatureGenerator.generate(
                 filteredData,
                 AppState.signatureStyle,
-                AppState.socialOptions
+                AppState.socialOptions,
+                AppState.accentColor
             );
 
             // Modern clipboard API
@@ -923,7 +924,8 @@ function setupCopyButton() {
                 const signatureHtml = SignatureGenerator.generate(
                     filteredData,
                     AppState.signatureStyle,
-                    AppState.socialOptions
+                    AppState.socialOptions,
+                    AppState.accentColor
                 );
                 copyToClipboardFallback(signatureHtml);
                 showCopySuccess();
@@ -1089,7 +1091,8 @@ function updatePreview() {
     const previewHtml = SignatureGenerator.generatePreview(
         filteredData,
         AppState.signatureStyle,
-        AppState.socialOptions
+        AppState.socialOptions,
+        AppState.accentColor
     );
     elements.preview.innerHTML = previewHtml;
 }
