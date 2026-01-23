@@ -1502,6 +1502,85 @@ body {
     font-weight: 600;
 }
 
+/* Import Modal Redesign - Step Components */
+.modal-header-with-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.modal-logo-badge {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    object-fit: contain;
+}
+
+.modal-time-estimate {
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    margin-bottom: 20px;
+    font-weight: 400;
+}
+
+.instruction-steps {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.instruction-step {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+    animation: fadeInUp 0.3s ease forwards;
+    opacity: 0;
+}
+
+/* Staggered animation delays */
+.instruction-step:nth-child(1) { animation-delay: 0.05s; }
+.instruction-step:nth-child(2) { animation-delay: 0.1s; }
+.instruction-step:nth-child(3) { animation-delay: 0.15s; }
+.instruction-step:nth-child(4) { animation-delay: 0.2s; }
+.instruction-step:nth-child(5) { animation-delay: 0.25s; }
+.instruction-step:nth-child(6) { animation-delay: 0.3s; }
+.instruction-step:nth-child(7) { animation-delay: 0.35s; }
+.instruction-step:nth-child(8) { animation-delay: 0.4s; }
+
+.step-number {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    background: var(--step-color, #E42527);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 700;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.step-content {
+    flex: 1;
+    padding-top: 4px; /* Align with circle center */
+}
+
+.step-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    margin-bottom: 4px;
+    line-height: 1.5;
+}
+
+.step-detail {
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+}
+
 /* Toast Notification */
 .toast {
     position: fixed;
