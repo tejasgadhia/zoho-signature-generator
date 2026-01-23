@@ -1662,6 +1662,51 @@ kbd {
     }
 }
 
+/* Responsive: Mobile */
+@media (max-width: 640px) {
+    .modal-content {
+        width: 95vw;
+        max-height: 90vh;
+        margin: 20px;
+    }
+
+    .modal-header-with-logo {
+        flex-wrap: wrap;
+    }
+
+    .step-number {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+    }
+
+    .step-title {
+        font-size: 15px;
+    }
+
+    .step-detail {
+        font-size: 13px;
+    }
+
+    .modal-logo-badge {
+        width: 32px;
+        height: 32px;
+    }
+
+    .tip-box-new {
+        padding: 10px 12px;
+        gap: 10px;
+    }
+
+    .tip-icon {
+        font-size: 18px;
+    }
+
+    .tip-content {
+        font-size: 13px;
+    }
+}
+
 /* Toast Notification */
 .toast {
     position: fixed;
