@@ -5,8 +5,127 @@
 Zoho Email Signature Generator is a professional, privacy-first web application that allows Zoho employees to create beautiful, email-compatible HTML email signatures. It offers 4 signature styles with live preview, iOS-style toggles, and one-click copy to clipboard.
 
 **Live Demo**: https://tejasgadhia.github.io/signature-generator
-**Version**: 0.6.0
+**Version**: 0.7.0
 **Last Updated**: January 22, 2026
+
+## Recent Changes (v0.7.0)
+
+### Import Modal Redesign
+
+**Complete UI/UX Overhaul**
+- Professional modal design with email client branding
+- WCAG AAA contrast compliance (verified ratios 7:1+ for primary text)
+- Numbered step circles with brand colors
+- Responsive design (320px to 1440px+)
+- Research-driven instructions for 2026 email client UIs
+
+**Email Client Support**
+- ✅ **Zoho Mail** - Red (#E42527) branding, 5 steps with "Insert HTML" workflow
+- ✅ **Zoho Desk** - Orange (#F37021) branding, 4 steps with signature management
+- ✅ **Gmail** - Red (#EA4335) branding, 4 steps with direct paste (no Insert HTML button)
+- ✅ **Apple Mail** - Blue (#0071E3) branding, 5 steps with critical font-matching checkbox
+- ✅ **Outlook** - Blue (#0078D4) branding, 3 steps with rendered HTML paste
+
+**Modal Header Structure**
+- Email client logo badge (48x48px with rounded corners)
+- Dynamic title showing email client name
+- Time estimate (e.g., "~1 minute • 5 steps")
+- Professional close button (32x32px hit target)
+- All header elements dynamically injected per client
+
+**Step Components**
+- Circular numbered badges (32px desktop, 28px mobile)
+- Brand color backgrounds matching email client
+- Clear step titles with bold UI element names
+- Inline copy button in step 1 (triggers main copy functionality)
+- Hyperlinked email client names
+- Modern keyboard shortcut styling (<kbd> with gradient background)
+
+**Idiot-Proof Instructions**
+- Explicit UI element descriptions: "Insert HTML button (looks like </> brackets)"
+- Visual clarity: "blue Insert button", "blue Update button"
+- Context labels: "In the 'Insert HTML' popup"
+- Step-by-step navigation: "Settings → Signature → Insert HTML"
+- Client-specific warnings: Apple Mail font-matching checkbox
+
+**Responsive Behavior**
+- Desktop (1440px): 700px modal, horizontal logo/title layout
+- Tablet (768px): No changes needed, fits viewport perfectly
+- Mobile (375px): 95vw width, stacked logo/title, 28px circles, full-width buttons
+- Tiny (320px): Still readable, no horizontal scroll
+- Single breakpoint at 640px for simplicity
+
+**Accessibility Features**
+- WCAG AAA contrast ratios (17.95:1 for titles, 15.21:1 for step text)
+- Semantic HTML: `<ol>` lists with numbered steps
+- ARIA labels on all interactive elements
+- Keyboard navigation: Tab/Shift+Tab, Escape to close
+- Focus trapping within modal
+- Touch targets: 32x32px minimum (exceeds WCAG 2.2's 24x24px)
+
+**Tip Boxes**
+- Yellow tips (#FEF3C7 background, #92400E text) - General information
+- Blue tips (#DBEAFE background, #1E40AF text) - Best practices
+- Green tips (#D1FAE5 background, #065F46 text) - Success confirmations
+- All tips exceed WCAG AAA contrast (7.34:1 to 8.89:1)
+
+**CSS Architecture**
+- Forced light mode (explicit hex colors, no dark mode inheritance)
+- CSS custom property for brand colors: `--step-color`
+- Progressive enhancement: CSS-first, JavaScript for interactivity
+- Smooth animations with `prefers-reduced-motion` support
+- Staggered fade-in: 50ms delays per step for polish
+
+**JavaScript Enhancements**
+- `ModalController.copySignature()` - Inline copy button triggers main copy button
+- `ModalController.updateContent()` - Dynamic header and body injection
+- Separate header/body content structure for flexibility
+- Research-verified instructions for accuracy
+
+**Testing & Documentation**
+- Visual testing across all 5 email clients
+- Responsive testing: 320px to 1440px verified
+- Contrast verification: All ratios documented and compliant
+- Test results: `docs/test-results/2026-01-22-*.md`
+
+**Key Implementation Patterns**
+
+```javascript
+// Dynamic header injection
+updateContent(clientType) {
+    const modalHeader = this.modal.querySelector('#modal-header-content');
+    const modalBody = this.modal.querySelector('#modal-body-content');
+
+    const content = this.getClientInstructions(clientType);
+
+    modalHeader.innerHTML = content.header + closeButton;
+    modalBody.innerHTML = content.body;
+}
+```
+
+```css
+/* Brand color theming */
+.instruction-steps {
+    --step-color: #E42527; /* Dynamic per client */
+}
+
+.step-number {
+    background: var(--step-color);
+    color: #FFFFFF;
+    border-radius: 50%;
+}
+```
+
+```html
+<!-- Responsive header structure -->
+<div class="modal-header-with-logo">
+    <img src="assets/mail-full.svg" class="modal-logo-badge">
+    <div class="modal-header-title-group">
+        <h2>Zoho Mail</h2>
+        <div class="modal-time-estimate">~1 minute • 5 steps</div>
+    </div>
+</div>
+```
 
 ## Recent Changes (v0.6.0)
 
