@@ -111,20 +111,77 @@ const ModalController = {
             'zoho-mail': {
                 title: 'Import to Zoho Mail',
                 body: `
-                    <div class="instruction-section highlighted">
-                        <h3>✉️ Zoho Mail</h3>
-                        <ol>
-                            <li><strong>Step 1:</strong> Click the <strong>Copy Signature</strong> button to copy your signature</li>
-                            <li><strong>Step 2:</strong> Open Zoho Mail and click the <strong>Settings</strong> icon (gear ⚙️) in the top-right corner</li>
-                            <li><strong>Step 3:</strong> In the left sidebar menu, click <strong>Mail</strong> to expand options</li>
-                            <li><strong>Step 4:</strong> Click on <strong>Signature</strong> from the expanded menu</li>
-                            <li><strong>Step 5:</strong> Click inside the signature editor box</li>
-                            <li><strong>Step 6:</strong> Paste your signature using <strong>Ctrl+V</strong> (Windows) or <strong>Cmd+V</strong> (Mac)</li>
-                            <li><strong>Step 7:</strong> Click <strong>Save</strong> button at the bottom of the page</li>
-                            <li><strong>Step 8:</strong> Compose a test email to verify the signature looks correct</li>
-                        </ol>
-                        <div class="tip-box">
-                            <strong>💡 Pro Tip:</strong> If the logo doesn't appear, make sure you're connected to the internet. The logo loads from Zoho's servers.
+                    <div class="modal-header-with-logo">
+                        <img src="assets/mail-full.svg" alt="Zoho Mail logo" class="modal-logo-badge">
+                    </div>
+
+                    <div class="modal-time-estimate" aria-label="Estimated time 2 minutes, 8 steps total">
+                        ~2 minutes • 8 steps
+                    </div>
+
+                    <ol class="instruction-steps" aria-label="Import instructions" style="--step-color: #E42527;">
+                        <li class="instruction-step">
+                            <div class="step-number" aria-hidden="true">1</div>
+                            <div class="step-content">
+                                <div class="step-title">Click the <strong>Copy Signature</strong> button</div>
+                                <div class="step-detail">This copies both HTML and plain text to your clipboard</div>
+                            </div>
+                        </li>
+
+                        <li class="instruction-step">
+                            <div class="step-number" aria-hidden="true">2</div>
+                            <div class="step-content">
+                                <div class="step-title">Open Zoho Mail and click ⚙️ <strong>Settings</strong> in the top-right corner</div>
+                            </div>
+                        </li>
+
+                        <li class="instruction-step">
+                            <div class="step-number" aria-hidden="true">3</div>
+                            <div class="step-content">
+                                <div class="step-title">In the left sidebar, click <strong>Mail</strong> to expand options</div>
+                            </div>
+                        </li>
+
+                        <li class="instruction-step">
+                            <div class="step-number" aria-hidden="true">4</div>
+                            <div class="step-content">
+                                <div class="step-title">Click <strong>Signature</strong> from the expanded menu</div>
+                            </div>
+                        </li>
+
+                        <li class="instruction-step">
+                            <div class="step-number" aria-hidden="true">5</div>
+                            <div class="step-content">
+                                <div class="step-title">Click inside the signature editor box</div>
+                            </div>
+                        </li>
+
+                        <li class="instruction-step">
+                            <div class="step-number" aria-hidden="true">6</div>
+                            <div class="step-content">
+                                <div class="step-title">Paste your signature using <kbd>Cmd+V</kbd> (Mac) or <kbd>Ctrl+V</kbd> (Windows)</div>
+                            </div>
+                        </li>
+
+                        <li class="instruction-step">
+                            <div class="step-number" aria-hidden="true">7</div>
+                            <div class="step-content">
+                                <div class="step-title">Click <strong>Save</strong> at the bottom of the page</div>
+                            </div>
+                        </li>
+
+                        <li class="instruction-step">
+                            <div class="step-number" aria-hidden="true">8</div>
+                            <div class="step-content">
+                                <div class="step-title">Compose a test email to verify the signature looks correct</div>
+                            </div>
+                        </li>
+                    </ol>
+
+                    <div class="tip-box-new pro-tip" role="note">
+                        <span class="tip-icon" aria-label="Pro tip">💡</span>
+                        <div class="tip-content">
+                            <strong>Pro Tip:</strong> Logo not showing? Check your internet connection — the logo loads from Zoho's servers.
                         </div>
                     </div>
                 `
