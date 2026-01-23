@@ -16,7 +16,7 @@ const SignatureGenerator = {
     getDarkModeStyles() {
         return `
 <style>
-  /* Dark mode styles - applies to both system preference AND preview toggle */
+  /* Dark mode styles - applies when email client uses dark mode */
   @media (prefers-color-scheme: dark) {
     /* Text colors - High contrast for WCAG AA compliance */
     .sig-name { color: #FFFFFF !important; }
@@ -29,7 +29,7 @@ const SignatureGenerator = {
     .sig-logo-dark { display: inline-block !important; }
   }
 
-  /* Also apply dark mode when parent has .dark-mode class (for preview toggle) */
+  /* Also apply dark mode when container has .dark-mode class (for preview toggle) */
   .dark-mode .sig-name { color: #FFFFFF !important; }
   .dark-mode .sig-title { color: #E0E0E0 !important; }
   /* Note: .sig-link uses inline accent color - no override needed */

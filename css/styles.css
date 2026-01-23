@@ -1335,11 +1335,15 @@ body {
     align-items: center;
     justify-content: center;
     margin-bottom: 16px;
+    /* Force light mode - ignore system preference */
+    color-scheme: only light;
 }
 
 .preview-container.dark-mode {
     background: #1E1E1E;
     border-color: #555555;
+    /* Force dark mode for preview toggle */
+    color-scheme: only dark;
 }
 
 .signature-preview {
