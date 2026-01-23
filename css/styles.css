@@ -1278,8 +1278,15 @@ body {
 .theme-toggle {
     display: flex;
     align-items: center;
+    gap: 12px;
     cursor: pointer;
     user-select: none;
+}
+
+.theme-toggle-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
 }
 
 .theme-toggle input[type="checkbox"] {
@@ -1288,65 +1295,33 @@ body {
 
 .toggle-slider {
     position: relative;
-    width: 52px;
-    height: 28px;
-    background: #E0E0E0;
+    width: 48px;
+    height: 26px;
+    background: #D1D5DB;
     border-radius: 100px;
     transition: background 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 6px;
+    flex-shrink: 0;
 }
 
-/* Toggle knob */
 .toggle-slider::before {
     content: '';
     position: absolute;
     top: 3px;
     left: 3px;
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
     background: #FFFFFF;
     border-radius: 50%;
     transition: transform 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    z-index: 2;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-/* Icons */
-.toggle-icon-light,
-.toggle-icon-dark {
-    font-size: 14px;
-    line-height: 1;
-    transition: opacity 0.3s ease;
-    z-index: 1;
-}
-
-/* Light mode (default): show sun, hide moon */
-.toggle-icon-light {
-    opacity: 1;
-}
-
-.toggle-icon-dark {
-    opacity: 0;
-}
-
-/* Dark mode (checked): hide sun, show moon, move knob */
 .theme-toggle input:checked ~ .toggle-slider {
     background: #333333;
 }
 
 .theme-toggle input:checked ~ .toggle-slider::before {
-    transform: translateX(24px);
-}
-
-.theme-toggle input:checked ~ .toggle-slider .toggle-icon-light {
-    opacity: 0;
-}
-
-.theme-toggle input:checked ~ .toggle-slider .toggle-icon-dark {
-    opacity: 1;
+    transform: translateX(22px);
 }
 
 /* Preview Container */
