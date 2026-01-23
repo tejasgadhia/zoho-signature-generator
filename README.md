@@ -214,6 +214,7 @@ See `PHASE-2-PLAN.md` for detailed v0.5.0 roadmap.
 - [ ] Logo inversion for dark mode
 
 ### Future Releases
+- [ ] **Brighter dark mode text** - Increase signature title/department text from #E0E0E0 to #FFFFFF for better contrast
 - [ ] Save/load multiple signature profiles
 - [ ] Export as image (PNG/JPG)
 - [ ] QR code generation
