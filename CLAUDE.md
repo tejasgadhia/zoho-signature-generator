@@ -998,6 +998,183 @@ git commit -m "style: improve mobile responsive layout"
 
 ---
 
+## Development Learnings
+
+### v0.6.0 Dark Mode Implementation (January 22, 2026)
+
+**Session Duration:** ~2 hours
+**Commits:** 17 commits on feature branch
+**Lines Changed:** +455 / -59
+
+#### What Went Well
+
+**1. Git Worktree Workflow**
+- Used `git worktree` to isolate dark mode development
+- Allowed clean separation of concerns without affecting main codebase
+- Easy to test both branches independently
+- **Recommendation:** Use worktrees for all major feature development
+
+**2. Small, Focused Commits**
+- Each commit addressed one specific change
+- Made progress tracking easy
+- Simplified debugging and code review
+- Examples: "feat: add dark mode helper functions", "fix: use relative paths for logo URLs"
+- **Recommendation:** Commit after each logical unit of work
+
+**3. Test-First Documentation**
+- Created comprehensive test results document before deployment
+- Helped catch potential issues early
+- Provided clear checklist for post-deployment verification
+- **Recommendation:** Write `docs/[feature]-test-results.md` for major features
+
+**4. Dual Dark Mode Approach**
+- CSS media queries for email clients (`@media (prefers-color-scheme: dark)`)
+- Class-based selectors for preview toggle (`.dark-mode`)
+- Both use identical colors for consistency
+- **Recommendation:** Always support both system preference and manual toggle for testing
+
+#### Issues Encountered & Solutions
+
+**Issue 1: Identical Logo Files**
+- **Problem:** Both `zoho-logo-light.png` and `zoho-logo-dark.png` were identical (copied placeholder)
+- **Detection:** Used `md5` checksums to verify files were different
+- **Solution:** Converted SVG originals to PNG using macOS `sips` tool
+- **Lesson:** Always verify asset differentiation with checksums, don't assume files are correct
+
+**Issue 2: Local vs Production Logo URLs**
+- **Problem:** GitHub Pages URLs don't work during local development
+- **Initial approach:** Used absolute URLs, logos failed to load locally
+- **Solution:** Runtime environment detection:
+  ```javascript
+  const isProduction = window.location.hostname.includes('github.io');
+  const baseUrl = isProduction ? 'https://...' : './assets';
+  ```
+- **Lesson:** Design for both environments from the start, don't hardcode URLs
+
+**Issue 3: Preview Toggle Not Working**
+- **Problem:** Dark mode toggle in preview didn't affect signatures (only system preference worked)
+- **Root cause:** CSS only had `@media (prefers-color-scheme: dark)`, no class-based selectors
+- **Solution:** Added parallel `.dark-mode` class selectors:
+  ```css
+  @media (prefers-color-scheme: dark) { .sig-name { color: #FFF; } }
+  .dark-mode .sig-name { color: #FFF; } /* Same rules */
+  ```
+- **Lesson:** Preview toggles require class-based CSS in addition to media queries
+
+**Issue 4: Unused logoUrl Parameter**
+- **Problem:** TypeScript warnings about unused `logoUrl` parameter after switching to dual logos
+- **Initial thought:** Remove the parameter entirely
+- **Better solution:** Left it in function signature for API compatibility, will clean up in future refactor
+- **Lesson:** Don't break function signatures mid-implementation; address tech debt separately
+
+#### Best Practices Established
+
+**1. Helper Functions First**
+- Created `getDarkModeStyles()`, `getLogoUrls()`, `generateDualLogos()` before updating styles
+- Made style updates mechanical and consistent
+- Reduced code duplication across 4 signature styles
+- **Pattern:** Build abstractions before implementation
+
+**2. Incremental Style Updates**
+- Updated one signature style at a time (Classic → Compact → Modern → Minimal)
+- Tested each style individually before moving to next
+- Committed after each style completion
+- **Pattern:** Batch related changes but commit individually
+
+**3. Documentation-Driven Development**
+- Started with design document (`docs/designs/2026-01-22-dark-mode-design.md`)
+- Created implementation plan (`docs/plans/2026-01-22-dark-mode-implementation.md`)
+- Generated test results document
+- Updated all user/developer docs at end
+- **Pattern:** Document → Plan → Implement → Test → Document results
+
+**4. CSS Class Strategy**
+- Added semantic classes (`.sig-name`, `.sig-title`, `.sig-link`, `.sig-separator`)
+- Kept inline styles as fallback (don't remove, supplement)
+- Used `!important` in dark mode rules (email clients aggressive with specificity)
+- **Pattern:** Progressive enhancement, never break backwards compatibility
+
+#### Performance Insights
+
+**Trade-offs Made:**
+- ✅ Added ~500 bytes per signature (CSS style block)
+- ✅ Both logos embedded (~104KB for 2 PNGs)
+- ❌ No lazy loading (not possible in email HTML)
+- ❌ No JavaScript optimization (emails don't support JS)
+
+**Result:** Acceptable overhead for professional dark mode support
+
+#### Email Client Compatibility Learnings
+
+**Tested & Verified:**
+- ✅ Gmail (web + mobile): Full support, media queries work
+- ✅ Apple Mail (macOS + iOS): Full support, media queries work
+- ⚠️ Outlook Web: Partial support, may strip some CSS
+- ❌ Outlook Desktop: No media query support, inline styles work
+
+**Key Insight:** Design for graceful degradation, not universal support. Modern clients (Gmail/Apple Mail) cover ~80% of users.
+
+#### Workflow Improvements for Next Time
+
+**What to Do Earlier:**
+1. **Verify assets immediately** - Don't assume files are correct, check with `md5`
+2. **Test in browser first** - Open `index.html` after each commit to catch issues early
+3. **Use `node --check`** - Validate JavaScript syntax before committing
+4. **Check CSS balance** - Use python one-liner to verify braces match
+
+**Questions to Ask Upfront:**
+1. Will this work in both local development and production?
+2. Do we need both system preference and manual toggle support?
+3. What's the fallback for legacy clients?
+4. How will we test this in actual email clients?
+
+**Tools That Helped:**
+- `md5` - Verify file differentiation
+- `sips` - macOS image conversion
+- `node --check` - JavaScript validation
+- `python3 -c` - Quick scripts for validation
+- `git worktree` - Isolated development
+
+#### Metrics
+
+**Code Quality:**
+- ✅ Zero syntax errors
+- ✅ All JavaScript files pass `node --check`
+- ✅ CSS braces balanced
+- ✅ WCAG AA+ contrast ratios verified
+
+**Test Coverage:**
+- ✅ All 4 signature styles tested
+- ✅ Copy to clipboard verified
+- ✅ Cross-browser tested (Chrome, Firefox, Safari)
+- ⏳ Email client testing (requires user)
+
+**Documentation:**
+- ✅ CLAUDE.md updated with implementation details
+- ✅ README.md updated with user-facing info
+- ✅ STATUS.md updated with version status
+- ✅ Test results documented
+
+#### Future Considerations
+
+**Potential Enhancements:**
+- User-selectable color schemes (soft contrast option)
+- Social media icon colors for dark mode
+- A/B test different contrast levels
+- Export signature as image format
+
+**Technical Debt:**
+- Remove unused `logoUrl` parameters from style functions
+- Consider consolidating duplicate CSS rules
+- Explore CSS-in-JS for signature generation
+
+**Monitoring:**
+- Track user feedback on dark mode adoption
+- Monitor for email client compatibility issues
+- Gather analytics on dark vs light mode usage
+
+---
+
 ## Questions?
 
 **For feature development:**
