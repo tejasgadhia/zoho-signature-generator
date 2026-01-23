@@ -9,12 +9,28 @@ const SignatureGenerator = {
 
     /**
      * Generate dark mode CSS style block
-     * Includes media queries for prefers-color-scheme: dark
-     * AND support for .dark-mode class (preview toggle)
+     * @param {boolean} isPreview - If true, only use .dark-mode class (ignore system preference)
      * @returns {string} <style> block with dark mode overrides
      */
-    getDarkModeStyles() {
-        return `
+    getDarkModeStyles(isPreview = false) {
+        if (isPreview) {
+            // Preview mode: ONLY respond to .dark-mode class, ignore system preference
+            return `
+<style>
+  /* Dark mode styles - ONLY for preview toggle (ignores system preference) */
+  .dark-mode .sig-name { color: #FFFFFF !important; }
+  .dark-mode .sig-title { color: #E0E0E0 !important; }
+  /* Note: .sig-link uses inline accent color - no override needed */
+  .dark-mode .sig-separator { color: #666666 !important; }
+  .dark-mode .sig-logo-light { display: none !important; }
+  .dark-mode .sig-logo-dark { display: inline-block !important; }
+
+  /* Default: hide dark logo */
+  .sig-logo-dark { display: none; }
+</style>`.trim();
+        } else {
+            // Copy mode: Include media query for email clients
+            return `
 <style>
   /* Dark mode styles - applies when email client uses dark mode */
   @media (prefers-color-scheme: dark) {
@@ -40,6 +56,7 @@ const SignatureGenerator = {
   /* Default: hide dark logo */
   .sig-logo-dark { display: none; }
 </style>`.trim();
+        }
     },
 
     /**
@@ -89,9 +106,11 @@ const SignatureGenerator = {
      * @param {Object} data - Form data object
      * @param {string} style - Signature style (classic, compact, modern, minimal)
      * @param {Object} socialOptions - Social media options {enabled, channels, displayType}
+     * @param {string} accentColor - Accent color for links
+     * @param {boolean} isPreview - If true, exclude media query dark mode (preview only)
      * @returns {string} HTML signature with inline styles
      */
-    generate(data, style = 'classic', socialOptions = {enabled: false, channels: [], displayType: 'text'}, accentColor = '#E42527') {
+    generate(data, style = 'classic', socialOptions = {enabled: false, channels: [], displayType: 'text'}, accentColor = '#E42527', isPreview = false) {
         const logoUrl = 'https://www.zoho.com/sites/zweb/images/zoho_general_pages/zoho-logo-512.png';
         const websiteUrl = data.website || 'https://www.zoho.com';
 
@@ -126,14 +145,14 @@ const SignatureGenerator = {
         // Generate signature based on style
         switch (style) {
             case 'compact':
-                return this.generateCompactStyle(data, logoUrl, websiteUrl, contacts, zohoSocialHtml, accentColor);
+                return this.generateCompactStyle(data, logoUrl, websiteUrl, contacts, zohoSocialHtml, accentColor, isPreview);
             case 'modern':
-                return this.generateModernStyle(data, logoUrl, websiteUrl, contacts, zohoSocialHtml, accentColor);
+                return this.generateModernStyle(data, logoUrl, websiteUrl, contacts, zohoSocialHtml, accentColor, isPreview);
             case 'minimal':
-                return this.generateMinimalStyle(data, websiteUrl, contacts, zohoSocialHtml, accentColor);
+                return this.generateMinimalStyle(data, websiteUrl, contacts, zohoSocialHtml, accentColor, isPreview);
             case 'classic':
             default:
-                return this.generateClassicStyle(data, logoUrl, websiteUrl, contacts, zohoSocialHtml, accentColor);
+                return this.generateClassicStyle(data, logoUrl, websiteUrl, contacts, zohoSocialHtml, accentColor, isPreview);
         }
     },
 
@@ -178,7 +197,7 @@ const SignatureGenerator = {
     /**
      * Generate Classic style signature
      */
-    generateClassicStyle(data, logoUrl, websiteUrl, contacts, zohoSocialHtml, accentColor = '#E42527') {
+    generateClassicStyle(data, logoUrl, websiteUrl, contacts, zohoSocialHtml, accentColor = '#E42527', isPreview = false) {
         const contactsHtml = contacts.length > 0
             ? contacts.join(` <span class="sig-separator" style="color: ${accentColor};">•</span> `)
             : '';
@@ -188,7 +207,7 @@ const SignatureGenerator = {
         if (data.department) titleParts.push(this.escapeHtml(data.department));
         const titleLine = titleParts.join(' | ');
 
-        return this.getDarkModeStyles() + `
+        return this.getDarkModeStyles(isPreview) + `
 <table cellpadding="0" cellspacing="0" border="0" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.6; color: #333333;">
     <tr>
         <td style="padding-bottom: 12px;">
@@ -233,7 +252,7 @@ const SignatureGenerator = {
     /**
      * Generate Compact style signature (single line)
      */
-    generateCompactStyle(data, logoUrl, websiteUrl, contacts, zohoSocialHtml, accentColor = '#E42527') {
+    generateCompactStyle(data, logoUrl, websiteUrl, contacts, zohoSocialHtml, accentColor = '#E42527', isPreview = false) {
         const titleParts = [];
         if (data.title) titleParts.push(this.escapeHtml(data.title));
         if (data.department) titleParts.push(this.escapeHtml(data.department));
@@ -244,7 +263,7 @@ const SignatureGenerator = {
 
         const allContent = parts.join(` <span class="sig-separator" style="color: ${accentColor};">•</span> `);
 
-        return this.getDarkModeStyles() + `
+        return this.getDarkModeStyles(isPreview) + `
 <table cellpadding="0" cellspacing="0" border="0" style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; line-height: 1.6; color: #333333;">
     <tr>
         <td style="padding-right: 12px; vertical-align: middle;">
@@ -261,7 +280,7 @@ const SignatureGenerator = {
     /**
      * Generate Modern style signature (logo left, info right)
      */
-    generateModernStyle(data, logoUrl, websiteUrl, contacts, zohoSocialHtml, accentColor = '#E42527') {
+    generateModernStyle(data, logoUrl, websiteUrl, contacts, zohoSocialHtml, accentColor = '#E42527', isPreview = false) {
         const contactsHtml = contacts.length > 0
             ? contacts.join(` <span class="sig-separator" style="color: ${accentColor};">•</span> `)
             : '';
@@ -271,7 +290,7 @@ const SignatureGenerator = {
         if (data.department) titleParts.push(this.escapeHtml(data.department));
         const titleLine = titleParts.join(' | ');
 
-        return this.getDarkModeStyles() + `
+        return this.getDarkModeStyles(isPreview) + `
 <table cellpadding="0" cellspacing="0" border="0" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.6; color: #333333;">
     <tr>
         <td style="padding-right: 16px; vertical-align: top; border-right: 3px solid ${accentColor};">
@@ -300,7 +319,7 @@ const SignatureGenerator = {
     /**
      * Generate Minimal style signature (text only, no logo)
      */
-    generateMinimalStyle(data, websiteUrl, contacts, zohoSocialHtml, accentColor = '#E42527') {
+    generateMinimalStyle(data, websiteUrl, contacts, zohoSocialHtml, accentColor = '#E42527', isPreview = false) {
         const contactsHtml = contacts.length > 0
             ? contacts.join(` <span class="sig-separator" style="color: ${accentColor};">•</span> `)
             : '';
@@ -310,7 +329,7 @@ const SignatureGenerator = {
         if (data.department) titleParts.push(this.escapeHtml(data.department));
         const titleLine = titleParts.join(' | ');
 
-        return this.getDarkModeStyles() + `
+        return this.getDarkModeStyles(isPreview) + `
 <table cellpadding="0" cellspacing="0" border="0" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.6; color: #333333;">
     <tr>
         <td>
@@ -350,7 +369,8 @@ const SignatureGenerator = {
             `;
         }
 
-        return this.generate(data, style, socialOptions, accentColor);
+        // Pass isPreview=true to exclude media query dark mode
+        return this.generate(data, style, socialOptions, accentColor, true);
     },
 
     /**
