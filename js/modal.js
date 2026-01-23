@@ -164,7 +164,7 @@ const ModalController = {
                             <div class="step-number" aria-hidden="true">3</div>
                             <div class="step-content">
                                 <div class="step-title">
-                                    Select your signature, then click <strong>Insert HTML</strong> in the editor toolbar
+                                    Select your signature, then click the <strong>Insert HTML</strong> button in the editor toolbar (looks like <strong>&lt;/&gt;</strong> brackets)
                                 </div>
                             </div>
                         </li>
@@ -173,7 +173,7 @@ const ModalController = {
                             <div class="step-number" aria-hidden="true">4</div>
                             <div class="step-content">
                                 <div class="step-title">
-                                    Paste using <kbd data-key="⌘V"></kbd> or <kbd data-key="Ctrl+V"></kbd>, then click <strong>Insert</strong>
+                                    In the "Insert HTML" popup, paste using <kbd data-key="⌘V"></kbd> or <kbd data-key="Ctrl+V"></kbd>, then click the blue <strong>Insert</strong> button
                                 </div>
                             </div>
                         </li>
@@ -182,7 +182,7 @@ const ModalController = {
                             <div class="step-number" aria-hidden="true">5</div>
                             <div class="step-content">
                                 <div class="step-title">
-                                    Click <strong>Update</strong> to save your signature
+                                    Click the blue <strong>Update</strong> button to save your signature
                                 </div>
                             </div>
                         </li>
