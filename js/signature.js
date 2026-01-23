@@ -99,28 +99,28 @@ const SignatureGenerator = {
         const contacts = [];
 
         if (data.phone) {
-            contacts.push(`<a href="tel:${this.sanitizePhone(data.phone)}" class="sig-link" style="color: #666666; text-decoration: none;">${this.escapeHtml(data.phone)}</a>`);
+            contacts.push(`<a href="tel:${this.sanitizePhone(data.phone)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">${this.escapeHtml(data.phone)}</a>`);
         }
 
         if (data.email) {
-            contacts.push(`<a href="mailto:${this.escapeHtml(data.email)}" class="sig-link" style="color: #666666; text-decoration: none;">${this.escapeHtml(data.email)}</a>`);
+            contacts.push(`<a href="mailto:${this.escapeHtml(data.email)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">${this.escapeHtml(data.email)}</a>`);
         }
 
         if (data.linkedin) {
             const linkedinUrl = this.normalizeUrl(data.linkedin);
-            contacts.push(`<a href="${linkedinUrl}" class="sig-link" style="color: #666666; text-decoration: none;">LinkedIn</a>`);
+            contacts.push(`<a href="${linkedinUrl}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">LinkedIn</a>`);
         }
 
         if (data.twitter) {
             const twitterHandle = data.twitter.replace('@', '');
             const twitterUrl = `https://twitter.com/${twitterHandle}`;
-            contacts.push(`<a href="${twitterUrl}" class="sig-link" style="color: #666666; text-decoration: none;">@${this.escapeHtml(twitterHandle)}</a>`);
+            contacts.push(`<a href="${twitterUrl}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">@${this.escapeHtml(twitterHandle)}</a>`);
         }
 
         // Build Zoho social handles if requested
         let zohoSocialHtml = '';
         if (socialOptions.enabled && socialOptions.channels && socialOptions.channels.length > 0) {
-            zohoSocialHtml = this.generateSocialLinks(socialOptions.channels, socialOptions.displayType);
+            zohoSocialHtml = this.generateSocialLinks(socialOptions.channels, socialOptions.displayType, accentColor);
         }
 
         // Generate signature based on style
@@ -140,7 +140,7 @@ const SignatureGenerator = {
     /**
      * Generate social media links
      */
-    generateSocialLinks(channels, displayType) {
+    generateSocialLinks(channels, displayType, accentColor = '#E42527') {
         const socialData = {
             twitter: { url: 'https://x.com/Zoho', text: 'X', icon: '𝕏' },
             linkedin: { url: 'https://www.linkedin.com/company/zoho', text: 'LinkedIn', icon: 'in' },
@@ -153,14 +153,14 @@ const SignatureGenerator = {
             if (socialData[channel]) {
                 const social = socialData[channel];
                 if (displayType === 'icons') {
-                    links.push(`<a href="${social.url}" class="sig-link" style="color: #666666; text-decoration: none; font-size: 16px; margin-right: 8px;" title="${social.text}">${social.icon}</a>`);
+                    links.push(`<a href="${social.url}" class="sig-link" style="color: ${accentColor}; text-decoration: none; font-size: 16px; margin-right: 8px;" title="${social.text}">${social.icon}</a>`);
                 } else {
-                    links.push(`<a href="${social.url}" class="sig-link" style="color: #666666; text-decoration: none;">${social.text}</a>`);
+                    links.push(`<a href="${social.url}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">${social.text}</a>`);
                 }
             }
         });
 
-        const separator = displayType === 'icons' ? '' : ' <span class="sig-separator" style="color: #cccccc;">•</span> ';
+        const separator = displayType === 'icons' ? '' : ' <span class="sig-separator" style="color: ${accentColor};">•</span> ';
         const linksHtml = displayType === 'icons'
             ? links.join('')
             : links.join(separator);
@@ -180,7 +180,7 @@ const SignatureGenerator = {
      */
     generateClassicStyle(data, logoUrl, websiteUrl, contacts, zohoSocialHtml, accentColor = '#E42527') {
         const contactsHtml = contacts.length > 0
-            ? contacts.join(' <span class="sig-separator" style="color: #cccccc;">•</span> ')
+            ? contacts.join(` <span class="sig-separator" style="color: ${accentColor};">•</span> `)
             : '';
 
         const titleParts = [];
@@ -242,7 +242,7 @@ const SignatureGenerator = {
         if (titleParts.length) parts.push(`<span class="sig-title" style="color: #666666;">${titleParts.join(' | ')}</span>`);
         parts.push(...contacts);
 
-        const allContent = parts.join(' <span class="sig-separator" style="color: #cccccc;">•</span> ');
+        const allContent = parts.join(` <span class="sig-separator" style="color: ${accentColor};">•</span> `);
 
         return this.getDarkModeStyles() + `
 <table cellpadding="0" cellspacing="0" border="0" style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; line-height: 1.6; color: #333333;">
@@ -263,7 +263,7 @@ const SignatureGenerator = {
      */
     generateModernStyle(data, logoUrl, websiteUrl, contacts, zohoSocialHtml, accentColor = '#E42527') {
         const contactsHtml = contacts.length > 0
-            ? contacts.join(' <span class="sig-separator" style="color: #cccccc;">•</span> ')
+            ? contacts.join(` <span class="sig-separator" style="color: ${accentColor};">•</span> `)
             : '';
 
         const titleParts = [];
@@ -274,7 +274,7 @@ const SignatureGenerator = {
         return this.getDarkModeStyles() + `
 <table cellpadding="0" cellspacing="0" border="0" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.6; color: #333333;">
     <tr>
-        <td style="padding-right: 16px; vertical-align: top; border-right: 3px solid ${this.ZOHO_RED};">
+        <td style="padding-right: 16px; vertical-align: top; border-right: 3px solid ${accentColor};">
             ${this.generateDualLogos(websiteUrl, 48)}
         </td>
         <td style="padding-left: 16px; vertical-align: top;">
@@ -302,7 +302,7 @@ const SignatureGenerator = {
      */
     generateMinimalStyle(data, websiteUrl, contacts, zohoSocialHtml, accentColor = '#E42527') {
         const contactsHtml = contacts.length > 0
-            ? contacts.join(' <span class="sig-separator" style="color: #cccccc;">•</span> ')
+            ? contacts.join(` <span class="sig-separator" style="color: ${accentColor};">•</span> `)
             : '';
 
         const titleParts = [];
@@ -314,7 +314,7 @@ const SignatureGenerator = {
 <table cellpadding="0" cellspacing="0" border="0" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.6; color: #333333;">
     <tr>
         <td>
-            <div class="sig-name" style="font-size: 16px; font-weight: bold; color: ${this.ZOHO_RED}; margin-bottom: 4px;">
+            <div class="sig-name" style="font-size: 16px; font-weight: bold; color: ${accentColor}; margin-bottom: 4px;">
                 ${this.escapeHtml(data.name)}
             </div>
             ${titleLine ? `
@@ -328,7 +328,7 @@ const SignatureGenerator = {
             </div>
             ` : ''}
             <div style="font-size: 12px; color: #999999;">
-                <a href="${websiteUrl}" class="sig-link" style="color: ${this.ZOHO_RED}; text-decoration: none; font-weight: 500;">Zoho Corporation</a>
+                <a href="${websiteUrl}" class="sig-link" style="color: ${accentColor}; text-decoration: none; font-weight: 500;">Zoho Corporation</a>
             </div>
             ${zohoSocialHtml}
         </td>
