@@ -90,16 +90,30 @@ const ModalController = {
      * Update modal content for specific email client
      */
     updateContent(clientType) {
-        const modalTitle = this.modal.querySelector('#modalTitle');
+        const modalHeader = this.modal.querySelector('#modal-header-content');
         const modalBody = this.modal.querySelector('#modal-body-content');
 
-        if (!modalTitle || !modalBody) {
-            console.warn('Modal title or body not found');
+        if (!modalHeader || !modalBody) {
+            console.warn('Modal header or body not found');
             return;
         }
 
         const content = this.getClientInstructions(clientType);
-        modalTitle.textContent = content.title;
+
+        // Inject header (logo + title + time estimate) + close button
+        modalHeader.innerHTML = content.header + `
+            <button type="button" class="modal-close" aria-label="Close modal">×</button>
+        `;
+
+        // Re-attach close button event listener
+        const closeButton = modalHeader.querySelector('.modal-close');
+        if (closeButton) {
+            closeButton.addEventListener('click', () => {
+                this.close();
+            });
+        }
+
+        // Inject body
         modalBody.innerHTML = content.body;
     },
 
@@ -109,25 +123,24 @@ const ModalController = {
     getClientInstructions(clientType) {
         const instructions = {
             'zoho-mail': {
-                title: 'Import to Zoho Mail',
-                body: `
+                title: 'Zoho Mail',
+                header: `
                     <div class="modal-header-with-logo">
                         <img src="assets/mail-full.svg" alt="Zoho Mail logo" class="modal-logo-badge">
                         <div class="modal-header-title-group">
-                            <h2>Import to Zoho Mail</h2>
-                            <div class="modal-time-estimate" aria-label="Estimated time 2 minutes, 6 steps total">
-                                ~2 minutes • 6 steps
+                            <h2 id="modalTitle">Zoho Mail</h2>
+                            <div class="modal-time-estimate" aria-label="Estimated time 1 minute, 5 steps total">
+                                ~1 minute • 5 steps
                             </div>
                         </div>
                     </div>
-
+                `,
+                body: `
                     <ol class="instruction-steps" aria-label="Import instructions" style="--step-color: #E42527;">
                         <li class="instruction-step">
                             <div class="step-number" aria-hidden="true">1</div>
                             <div class="step-content">
                                 <div class="step-title">
-                                    <span class="step-icon">📋</span>
-                                    Copy your signature
                                     <button class="inline-copy-btn" onclick="ModalController.copySignature(event)" aria-label="Copy signature to clipboard">
                                         <svg viewBox="0 0 16 16" fill="currentColor">
                                             <path d="M5.5 1a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-.5.5h-2a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5h-8z"/>
@@ -142,8 +155,7 @@ const ModalController = {
                             <div class="step-number" aria-hidden="true">2</div>
                             <div class="step-content">
                                 <div class="step-title">
-                                    <span class="step-icon">⚙️</span>
-                                    Open <a href="https://mail.zoho.com" target="_blank" rel="noopener noreferrer" class="external-link">Zoho Mail</a> and click <strong>Settings</strong> in the top-right corner
+                                    Open <a href="https://mail.zoho.com" target="_blank" rel="noopener noreferrer" class="external-link">Zoho Mail</a> → <strong>Settings</strong> → <strong>Signature</strong>
                                 </div>
                             </div>
                         </li>
@@ -152,8 +164,7 @@ const ModalController = {
                             <div class="step-number" aria-hidden="true">3</div>
                             <div class="step-content">
                                 <div class="step-title">
-                                    <span class="step-icon">📝</span>
-                                    Navigate to <strong>Mail → Signature</strong> in the left sidebar
+                                    Select your signature, then click <strong>Insert HTML</strong> in the editor toolbar
                                 </div>
                             </div>
                         </li>
@@ -162,8 +173,7 @@ const ModalController = {
                             <div class="step-number" aria-hidden="true">4</div>
                             <div class="step-content">
                                 <div class="step-title">
-                                    <span class="step-icon">✏️</span>
-                                    Click inside the signature editor box
+                                    Paste using <kbd data-key="⌘V"></kbd> or <kbd data-key="Ctrl+V"></kbd>, then click <strong>Insert</strong>
                                 </div>
                             </div>
                         </li>
@@ -172,27 +182,16 @@ const ModalController = {
                             <div class="step-number" aria-hidden="true">5</div>
                             <div class="step-content">
                                 <div class="step-title">
-                                    <span class="step-icon">📋</span>
-                                    Paste using <kbd data-key="⌘V"></kbd> or <kbd data-key="Ctrl+V"></kbd> and click <strong>Save</strong>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="instruction-step">
-                            <div class="step-number" aria-hidden="true">6</div>
-                            <div class="step-content">
-                                <div class="step-title">
-                                    <span class="step-icon">✉️</span>
-                                    Compose a test email to verify it looks correct
+                                    Click <strong>Update</strong> to save your signature
                                 </div>
                             </div>
                         </li>
                     </ol>
 
                     <div class="tip-box-new pro-tip" role="note">
-                        <span class="tip-icon" aria-label="Information">ℹ️</span>
+                        <span class="tip-icon" aria-label="Tip">💡</span>
                         <div class="tip-content">
-                            Logo not showing? Check your internet connection — the logo loads from Zoho's servers.
+                            <strong>Tip:</strong> Test your signature by composing a new email.
                         </div>
                     </div>
                 `
@@ -318,9 +317,10 @@ const ModalController = {
         const button = event.currentTarget;
         const originalText = button.innerHTML;
 
-        // Call the global copySignature function from app.js
-        if (typeof window.copySignature === 'function') {
-            window.copySignature();
+        // Trigger the main copy button
+        const mainCopyButton = document.getElementById('copyButton');
+        if (mainCopyButton) {
+            mainCopyButton.click();
 
             // Show success state
             button.innerHTML = `
@@ -337,7 +337,7 @@ const ModalController = {
                 button.classList.remove('copied');
             }, 2000);
         } else {
-            console.error('copySignature function not found');
+            console.error('Main copy button not found');
         }
     },
 

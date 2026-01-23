@@ -1423,15 +1423,20 @@ body {
 .modal-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     padding: var(--spacing-lg);
     border-bottom: 1px solid #E5E7EB;
+    gap: 16px;
 }
 
 .modal-header h2 {
     font-size: 1.5rem;
     margin: 0;
     color: #1F2937; /* Force dark text for title */
+}
+
+.modal-header .modal-close {
+    margin-top: 8px; /* Align with logo */
 }
 
 .modal-close {
