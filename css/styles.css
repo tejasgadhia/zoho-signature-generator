@@ -676,15 +676,13 @@ body {
 }
 
 .color-switcher {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
     gap: 8px;
-    justify-content: center;
-    flex-wrap: wrap;
 }
 
 /* Color Buttons */
 .color-btn {
-    width: 75px;
     height: 36px;
     border: 2px solid transparent;
     border-radius: 6px;
