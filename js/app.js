@@ -1048,13 +1048,21 @@ function restoreAccentColor() {
  * Setup color switcher event listeners
  */
 function setupColorSwitcher() {
-    document.querySelectorAll('.color-btn').forEach(btn => {
+    console.log('Setting up color switcher...');
+    const buttons = document.querySelectorAll('.color-btn');
+    console.log(`Found ${buttons.length} color buttons`);
+
+    buttons.forEach(btn => {
         btn.addEventListener('click', (e) => {
             const color = e.target.dataset.color;
             const colorName = e.target.dataset.name;
 
+            console.log(`Button clicked! Color: ${colorName} (${color})`);
+            alert(`Color button clicked: ${colorName}`);
+
             // Update state
             AppState.accentColor = color;
+            console.log('AppState.accentColor set to:', AppState.accentColor);
 
             // Update UI - remove selected from all, add to clicked
             document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('selected'));
