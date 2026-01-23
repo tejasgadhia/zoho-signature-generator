@@ -2,35 +2,48 @@
 
 A professional email signature generator for Zoho employees. Create beautiful, email-compatible HTML signatures with live preview and multiple styles.
 
-![Version](https://img.shields.io/badge/version-0.6.0-blue.svg)
+![Version](https://img.shields.io/badge/version-0.7.0-blue.svg)
 ![License](https://img.shields.io/badge/license-Internal-green.svg)
 
 **Live Demo**: [https://tejasgadhia.github.io/signature-generator](https://tejasgadhia.github.io/signature-generator)
 
-## What's New (v0.4.0)
+## What's New (v0.7.0)
 
-### Layout & Branding
-- 🏢 **Three-Column Desktop Layout**: Sidebar (320px) + Form (~450px) + Preview (flex)
-- 🎨 **Official Zoho Branding**: Zoho logo, official colors, professional appearance
-- 📱 **No Scrolling**: All content visible in viewport on 1440x900+ displays
-- ⚠️ **Community Tool Disclaimer**: Clear indication this is unofficial
+### 🎨 Import Modal Redesign
 
-### Form UX Improvements
-- 📧 **Email Auto-Generation**: firstname.lastname@zohocorp.com (auto-populated from name)
-- 🔗 **Smart URL Inputs**: LinkedIn and Twitter use username-only inputs with fixed prefixes
-- ℹ️ **Info Icon Tooltips**: Helpful guidance on all special fields
-- ✅ **Always-Visible Fields**: All form fields visible (no collapsing)
+We've completely redesigned the import instructions modals to make signature installation **effortless and foolproof**!
 
-### Social Media Section
-- 🎴 **Horizontal Card Layout**: 4-column grid with click-to-toggle
-- 🎯 **Live Reordering**: Drag-and-drop left/right with smooth animations
-- ⌨️ **Full Keyboard Support**: Space + Arrow keys for keyboard users
-- 🔊 **Screen Reader Support**: ARIA announcements for accessibility (WCAG 2.2)
+#### Professional Design
+- **Email client branding**: Each modal features the official logo and brand colors
+- **Numbered step circles**: Clear visual hierarchy with brand-colored badges
+- **WCAG AAA compliance**: Tested contrast ratios ensure readability for everyone
+- **Responsive design**: Works perfectly from tiny phones (320px) to large desktops (1440px+)
 
-### Import Instructions
-- 🟦 **Zoho Mail Button**: Official logo, prominent placement
-- 🟩 **Zoho Desk Button**: Official logo, prominent placement
-- 📮 **Other Email Clients**: Gmail, Apple Mail, Outlook (secondary buttons)
+#### Idiot-Proof Instructions
+- **Explicit UI descriptions**: "Insert HTML button (looks like </> brackets)"
+- **Visual clarity**: "blue Insert button", "In the 'Insert HTML' popup"
+- **2026-accurate workflows**: Researched and verified for current email client UIs
+- **Inline copy button**: One-click copy directly in step 1 of every modal
+- **Client-specific tips**: Yellow/blue/green tip boxes with important warnings
+
+#### 5 Email Clients Supported
+- **Zoho Mail** - Red branding, 5 steps with "Insert HTML" workflow
+- **Zoho Desk** - Orange branding, 4 steps with signature management
+- **Gmail** - Red branding, 4 steps with direct paste (no Insert HTML button)
+- **Apple Mail** - Blue branding, 5 steps with critical font-matching checkbox
+- **Outlook Desktop** - Blue branding, 3 steps with rendered HTML paste
+
+#### Accessibility Features
+- **Keyboard navigation**: Tab/Shift+Tab through steps, Escape to close
+- **Touch-friendly**: 32×32px minimum touch targets (exceeds WCAG 2.2 requirements)
+- **Screen readers**: Semantic HTML with ARIA labels on all interactive elements
+- **Reduced motion**: Respects user preferences for animations
+
+#### Modern UI Components
+- **Keyboard shortcuts**: Modern <kbd> styling with ⌘V and Ctrl+V symbols
+- **Hyperlinked clients**: Click "Zoho Mail" to open in new tab
+- **Time estimates**: "~1 minute • 5 steps" shown in header
+- **Smooth animations**: Staggered fade-in effects with 50ms delays
 
 ## Features
 
