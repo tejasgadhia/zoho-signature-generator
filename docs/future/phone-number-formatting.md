@@ -1,8 +1,8 @@
 # Phone Number Formatting Enhancement
 
-**Status:** Planned for v0.9.0+
-**Priority:** Medium
-**Estimated Effort:** 2-3 hours
+**Status:** Planned for v0.9.0
+**Priority:** High
+**Estimated Effort:** 4.5 hours
 
 ---
 
