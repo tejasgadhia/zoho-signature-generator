@@ -32,7 +32,8 @@ const AppState = {
         channels: ['twitter', 'linkedin', 'facebook', 'instagram'],
         displayType: 'text'
     },
-    isDarkModePreview: false  // Changed from isDarkMode - only affects preview
+    isDarkModePreview: false,  // Changed from isDarkMode - only affects preview
+    accentColor: '#E42527'  // Default Zoho red
 };
 
 // Expose AppState globally for debugging and testing
@@ -224,6 +225,9 @@ function init() {
     // Load saved theme preference
     loadThemePreference();
 
+    // Restore saved accent color
+    restoreAccentColor();
+
     // Load initial form data from values
     loadInitialFormData();
 
@@ -232,6 +236,7 @@ function init() {
     setupFieldToggles();
     setupClearButtons();
     setupStyleSelector();
+    setupColorSwitcher();     // Accent color selection
     setupZohoSocialControls();
     setupCopyButton();
     setupThemeToggle();
@@ -888,7 +893,8 @@ function setupCopyButton() {
             const signatureHtml = SignatureGenerator.generate(
                 filteredData,
                 AppState.signatureStyle,
-                AppState.socialOptions
+                AppState.socialOptions,
+                AppState.accentColor
             );
 
             // Modern clipboard API
@@ -918,7 +924,8 @@ function setupCopyButton() {
                 const signatureHtml = SignatureGenerator.generate(
                     filteredData,
                     AppState.signatureStyle,
-                    AppState.socialOptions
+                    AppState.socialOptions,
+                    AppState.accentColor
                 );
                 copyToClipboardFallback(signatureHtml);
                 showCopySuccess();
@@ -1019,6 +1026,51 @@ function saveThemePreference() {
 }
 
 /**
+ * Restore saved accent color from localStorage
+ */
+function restoreAccentColor() {
+    const savedColor = localStorage.getItem('signature-accent-color');
+    if (savedColor) {
+        AppState.accentColor = savedColor;
+
+        // Update UI to reflect saved color
+        document.querySelectorAll('.color-btn').forEach(btn => {
+            if (btn.dataset.color === savedColor) {
+                btn.classList.add('selected');
+            } else {
+                btn.classList.remove('selected');
+            }
+        });
+    }
+}
+
+/**
+ * Setup color switcher event listeners
+ */
+function setupColorSwitcher() {
+    const buttons = document.querySelectorAll('.color-btn');
+
+    buttons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const color = e.target.dataset.color;
+
+            // Update state
+            AppState.accentColor = color;
+
+            // Update UI - remove selected from all, add to clicked
+            document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('selected'));
+            e.target.classList.add('selected');
+
+            // Persist to localStorage
+            localStorage.setItem('signature-accent-color', color);
+
+            // Update preview
+            updatePreview();
+        });
+    });
+}
+
+/**
  * Setup import button handlers (sidebar)
  */
 function setupImportButtons() {
@@ -1035,11 +1087,14 @@ function setupImportButtons() {
  */
 function updatePreview() {
     const filteredData = getFilteredFormData();
+
     const previewHtml = SignatureGenerator.generatePreview(
         filteredData,
         AppState.signatureStyle,
-        AppState.socialOptions
+        AppState.socialOptions,
+        AppState.accentColor
     );
+
     elements.preview.innerHTML = previewHtml;
 }
 

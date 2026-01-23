@@ -2,14 +2,34 @@
 
 A tool for Zoho employees to create HTML email signatures with live preview and multiple layout styles.
 
-![Version](https://img.shields.io/badge/version-0.7.0-blue.svg)
+![Version](https://img.shields.io/badge/version-0.8.0-blue.svg)
 ![License](https://img.shields.io/badge/license-Internal-green.svg)
 
 **Live Demo**: [https://tejasgadhia.github.io/signature-generator](https://tejasgadhia.github.io/signature-generator)
 
 ---
 
-## What's New in v0.7.0
+## What's New in v0.8.0
+
+### Color Theming System
+
+The signature generator now includes 4 Zoho brand colors for customizing link colors:
+
+- Red (#E42527) - Default Zoho brand color
+- Green (#089949) - Zoho green
+- Blue (#226DB4) - Zoho blue
+- Yellow (#F9B21D) - Zoho yellow
+
+All contact links (phone, email, social media) use your selected accent color. Color preference persists across sessions.
+
+### New Signature Styles
+
+Two additional signature templates:
+
+- **Executive** - Elegant centered layout with accent line, designed for VPs and C-Suite
+- **Bold** - Eye-catching design with colored name block, ideal for Marketing and Events
+
+### What's New in v0.7.0
 
 ### Import Instructions Redesign
 
@@ -27,7 +47,8 @@ The import instructions modals have been redesigned with improved accessibility 
 ## Features
 
 **Signature Options**
-- 4 layout styles: Classic, Compact, Modern, Minimal
+- 6 layout styles: Classic, Compact, Modern, Minimal, Executive, Bold
+- 4 Zoho brand colors for link customization (Red, Green, Blue, Yellow)
 - Dark mode support for Gmail and Apple Mail
 - Zoho social media links with drag-and-drop ordering
 - Live preview with theme toggle
@@ -57,8 +78,9 @@ The import instructions modals have been redesigned with improved accessibility 
 1. Fill in your information (name is required)
 2. Toggle optional fields on or off
 3. Choose a signature style
-4. Click "Copy Signature"
-5. Click "How to Import?" for your email client
+4. Choose an accent color (Red, Green, Blue, or Yellow)
+5. Click "Copy Signature"
+6. Click "How to Import?" for your email client
 
 ---
 
@@ -81,9 +103,13 @@ The import instructions modals have been redesigned with improved accessibility 
 
 **Compact** - Single-line layout, space-efficient
 
-**Modern** - Logo on left, red separator line, two-column text
+**Modern** - Logo on left, colored separator line, two-column text
 
-**Minimal** - Text-only, no logo, name in red
+**Minimal** - Text-only, no logo, name with accent color
+
+**Executive** - Centered layout with accent line below name, designed for senior leadership
+
+**Bold** - Colored name block with logo, eye-catching design for creative teams
 
 ---
 

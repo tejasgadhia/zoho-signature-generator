@@ -2,11 +2,11 @@
 
 ## Project Overview
 
-Zoho Email Signature Generator is a professional, privacy-first web application that allows Zoho employees to create beautiful, email-compatible HTML email signatures. It offers 4 signature styles with live preview, iOS-style toggles, and one-click copy to clipboard.
+Zoho Email Signature Generator is a professional, privacy-first web application that allows Zoho employees to create beautiful, email-compatible HTML email signatures. It offers 6 signature styles, 4 color themes, live preview, iOS-style toggles, and one-click copy to clipboard.
 
 **Live Demo**: https://tejasgadhia.github.io/signature-generator
-**Version**: 0.7.0
-**Last Updated**: January 22, 2026
+**Version**: 0.8.0
+**Last Updated**: January 23, 2026
 
 ---
 
@@ -44,6 +44,95 @@ When starting new features, always ask:
 3. "Do you have screenshots of the actual UI?" (if writing instructions)
 4. "How detailed should the instructions be?"
 5. "What level of accessibility compliance?" (though default to AAA)
+
+---
+
+## Recent Changes (v0.8.0)
+
+### Color Theming System
+
+**Implementation**
+- Added 4 Zoho brand colors: Red (#E42527), Green (#089949), Blue (#226DB4), Yellow (#F9B21D)
+- Color switcher with CSS Grid layout (4 equal-width buttons)
+- Selected state with border highlight and box-shadow
+- localStorage persistence for color preference
+- All contact links (phone, email, social media) use dynamic accent color
+
+**Key Files Modified**
+- `index.html`: Added color switcher UI after style selector
+- `css/styles.css`: Color button styling with grid layout
+- `js/app.js`: Added `AppState.accentColor`, `setupColorSwitcher()`, color persistence
+- `js/signature.js`: All template functions accept `accentColor` parameter, inline styles apply color
+
+**Technical Implementation**
+```javascript
+// Color applied via inline styles (email-compatible)
+<a href="tel:..." style="color: ${accentColor}; text-decoration: none;">Phone</a>
+
+// Yellow uses dark text for contrast
+const textColor = accentColor === '#F9B21D' ? '#333333' : '#FFFFFF';
+```
+
+### New Signature Templates
+
+**Executive Template**
+- Centered layout with large name (20px, bold)
+- Horizontal accent line below name (60px width, 2px height)
+- Designed for VPs, C-Suite, Senior Leadership
+- Implementation: `generateExecutiveStyle()` in signature.js
+
+**Bold Template**
+- Colored name/title block with rounded corners (8px)
+- Contrast-aware text color (dark on yellow, white on other colors)
+- Ideal for Marketing and Events teams
+- Implementation: `generateBoldStyle()` in signature.js
+
+### UI Improvements
+
+**Style Selector Refinements**
+- Removed checkmark icon (border highlight is sufficient)
+- Bolded template names (font-weight: 600) for visual hierarchy
+- Uniform 2-line help text descriptions for consistency
+- Updated descriptions with specific department recommendations
+
+**Dark Mode Toggle Simplification**
+- Replaced icon-based toggle with standard iOS-style switch
+- Text label "Preview Dark Mode" outside toggle pill
+- Matches existing field toggle design for consistency
+
+### Bug Fixes & Troubleshooting
+
+**Issue 1: Accent Colors Not Applying**
+- **Problem**: Dark mode CSS had `!important` on `.sig-link` color, overriding inline styles
+- **Solution**: Removed `!important` from dynamic values (links), kept it for fixed values (name, title)
+- **Documentation**: Created `docs/troubleshooting/css-important-conflicts.md`
+
+**Issue 2: Light Mode Text Illegible**
+- **Problem**: System dark mode preference (`@media (prefers-color-scheme: dark)`) affected preview even in light mode
+- **Solution**: Created dual dark mode context:
+  - Preview mode (`isPreview=true`): Only `.dark-mode` class selectors
+  - Copy mode (`isPreview=false`): Both media query AND `.dark-mode` selectors
+- **Implementation**: Updated `getDarkModeStyles(isPreview)` and all template functions
+- **Documentation**: Created `docs/troubleshooting/dark-mode-system-preferences.md`
+
+### Architecture Changes
+
+**Signature Generation Function Signatures**
+All template functions now accept `accentColor` and `isPreview` parameters:
+```javascript
+generateClassicStyle(data, logoUrl, websiteUrl, contacts, zohoSocialHtml, accentColor = '#E42527', isPreview = false)
+```
+
+**localStorage Keys Added**
+- `signature-accent-color`: User's selected color (hex value)
+
+**AppState Object Updates**
+```javascript
+const AppState = {
+    accentColor: '#E42527',  // New: selected brand color
+    // ... existing fields
+};
+```
 
 ---
 
@@ -325,7 +414,7 @@ updateContent(clientType) {
 - **No Dependencies**: Zero npm packages or build tools
 - **Browser APIs**: Clipboard API, localStorage, URL API, URLSearchParams API
 - **Deployment**: GitHub Pages (main branch)
-- **Version**: 0.5.0
+- **Version**: 0.8.0
 
 ## Architecture Principles
 
@@ -341,6 +430,7 @@ const AppState = {
     fieldToggles: {},       // Optional field states
     signatureStyle: '',     // Selected layout
     socialOptions: {},      // Zoho social media config
+    accentColor: '#E42527', // Selected brand color (Red/Green/Blue/Yellow)
     isDarkMode: false       // Theme preference
 };
 
@@ -351,11 +441,12 @@ const AppState = {
 
 ### localStorage Keys
 ```javascript
-'theme'                    // 'dark' or null (light mode)
-'social-order'             // JSON array of channel order
-'format-lock-name'         // boolean (default: true)
-'format-lock-title'        // boolean (default: true)
-'format-lock-department'   // boolean (default: true)
+'theme'                      // 'dark' or null (light mode)
+'signature-accent-color'     // Hex color (#E42527, #089949, #226DB4, #F9B21D)
+'social-order'               // JSON array of channel order
+'format-lock-name'           // boolean (default: true)
+'format-lock-title'          // boolean (default: true)
+'format-lock-department'     // boolean (default: true)
 ```
 
 ### Dark Mode Implementation
