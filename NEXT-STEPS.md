@@ -1,144 +1,245 @@
 # Next Steps - Zoho Email Signature Generator
-Last Updated: January 23, 2026
+Last Updated: January 24, 2026
 
 ## Immediate Tasks (Start Here)
 
-### 1. ✅ Deploy v0.8.0 to GitHub Pages (COMPLETE)
-**Status**: ✅ DEPLOYED
-**Live URL**: https://tejasgadhia.github.io/zoho-signature-generator
+### Ready for v0.9.0 Implementation
 
-**What was done:**
-- Pushed to GitHub Pages: `git push origin main`
-- All pre-push checks passed (JS syntax, CSS balance, .nojekyll)
-- Local testing passed (color switcher, templates, persistence)
-- Worktree cleaned up (`.worktrees/v0.8.0-color-theming` removed)
-
-**Estimated effort**: 5 minutes (complete)
+**All design and planning complete** - Execute 10-task implementation plan in new session.
 
 ---
 
-### 2. Test Color Theming System
-**Priority**: MEDIUM
-**File(s)**: All templates in signature preview
+## Task Overview
+
+**Implementation Plan**: `docs/plans/2026-01-24-v0.9.0-implementation.md`
+**Design Spec**: `docs/plans/2026-01-24-v0.9.0-template-redesign-design.md`
+**Interactive Mockup**: `mockups/v0.9.0-template-designs-full.html`
+
+**10 Tasks in 3 Batches:**
+- **Batch 1** (Tasks 1-3): Classic, Professional, Minimalist templates
+- **Batch 2** (Tasks 4-6): Compact, Modern, Creative templates
+- **Batch 3** (Tasks 7-10): HTML updates, Personal X field, testing, docs
+
+**Estimated Time**: 2-3 hours total
+
+---
+
+## Batch 1: Core Templates (Tasks 1-3)
+
+### Task 1: Update Classic Template (Default)
+**Priority**: HIGH
+**File**: `js/signature.js:204-254` (generateClassicStyle function)
 **What to do**:
-1. Open https://tejasgadhia.github.io/zoho-signature-generator
-2. Fill in Name field (required)
-3. Enable Phone and Email toggles
-4. Test each color button (Red, Green, Blue, Yellow)
-5. Verify links change color in preview
-6. Test in both light and dark preview modes
-7. Refresh page - verify color preference persists
+1. Change font from `Arial, Helvetica, sans-serif` to `Verdana, Geneva, sans-serif`
+2. Update logo size from 32px to 34px
+3. Adjust name size from 18px to 15px
+4. Implement 3-tier contact structure (Phone/Email | LinkedIn/X/Bookings | Follow Zoho)
+5. Update spacing (10px logo-to-name, 7px between sections)
 
-**Expected behavior**:
-- Red (#E42527): Default color, all links red
-- Green (#089949): All links green
-- Blue (#226DB4): All links blue
-- Yellow (#F9B21D): All links yellow (with dark text for contrast)
-- Selected color has dark border and box-shadow
-- Color persists after page refresh
+**Why**: Classic is the new default, most users will see this template
+**Estimated effort**: 20-30 minutes
 
+---
+
+### Task 2: Update Professional Template
+**Priority**: HIGH
+**File**: `js/signature.js` (generateProfessionalStyle function)
+**What to do**:
+1. Change font to Verdana
+2. Update logo size to 38px (larger for two-column layout)
+3. Change name size to 15px
+4. Implement 3-tier contact structure
+5. Adjust column widths (logo: 75px, info: 420px)
+
+**Why**: Popular template for Sales/Account Management
+**Estimated effort**: 20-30 minutes
+
+---
+
+### Task 3: Update Minimalist Template
+**Priority**: HIGH
+**File**: `js/signature.js` (generateMinimalStyle function)
+**What to do**:
+1. Change font to Verdana
+2. Update name size to 16px (largest of all templates)
+3. **Remove logo completely** (text-only design)
+4. Implement 3-tier contact structure
+5. Add tighter spacing (8px vs 10px between sections)
+
+**Why**: Engineering/Technical teams prefer text-only
+**Estimated effort**: 15-20 minutes
+
+---
+
+## Batch 2: Specialized Templates (Tasks 4-6)
+
+### Task 4: Update Compact Template
+**Priority**: MEDIUM
+**File**: `js/signature.js` (generateCompactStyle function)
+**What to do**:
+1. Change font to Verdana
+2. Update logo size to 26px (smallest of all templates)
+3. Restructure to multi-line stacked (not single-line)
+4. Implement 3-tier contact structure
+
+**Why**: Mobile-heavy users need all info visible
+**Estimated effort**: 20-25 minutes
+
+---
+
+### Task 5: Update Modern Template
+**Priority**: MEDIUM
+**File**: `js/signature.js` (generateModernStyle function)
+**What to do**:
+1. Change font to Verdana
+2. Update logo size to 38px
+3. **Adjust vertical accent bar opacity from 25% to 30%** (more visible)
+4. Implement 3-tier contact structure
+5. Ensure 2px vertical bar separator
+
+**Why**: Product/Engineering Leadership love the accent bar
+**Estimated effort**: 20-25 minutes
+
+---
+
+### Task 6: Update Creative Template
+**Priority**: MEDIUM
+**File**: `js/signature.js` (generateCreativeStyle function)
+**What to do**:
+1. Change font to Verdana
+2. Update logo size to 32px
+3. **Reduce left bar width from 5px to 3-4px** (less overwhelming)
+4. Implement 3-tier contact structure
+5. Logo above name (stacked within bar column)
+
+**Why**: Marketing/Design teams want distinctive but not overwhelming
+**Estimated effort**: 20-25 minutes
+
+---
+
+## Batch 3: UI & Documentation (Tasks 7-10)
+
+### Task 7: Update HTML Template Descriptions
+**Priority**: HIGH
+**File**: `index.html` (style selector section)
+**What to do**: Replace design-focused descriptions with user-focused ones:
+
+```html
+<option value="classic">Classic (Default) - Best for everyone</option>
+<option value="professional">Professional - Best for Sales, Account Management</option>
+<option value="minimalist">Minimalist - Best for Engineering, Technical Support</option>
+<option value="compact">Compact - Best for mobile-heavy users</option>
+<option value="modern">Modern - Best for Product, Engineering Leadership</option>
+<option value="creative">Creative - Best for Marketing, Design, Events</option>
+```
+
+**Why**: Users need to know "Is this for me?" not "What does it look like?"
 **Estimated effort**: 10 minutes
 
 ---
 
-### 3. Test New Templates (Executive and Bold)
-**Priority**: MEDIUM
-**File(s)**: `js/signature.js` lines 350-500 (Executive), 510-670 (Bold)
+### Task 8: Change Default Template to Classic
+**Priority**: HIGH
+**Files**:
+- `index.html` (style selector `<select>` element)
+- `js/app.js` (initial state setup)
+
 **What to do**:
-1. Select "Executive" style
-2. Verify centered layout with accent line below name
-3. Test all 4 colors with Executive
-4. Select "Bold" style
-5. Verify colored name block appears
-6. Test all 4 colors with Bold (note: Yellow uses dark text)
-7. Copy signature and paste in email client
+1. Set Classic as selected option: `<option value="classic" selected>`
+2. Update AppState default: `signatureStyle: 'classic'`
 
-**Known considerations**:
-- Executive template is centered (deferred redesign to v0.9.0)
-- Bold template has colored box (deferred redesign to v0.9.0)
-- Both work correctly but don't match final design vision
-
-**Estimated effort**: 15 minutes
+**Why**: Classic works for everyone (universal default)
+**Estimated effort**: 5 minutes
 
 ---
 
-## Future Enhancements (v0.9.0)
+### Task 9: Add Personal X Field (Optional)
+**Priority**: MEDIUM
+**Files**:
+- `index.html` (add X toggle and input after LinkedIn field)
+- `js/app.js` (add X field event handlers)
+- `js/signature.js` (update tier 2 contact generation to include X)
 
-### Template Redesigns
+**What to do**:
+1. Clone LinkedIn field HTML, change labels to X
+2. Add event listeners for X toggle/input
+3. Update tier 2 contact generation: `LinkedIn • X • Book a Meeting`
+4. X URL format: `https://x.com/[handle]` (no @ symbol)
 
-**Planning document:** `docs/plans/2026-01-23-v0.9.0-template-redesigns.md`
+**Why**: Separate personal X from Zoho brand X account
+**Estimated effort**: 20-30 minutes
 
-#### 1. Competitive Research (1 hour)
-- Research HubSpot, Canva, WiseStamp signature generators
-- Screenshot and analyze template designs
-- Create comparison table (features, UX, design patterns)
-- Present findings to user for context
+---
 
-**Why this matters**: User feedback from v0.7.0 - "should have shown competitive analysis BEFORE designing"
+### Task 10: Final Testing & Documentation
+**Priority**: HIGH
+**Files**:
+- `README.md` (update screenshots if needed)
+- `CHANGELOG.md` (add v0.9.0 section)
 
-#### 2. Redesign Executive Template (1 hour)
-**Current issue**: Centered layout doesn't match email text flow
-**Proposed design**: Option 5 (two-column with accent line)
-- Left-aligned layout
-- Vertical accent line separating logo from content
-- Maintains executive elegance without centering
+**Testing Checklist:**
+- [ ] All 6 templates render with Verdana font
+- [ ] Classic is default (loads on page refresh)
+- [ ] 3-tier hierarchy shows in all templates
+- [ ] All 4 accent colors work (Red, Green, Blue, Yellow)
+- [ ] Dark mode toggles correctly
+- [ ] Optional fields work (LinkedIn, X, Bookings, Zoho social)
+- [ ] Copy signature button works
+- [ ] No JavaScript console errors
+- [ ] Logo loads (light/dark variants)
 
-#### 3. Redesign Bold Template (1 hour)
-**Current issue**: Colored name block feels "excessive" (user feedback)
-**Proposed design**: Option 1 (sidebar with vertical bar)
-- Left-aligned logo with thin vertical accent bar
-- Clean text layout without colored backgrounds
-- Accent color used sparingly
+**Estimated effort**: 30-40 minutes
 
-#### 4. Review Existing Templates (1.5 hours)
-- Classic: Spacing, typography, mobile responsiveness
-- Compact: Single-line rendering, no wrapping issues
-- Modern: Two-column proportions, separator styling
-- Minimal: Text-only spacing, name prominence
+---
 
-#### 5. Update Department Recommendations (30 min)
-- Update all 6 template descriptions with final recommendations
-- Align with redesigned templates
-- Ensure 2-line uniform length maintained
+## Future Enhancements (Post-v0.9.0)
 
-**Total estimated effort**: ~6 hours
+### v0.10.0 Candidates
+**Priority**: LOW (not blocking v0.9.0)
+
+1. **Mobile Optimization** (2-3 hours)
+   - Test on actual mobile email apps (Gmail iOS, Outlook Android)
+   - Consider responsive design with inline media queries
+   - Or create "Mobile-Optimized" template variants
+   - Reduce font sizes for mobile (11-12px)
+
+2. **Phone Number Auto-Formatting** (1-2 hours)
+   - Auto-prepend +1 for US numbers
+   - Format-as-you-type: `(555) 123-4567`
+   - International number support
+
+3. **Email Client Testing** (1-2 hours)
+   - Gmail (web + mobile)
+   - Outlook (desktop + web)
+   - Apple Mail (macOS + iOS)
+   - Zoho Mail
+   - Document compatibility issues
+
+4. **Yellow Accent Warning** (30 minutes)
+   - Display inline help when yellow selected
+   - Message: "⚠️ Yellow works best on dark backgrounds. For better visibility, consider Red, Green, or Blue."
 
 ---
 
 ## Questions to Resolve
 
-**For v0.9.0 template redesigns:**
-1. Should Executive template be redesigned immediately or wait for user feedback?
-2. Priority order: Executive first or Bold first?
-3. Should we redesign both at once or iterate one at a time?
+**None currently** - All design decisions finalized.
 
-**For deployment:**
-1. Any specific browser/device combinations to test?
-2. Should we test in actual email clients before announcing v0.8.0?
+**For future releases:**
+- Should we support international phone formats beyond +1?
+- Do we need separate mobile-specific templates or just responsive design?
+- Should event banners be a separate feature or part of signature templates?
 
 ---
 
 ## Blockers
 
-**None currently** - v0.8.0 is complete and ready to deploy.
-
-**For v0.9.0:**
-- Waiting on competitive research findings
-- Need user approval on redesign mockups before implementation
-
----
-
-## Technical Debt
-
-**Low priority items** (not blocking):
-1. Remove unused `logoUrl` parameters from template functions (signature.js)
-2. Consolidate duplicate dark mode CSS rules
-3. Consider CSS-in-JS for signature generation (reduce string interpolation)
-
-**Documentation maintenance:**
-- Keep CLAUDE.md updated with each release
-- Archive old planning docs once implemented
-- Update troubleshooting guides as new patterns discovered
+**None** - All prerequisites complete:
+- ✅ Design specification approved
+- ✅ Implementation plan written
+- ✅ Interactive mockup created
+- ✅ Git working tree clean
+- ✅ Repository URL fixes deployed
 
 ---
 
@@ -146,44 +247,57 @@ Last Updated: January 23, 2026
 
 Copy this to start your next session:
 
-**For v0.8.0 deployment follow-up:**
-> "Continue working on zoho-signature-generator. Last session completed v0.8.0 (color theming system, 2 new templates, UI improvements). Next: Verify v0.8.0 deployment at https://tejasgadhia.github.io/zoho-signature-generator - test color switcher, check console for errors, test in multiple browsers. Reference PROJECT-STATUS.md for deployment verification steps."
+```
+Continue working on zoho-signature-generator v0.9.0 template redesign.
 
-**For v0.9.0 template redesigns:**
-> "Continue working on zoho-signature-generator. Start v0.9.0 template redesigns. First task: Competitive research - analyze HubSpot, Canva, WiseStamp signature generators. Screenshot templates, create comparison table, present findings. Then redesign Executive template (left-aligned, two-column) and Bold template (cleaner, no colored box). Reference docs/plans/2026-01-23-v0.9.0-template-redesigns.md for full plan."
+Execute the implementation plan at docs/plans/2026-01-24-v0.9.0-implementation.md using the executing-plans skill.
+
+Key context:
+- Design spec: docs/plans/2026-01-24-v0.9.0-template-redesign-design.md
+- Mockup: mockups/v0.9.0-template-designs-full.html
+- Main changes: Verdana font, 3-tier content hierarchy, Classic as default
+- 10 tasks in 3 batches (templates 1-3, templates 4-6, UI/docs)
+
+Reference my CLAUDE.md for git workflow preferences (always merge locally, no permission needed).
+
+Start with Task 1: Update Classic Template.
+```
 
 ---
 
 ## Quick Reference
 
 **Key Files:**
-- `js/signature.js`: All 6 template generation functions
-- `js/app.js`: Color switcher state management
-- `css/styles.css`: Color button styling
-- `index.html`: Color switcher UI, template descriptions
+- `js/signature.js` - All 6 template generation functions (main work here)
+- `js/app.js` - State management, event handlers (add X field support)
+- `index.html` - Template selector, form fields (add X field HTML)
+- `css/styles.css` - No changes needed for v0.9.0
 
-**localStorage Keys:**
-- `signature-accent-color`: Selected color (hex value)
-- `theme`: Dark mode preference
-- `social-order`: Drag-and-drop social media order
-- `format-lock-*`: Title case formatting preferences
+**Critical Changes:**
+- **Font**: `Arial, Helvetica, sans-serif` → `Verdana, Geneva, sans-serif` (ALL templates)
+- **Default**: `signatureStyle: 'professional'` → `signatureStyle: 'classic'`
+- **3-tier structure**: Phone/Email (tier 1) | LinkedIn/X/Bookings (tier 2) | Follow Zoho (tier 3)
 
-**Deployment:**
+**Logo Sizes:**
+- Classic: 34px
+- Professional: 38px
+- Minimalist: NONE (text-only)
+- Compact: 26px
+- Modern: 38px
+- Creative: 32px
+
+**Testing Commands:**
 ```bash
-# Push to GitHub Pages
+# Validate JavaScript syntax
+node --check js/*.js
+
+# Local testing
+open index.html
+
+# Push to production (after testing)
 git push origin main
-
-# Check deployment status
-open https://github.com/tejasgadhia/signature-generator/actions
-
-# View live site
-open https://tejasgadhia.github.io/zoho-signature-generator
 ```
-
-**Testing URLs:**
-- Local: `open index.html`
-- Production: https://tejasgadhia.github.io/zoho-signature-generator
 
 ---
 
-Ready to deploy v0.8.0 or start v0.9.0 template redesigns!
+Ready to implement v0.9.0!
