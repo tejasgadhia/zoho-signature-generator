@@ -161,7 +161,8 @@ const SignatureGenerator = {
     },
 
     /**
-     * Generate social media links
+     * Generate social media links (Tier 3: Company Brand)
+     * "Follow Zoho:" section with corporate social accounts
      */
     generateSocialLinks(channels, displayType, accentColor = '#E42527') {
         const socialData = {
@@ -176,22 +177,22 @@ const SignatureGenerator = {
             if (socialData[channel]) {
                 const social = socialData[channel];
                 if (displayType === 'icons') {
-                    links.push(`<a href="${social.url}" class="sig-link" style="color: ${accentColor}; text-decoration: none; font-size: 16px; margin-right: 8px;" title="${social.text}">${social.icon}</a>`);
+                    links.push(`<a href="${social.url}" class="sig-link" style="color: ${accentColor}; text-decoration: none; font-size: 14px; margin-right: 8px;" title="${social.text}">${social.icon}</a>`);
                 } else {
                     links.push(`<a href="${social.url}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">${social.text}</a>`);
                 }
             }
         });
 
-        const separator = displayType === 'icons' ? '' : ' <span class="sig-separator" style="color: ${accentColor};">•</span> ';
+        const separator = displayType === 'icons' ? '' : ` <span class="sig-separator" style="color: ${accentColor};">•</span> `;
         const linksHtml = displayType === 'icons'
             ? links.join('')
             : links.join(separator);
 
         return `
-            <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #e0e0e0;">
-                <div class="sig-title" style="font-size: 12px; color: #666666; margin-bottom: 6px;">Follow Zoho:</div>
-                <div style="font-size: 12px;">
+            <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #E0E0E0;">
+                <div style="font-size: 11px; color: #888888; margin-bottom: 4px;">Follow Zoho:</div>
+                <div style="font-size: 11px;">
                     ${linksHtml}
                 </div>
             </div>
@@ -199,55 +200,74 @@ const SignatureGenerator = {
     },
 
     /**
-     * Generate Classic style signature
+     * Generate Classic style signature (DEFAULT)
+     * Logo-top stacked layout, 3-tier content hierarchy
+     * Best for everyone - universal format
      */
     generateClassicStyle(data, logoUrl, websiteUrl, contacts, zohoSocialHtml, accentColor = '#E42527', isPreview = false) {
-        const contactsHtml = contacts.length > 0
-            ? contacts.join(` <span class="sig-separator" style="color: ${accentColor};">•</span> `)
-            : '';
-
+        // Build title line
         const titleParts = [];
         if (data.title) titleParts.push(this.escapeHtml(data.title));
         if (data.department) titleParts.push(this.escapeHtml(data.department));
         const titleLine = titleParts.join(' | ');
 
+        // Tier 1: Primary Contact (Phone + Email)
+        const tier1Links = [];
+        if (data.phone) {
+            tier1Links.push(`<a href="tel:${this.sanitizePhone(data.phone)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">${this.escapeHtml(data.phone)}</a>`);
+        }
+        if (data.email) {
+            tier1Links.push(`<a href="mailto:${this.escapeHtml(data.email)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">${this.escapeHtml(data.email)}</a>`);
+        }
+        const tier1Html = tier1Links.length > 0
+            ? tier1Links.join(` <span class="sig-separator" style="color: ${accentColor};">•</span> `)
+            : '';
+
+        // Tier 2: Personal Connections (LinkedIn + X + Bookings)
+        const tier2Links = [];
+        if (data.linkedin) {
+            const linkedinUrl = this.normalizeUrl(data.linkedin);
+            tier2Links.push(`<a href="${linkedinUrl}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">LinkedIn</a>`);
+        }
+        if (data.x) {
+            const xHandle = data.x.replace('@', '');
+            tier2Links.push(`<a href="https://x.com/${xHandle}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">X</a>`);
+        }
+        if (data.bookings) {
+            tier2Links.push(`<a href="${this.escapeHtml(data.bookings)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">Book a Meeting</a>`);
+        }
+        const tier2Html = tier2Links.length > 0
+            ? tier2Links.join(` <span class="sig-separator" style="color: ${accentColor};">•</span> `)
+            : '';
+
         return this.getDarkModeStyles(isPreview) + `
-<table cellpadding="0" cellspacing="0" border="0" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.6; color: #333333;">
+<table cellpadding="0" cellspacing="0" border="0" style="font-family: Verdana, Geneva, sans-serif; font-size: 13px; line-height: 1.6; color: #333333;">
     <tr>
-        <td style="padding-bottom: 12px;">
-            ${this.generateDualLogos(websiteUrl, 32)}
+        <td style="padding-bottom: 10px;">
+            ${this.generateDualLogos(websiteUrl, 34)}
         </td>
     </tr>
     <tr>
         <td>
-            <table cellpadding="0" cellspacing="0" border="0">
-                <tr>
-                    <td class="sig-name" style="font-size: 18px; font-weight: bold; color: #333333; padding-bottom: 4px;">
-                        ${this.escapeHtml(data.name)}
-                    </td>
-                </tr>
-                ${titleLine ? `
-                <tr>
-                    <td class="sig-title" style="font-size: 14px; color: #666666; padding-bottom: 8px;">
-                        ${titleLine}
-                    </td>
-                </tr>
-                ` : ''}
-                ${contactsHtml ? `
-                <tr>
-                    <td style="font-size: 13px; color: #666666; padding-top: 4px;">
-                        ${contactsHtml}
-                    </td>
-                </tr>
-                ` : ''}
-                ${zohoSocialHtml ? `
-                <tr>
-                    <td>
-                        ${zohoSocialHtml}
-                    </td>
-                </tr>
-                ` : ''}
-            </table>
+            <div class="sig-name" style="font-size: 15px; font-weight: bold; color: #333333; margin-bottom: 3px;">
+                ${this.escapeHtml(data.name)}
+            </div>
+            ${titleLine ? `
+            <div class="sig-title" style="font-size: 13px; color: #666666; margin-bottom: 7px;">
+                ${titleLine}
+            </div>
+            ` : ''}
+            ${tier1Html ? `
+            <div style="font-size: 12px; margin-bottom: 4px;">
+                ${tier1Html}
+            </div>
+            ` : ''}
+            ${tier2Html ? `
+            <div style="font-size: 12px; margin-bottom: 2px;">
+                ${tier2Html}
+            </div>
+            ` : ''}
+            ${zohoSocialHtml}
         </td>
     </tr>
 </table>`.trim();
