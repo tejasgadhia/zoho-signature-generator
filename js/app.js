@@ -945,11 +945,12 @@ function setupCopyButton() {
                 showToast('Signature copied to clipboard!', 'success');
             } catch (fallbackError) {
                 showToast('Failed to copy. Please try again.', 'error');
+                // Restore button text on error
+                elements.copyButton.querySelector('.btn-text').textContent = originalText;
             }
         } finally {
-            // Restore button state
+            // Re-enable button (text restoration handled by showCopySuccess or error handler)
             elements.copyButton.disabled = false;
-            elements.copyButton.querySelector('.btn-text').textContent = originalText;
         }
     });
 }
