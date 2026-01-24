@@ -1019,11 +1019,18 @@ body {
 
 /* Social Media Master Toggle - follows input-group pattern */
 .social-master-toggle-group {
-    margin-bottom: 12px;
+    margin-bottom: 4px;
 }
 
 .social-master-wrapper {
     justify-content: flex-start;
+    align-items: center;
+}
+
+.social-hint {
+    font-size: 13px;
+    color: var(--color-text-tertiary);
+    margin-left: 12px;
 }
 
 /* Social Media Compact Grid - Split button style like Mail/Desk buttons */
