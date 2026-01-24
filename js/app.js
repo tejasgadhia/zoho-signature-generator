@@ -251,16 +251,29 @@ function init() {
 
 /**
  * Load initial form data from input values
+ * Maps special input names to correct formData keys
  */
 function loadInitialFormData() {
     const textInputs = elements.form.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], input[type="url"]');
 
     textInputs.forEach(input => {
-        const fieldName = input.name;
+        const inputId = input.id;
         const value = input.value.trim();
 
         if (value) {
-            AppState.formData[fieldName] = value;
+            // Map special input IDs to correct formData keys
+            if (inputId === 'email-prefix') {
+                AppState.formData.email = `${value}@zohocorp.com`;
+            } else if (inputId === 'linkedin-username') {
+                AppState.formData.linkedin = `https://linkedin.com/in/${value}`;
+            } else if (inputId === 'twitter-username') {
+                AppState.formData.twitter = `@${value}`;
+            } else if (inputId === 'bookings-id') {
+                AppState.formData.bookings = `https://bookings.zohocorp.com/#/${value}`;
+            } else {
+                // Standard fields use input name
+                AppState.formData[input.name] = value;
+            }
         }
     });
 }
