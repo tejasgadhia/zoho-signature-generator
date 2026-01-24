@@ -3,7 +3,7 @@ Last Updated: 2026-01-24
 
 ## Current State
 
-**Version**: v0.9.0 (DEPLOYED)
+**Version**: v0.9.0+ (DEPLOYED)
 
 **What's Working:**
 - 6 signature templates with Verdana font and 3-tier content hierarchy
@@ -11,12 +11,13 @@ Last Updated: 2026-01-24
 - 4 accent colors (Red/Green/Blue/Yellow) with localStorage persistence
 - Dark mode preview toggle for email signatures
 - Form data mapping with special inputs (email-prefix, linkedin-username, twitter-username, bookings-id)
+- Zoho Social Links toggle (fixed - now works correctly)
 - One-click copy to clipboard with HTML formatting
 - Import instructions modal for 5 email clients (Zoho Mail, Zoho Desk, Gmail, Apple Mail, Outlook)
 - All contact fields working: Phone, Email, LinkedIn, X, Bookings
 
 **In Progress:**
-- Nothing - v0.9.0 is feature complete and deployed
+- Nothing - feature complete and deployed
 
 **Not Started:**
 - User testing and feedback collection
@@ -24,7 +25,24 @@ Last Updated: 2026-01-24
 
 ## Recent Changes
 
-### 2026-01-24 Session (v0.9.0 Release)
+### 2026-01-24 Session #2 (Social Toggle Fix)
+
+**Bug Fix:**
+- Fixed "Include Zoho social links" toggle not working
+- Root cause: Duplicate click handlers from `setupFieldToggles()` and `setupZohoSocialControls()`
+- Fix: Added `social-toggle` class to exclude master toggle from generic handler
+
+**UI Improvement:**
+- Redesigned social section to match form's input-group pattern
+- Label on left ("Zoho Social Links"), toggle on right
+- Hint text inline with toggle: "Click cards to toggle on/off, drag to reorder"
+- Removed orphaned container styles
+
+**Commits:**
+- `b60b674` - fix: social toggle bug and inline hint text
+- `09dba16` - fix: improve bookings toggle UX and social section layout
+
+### 2026-01-24 Session #1 (v0.9.0 Release)
 
 **Template Redesign:**
 - Redesigned all 6 templates with Verdana font (Zoho Mail default)

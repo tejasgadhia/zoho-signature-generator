@@ -1,9 +1,9 @@
 # Next Steps - Zoho Email Signature Generator
 Last Updated: 2026-01-24
 
-## v0.9.0 Complete - What's Next?
+## v0.9.0+ Complete - What's Next?
 
-**Status**: v0.9.0 deployed to production. All template redesign tasks finished.
+**Status**: v0.9.0 deployed with post-release fixes. Social toggle bug fixed, UI polished.
 
 ---
 
@@ -88,15 +88,15 @@ If you want to continue working on this project, copy this:
 ```
 Continue working on zoho-signature-generator.
 
-v0.9.0 is deployed. Last session completed the full template redesign:
-- 6 templates with Verdana font and 3-tier hierarchy
-- Professional and Creative templates created
-- All bug fixes applied and tested
+v0.9.0+ is deployed. Last session fixed the social toggle bug and polished the UI:
+- Social toggle now works (was broken by duplicate click handlers)
+- Social section redesigned to match form layout pattern
+- Hint text inline with toggle
 
 Next priorities:
 1. User testing and feedback collection
 2. Email client compatibility testing
-3. Address any issues found
+3. Address any reported issues
 
 Reference PROJECT-STATUS.md for current state.
 ```

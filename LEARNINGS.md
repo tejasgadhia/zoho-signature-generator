@@ -3,7 +3,55 @@ Last Updated: 2026-01-24
 
 ---
 
-## Session: January 24, 2026 - v0.9.0 Implementation
+## Session: January 24, 2026 #2 - Social Toggle Bug Fix
+
+### What Worked Well
+
+#### Debugging Duplicate Event Handlers
+**Context**: "Include Zoho social links" toggle did nothing when clicked
+**What we did**: Traced the issue by searching for all places `socialOptions.enabled` was set
+**Root cause**: Two click handlers attached to same element:
+1. `setupFieldToggles()` matched it via `.toggle-switch:not(.social-toggle)`
+2. `setupZohoSocialControls()` attached its own handler
+Both fired on click - one added 'active' class, the other removed it, canceling out
+
+**Fix**: Added `social-toggle` class to exclude from generic handler
+```html
+<!-- Before -->
+<div class="toggle-switch active" id="master-social-toggle">
+
+<!-- After -->
+<div class="toggle-switch social-toggle active" id="master-social-toggle">
+```
+
+**Pattern**: When a toggle "does nothing", check for duplicate event handlers
+**Reuse for**: Any click/toggle that appears non-functional
+
+### What Didn't Work
+
+#### Hiding Instructions in Tooltips
+**What we tried**: Moved hint text into info-icon tooltip to save space
+**Why it failed**: User feedback: "idiot proof design" - instructions should be visible by default
+**What we did instead**: Put hint text inline to the right of the toggle
+**Lesson**: Don't hide helpful information - Tejas prefers "more info upfront"
+
+### Technical Patterns
+
+#### CSS Selector Exclusion Pattern
+**Problem**: Generic handler matching elements it shouldn't
+**Solution**: Use `:not(.specific-class)` selector and add class to excluded elements
+```css
+/* Generic handler */
+.toggle-switch:not(.social-toggle)
+
+/* Excluded element has the class */
+<div class="toggle-switch social-toggle">
+```
+**Use case**: When you need generic + specific handlers for similar elements
+
+---
+
+## Session: January 24, 2026 #1 - v0.9.0 Implementation
 
 ### What Worked Well
 
