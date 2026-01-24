@@ -25,6 +25,20 @@ Last Updated: 2026-01-24
 
 ## Recent Changes
 
+### 2026-01-24 Session #3 (Backlog Management)
+
+**What happened:**
+- Created 5 GitHub issues for future improvements (#4-#8)
+- Established GitHub Issues as source of truth for task tracking
+- No code changes
+
+**Issues Created:**
+- #4: Auto-focus bookings input when toggle enabled (Simple)
+- #5: Title case formatting on keyup instead of blur (Simple)
+- #6: Add disabled pill switch to full name field (Medium)
+- #7: Review and improve tooltip text (Medium)
+- #8: Review company website field purpose (Complex)
+
 ### 2026-01-24 Session #2 (Social Toggle Fix)
 
 **Bug Fix:**

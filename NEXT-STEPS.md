@@ -3,13 +3,28 @@ Last Updated: 2026-01-24
 
 ## v0.9.0+ Complete - What's Next?
 
-**Status**: v0.9.0 deployed with post-release fixes. Social toggle bug fixed, UI polished.
+**Status**: v0.9.0 deployed with post-release fixes. Backlog tracked in GitHub Issues.
 
 ---
 
-## Immediate Tasks (If Continuing Work)
+## GitHub Issues Backlog
 
-### 1. User Testing & Feedback Collection
+**Source of truth for all tasks**: https://github.com/tejasgadhia/zoho-signature-generator/issues
+
+| # | Issue | Complexity | Priority |
+|---|-------|------------|----------|
+| [#1](https://github.com/tejasgadhia/zoho-signature-generator/issues/1) | Bug: Social media toggle button click doesn't update preview | Unknown | HIGH |
+| [#4](https://github.com/tejasgadhia/zoho-signature-generator/issues/4) | UX: Auto-focus bookings input when toggle enabled | Simple | LOW |
+| [#5](https://github.com/tejasgadhia/zoho-signature-generator/issues/5) | UX: Apply title case formatting on keyup instead of blur | Simple | LOW |
+| [#6](https://github.com/tejasgadhia/zoho-signature-generator/issues/6) | Design: Add disabled pill switch to full name field | Medium | LOW |
+| [#7](https://github.com/tejasgadhia/zoho-signature-generator/issues/7) | Content: Review and improve tooltip text | Medium | LOW |
+| [#8](https://github.com/tejasgadhia/zoho-signature-generator/issues/8) | Design: Review company website field purpose | Complex | LOW |
+
+---
+
+## Other Tasks (Not in GitHub)
+
+### User Testing & Feedback Collection
 **Priority**: HIGH
 **What to do**:
 - Share tool with Zoho colleagues
@@ -17,32 +32,12 @@ Last Updated: 2026-01-24
 - Identify any rendering issues in different email clients
 - Note any requested features
 
-**Why**: Real-world usage will reveal issues we can't see in development
-
----
-
-### 2. Email Client Compatibility Testing
+### Email Client Compatibility Testing
 **Priority**: MEDIUM
-**File(s)**: N/A (testing only)
 **What to do**:
 1. Create signature with each template
-2. Send test emails to yourself using:
-   - Gmail (web + iOS + Android)
-   - Outlook (desktop + web + mobile)
-   - Apple Mail (macOS + iOS)
-   - Zoho Mail
+2. Test in Gmail, Outlook, Apple Mail, Zoho Mail
 3. Document any rendering issues
-4. Create compatibility matrix in docs/
-
-**Why**: Email clients render HTML differently - need to verify signatures look correct
-**Estimated effort**: 1-2 hours
-
----
-
-### 3. Fix Any Reported Issues
-**Priority**: HIGH (if issues found)
-**File(s)**: `js/signature.js` (likely)
-**What to do**: Address issues found during testing
 
 ---
 
@@ -88,17 +83,14 @@ If you want to continue working on this project, copy this:
 ```
 Continue working on zoho-signature-generator.
 
-v0.9.0+ is deployed. Last session fixed the social toggle bug and polished the UI:
-- Social toggle now works (was broken by duplicate click handlers)
-- Social section redesigned to match form layout pattern
-- Hint text inline with toggle
+v0.9.0+ is deployed. Check GitHub Issues for backlog:
+https://github.com/tejasgadhia/zoho-signature-generator/issues
 
-Next priorities:
-1. User testing and feedback collection
-2. Email client compatibility testing
-3. Address any reported issues
+Quick wins available:
+- #4: Auto-focus bookings input (simple)
+- #5: Title case on keyup (simple)
 
-Reference PROJECT-STATUS.md for current state.
+Or pick any issue from the backlog. Reference PROJECT-STATUS.md for current state.
 ```
 
 ---
