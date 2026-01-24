@@ -207,7 +207,7 @@
                             <input type="text"
                                    id="bookings-id"
                                    name="bookings-id"
-                                   placeholder="your-booking-id"
+                                   placeholder="enter ID to show link"
                                    class="url-username-field"
                                    disabled>
                         </div>
@@ -227,20 +227,18 @@
                 <div class="divider"></div>
 
                 <!-- Zoho Social Media -->
-                <div class="section-title">Zoho Social Media</div>
-                <p class="section-hint">Customize your links: Click to toggle on/off • Drag to reorder</p>
-
-                <div class="social-compact-container">
-                    <!-- Master Toggle -->
-                    <div class="input-group" style="grid-template-columns: 1fr; gap: 0;">
-                        <label style="display: flex; align-items: center; text-align: left; padding: 0;">
-                            <div class="toggle-switch active" id="master-social-toggle" role="switch" aria-checked="true" aria-label="Toggle all social media links" tabindex="0"></div>
-                            <span style="margin-left: 8px; font-size: 14px;">Include Zoho social links</span>
-                        </label>
+                <div class="input-group social-master-toggle-group">
+                    <label for="master-social-toggle">
+                        Zoho Social Links
+                        <span class="info-icon" data-tooltip="Add 'Follow Zoho' links to your signature. Click cards below to toggle on/off, drag to reorder.">ⓘ</span>
+                    </label>
+                    <div class="input-wrapper social-master-wrapper">
+                        <div class="toggle-switch social-toggle active" id="master-social-toggle" role="switch" aria-checked="true" aria-label="Toggle Zoho social links" tabindex="0"></div>
                     </div>
+                </div>
 
-                    <!-- Horizontal Compact Toggles -->
-                    <div class="social-compact-grid" id="socialCompactGrid">
+                <!-- Social Channels Grid -->
+                <div class="social-compact-grid" id="socialCompactGrid">
                         <div class="social-compact-card active" draggable="true" data-channel="twitter" role="button" tabindex="0" aria-label="X - Click to toggle, drag to reorder">
                             <span class="social-drag-handle">⋮⋮</span>
                             <span class="social-compact-icon">𝕏</span>
@@ -262,7 +260,6 @@
                             <span class="social-compact-label">Instagram</span>
                         </div>
                     </div>
-                </div>
             </form>
         </section>
 

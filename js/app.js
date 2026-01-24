@@ -448,6 +448,11 @@ function setupFieldToggles() {
             if (input) {
                 input.disabled = !isNowActive;
 
+                // Auto-focus the input when enabled for better UX
+                if (isNowActive) {
+                    input.focus();
+                }
+
                 // Clear the field data if turned off
                 if (!isNowActive) {
                     AppState.formData[fieldName] = '';

@@ -1017,16 +1017,21 @@ body {
     margin-bottom: var(--spacing-2);
 }
 
-/* Social Media Compact Grid - Split button style like Mail/Desk buttons */
-.social-compact-container {
-    margin-top: 16px;
+/* Social Media Master Toggle - follows input-group pattern */
+.social-master-toggle-group {
+    margin-bottom: 12px;
 }
 
+.social-master-wrapper {
+    justify-content: flex-start;
+}
+
+/* Social Media Compact Grid - Split button style like Mail/Desk buttons */
 .social-compact-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);  /* Single row with all 4 icons */
     gap: 8px;
-    margin-top: 16px;
+    margin-bottom: 8px;
 }
 
 /* Split button style: white logo area + colored text area */
@@ -1127,11 +1132,6 @@ body {
 
 .social-compact-card[data-channel="instagram"] .social-compact-icon {
     color: #DD2A7B;
-}
-
-/* Master toggle styling */
-.social-compact-container .input-group {
-    margin-bottom: 8px;
 }
 
 /* Email Split Input */
