@@ -235,8 +235,8 @@ const SignatureGenerator = {
             const linkedinUrl = this.normalizeUrl(data.linkedin);
             tier2Links.push(`<a href="${linkedinUrl}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">LinkedIn</a>`);
         }
-        if (data.x) {
-            const xHandle = data.x.replace('@', '');
+        if (data.twitter) {
+            const xHandle = data.twitter.replace('@', '');
             tier2Links.push(`<a href="https://x.com/${xHandle}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">X</a>`);
         }
         if (data.bookings) {
@@ -309,8 +309,8 @@ const SignatureGenerator = {
             const linkedinUrl = this.normalizeUrl(data.linkedin);
             tier2Links.push(`<a href="${linkedinUrl}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">LinkedIn</a>`);
         }
-        if (data.x) {
-            const xHandle = data.x.replace('@', '');
+        if (data.twitter) {
+            const xHandle = data.twitter.replace('@', '');
             tier2Links.push(`<a href="https://x.com/${xHandle}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">X</a>`);
         }
         if (data.bookings) {
@@ -381,8 +381,8 @@ const SignatureGenerator = {
             const linkedinUrl = this.normalizeUrl(data.linkedin);
             tier2Links.push(`<a href="${linkedinUrl}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">LinkedIn</a>`);
         }
-        if (data.x) {
-            const xHandle = data.x.replace('@', '');
+        if (data.twitter) {
+            const xHandle = data.twitter.replace('@', '');
             tier2Links.push(`<a href="https://x.com/${xHandle}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">X</a>`);
         }
         if (data.bookings) {
@@ -449,8 +449,8 @@ const SignatureGenerator = {
             const linkedinUrl = this.normalizeUrl(data.linkedin);
             tier2Links.push(`<a href="${linkedinUrl}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">LinkedIn</a>`);
         }
-        if (data.x) {
-            const xHandle = data.x.replace('@', '');
+        if (data.twitter) {
+            const xHandle = data.twitter.replace('@', '');
             tier2Links.push(`<a href="https://x.com/${xHandle}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">X</a>`);
         }
         if (data.bookings) {
@@ -531,8 +531,8 @@ const SignatureGenerator = {
             const linkedinUrl = this.normalizeUrl(data.linkedin);
             tier2Links.push(`<a href="${linkedinUrl}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">LinkedIn</a>`);
         }
-        if (data.x) {
-            const xHandle = data.x.replace('@', '');
+        if (data.twitter) {
+            const xHandle = data.twitter.replace('@', '');
             tier2Links.push(`<a href="https://x.com/${xHandle}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">X</a>`);
         }
         if (data.bookings) {

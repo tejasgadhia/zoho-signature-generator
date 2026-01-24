@@ -1335,8 +1335,8 @@ body {
     border: 1px solid #E0E0E0;
     transition: background 0.3s ease;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
     margin-bottom: 16px;
 }
 
