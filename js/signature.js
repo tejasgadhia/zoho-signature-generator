@@ -459,38 +459,68 @@ const SignatureGenerator = {
     },
 
     /**
-     * Generate Minimal style signature (text only, no logo)
+     * Generate Minimalist style signature (TEXT-ONLY)
+     * No logo, text-focused, tighter spacing
+     * Best for Engineering, Technical Support, text-focused communication
      */
-    generateMinimalStyle(data, websiteUrl, contacts, zohoSocialHtml, accentColor = '#E42527', isPreview = false) {
-        const contactsHtml = contacts.length > 0
-            ? contacts.join(` <span class="sig-separator" style="color: ${accentColor};">•</span> `)
-            : '';
-
+    generateMinimalStyle(data, websiteUrl, zohoSocialHtml, accentColor = '#E42527', isPreview = false) {
+        // Build title line
         const titleParts = [];
         if (data.title) titleParts.push(this.escapeHtml(data.title));
         if (data.department) titleParts.push(this.escapeHtml(data.department));
         const titleLine = titleParts.join(' | ');
 
+        // Tier 1: Primary Contact (Phone + Email)
+        const tier1Links = [];
+        if (data.phone) {
+            tier1Links.push(`<a href="tel:${this.sanitizePhone(data.phone)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">${this.escapeHtml(data.phone)}</a>`);
+        }
+        if (data.email) {
+            tier1Links.push(`<a href="mailto:${this.escapeHtml(data.email)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">${this.escapeHtml(data.email)}</a>`);
+        }
+        const tier1Html = tier1Links.length > 0
+            ? tier1Links.join(` <span class="sig-separator" style="color: ${accentColor};">•</span> `)
+            : '';
+
+        // Tier 2: Personal Connections (LinkedIn + X + Bookings)
+        const tier2Links = [];
+        if (data.linkedin) {
+            const linkedinUrl = this.normalizeUrl(data.linkedin);
+            tier2Links.push(`<a href="${linkedinUrl}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">LinkedIn</a>`);
+        }
+        if (data.x) {
+            const xHandle = data.x.replace('@', '');
+            tier2Links.push(`<a href="https://x.com/${xHandle}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">X</a>`);
+        }
+        if (data.bookings) {
+            tier2Links.push(`<a href="${this.escapeHtml(data.bookings)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">Book a Meeting</a>`);
+        }
+        const tier2Html = tier2Links.length > 0
+            ? tier2Links.join(` <span class="sig-separator" style="color: ${accentColor};">•</span> `)
+            : '';
+
         return this.getDarkModeStyles(isPreview) + `
-<table cellpadding="0" cellspacing="0" border="0" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.6; color: #333333;">
+<table cellpadding="0" cellspacing="0" border="0" style="font-family: Verdana, Geneva, sans-serif; font-size: 13px; line-height: 1.6; color: #333333; max-width: 450px;">
     <tr>
         <td>
-            <div class="sig-name" style="font-size: 16px; font-weight: bold; color: ${accentColor}; margin-bottom: 4px;">
+            <div class="sig-name" style="font-size: 16px; font-weight: bold; color: #333333; margin-bottom: 2px;">
                 ${this.escapeHtml(data.name)}
             </div>
             ${titleLine ? `
-            <div class="sig-title" style="font-size: 13px; color: #666666; margin-bottom: 6px;">
+            <div class="sig-title" style="font-size: 13px; color: #666666; margin-bottom: 8px;">
                 ${titleLine}
             </div>
             ` : ''}
-            ${contactsHtml ? `
-            <div style="font-size: 12px; color: #666666; margin-bottom: 8px;">
-                ${contactsHtml}
+            ${tier1Html ? `
+            <div style="font-size: 12px; margin-bottom: 4px;">
+                ${tier1Html}
             </div>
             ` : ''}
-            <div style="font-size: 12px; color: #999999;">
-                <a href="${websiteUrl}" class="sig-link" style="color: ${accentColor}; text-decoration: none; font-weight: 500;">Zoho Corporation</a>
+            ${tier2Html ? `
+            <div style="font-size: 12px; margin-bottom: 2px;">
+                ${tier2Html}
             </div>
+            ` : ''}
             ${zohoSocialHtml}
         </td>
     </tr>
