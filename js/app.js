@@ -984,10 +984,17 @@ function setupCopyButton() {
 
 /**
  * Get filtered form data based on toggle states
+ * Returns only enabled fields with values
  */
 function getFilteredFormData() {
-    const filtered = { name: AppState.formData.name };
+    const filtered = {};
 
+    // Always include name (required field) if it has a value
+    if (AppState.formData.name) {
+        filtered.name = AppState.formData.name;
+    }
+
+    // Include other fields based on toggles and whether they have values
     Object.keys(AppState.fieldToggles).forEach(field => {
         if (AppState.fieldToggles[field] && AppState.formData[field]) {
             filtered[field] = AppState.formData[field];
