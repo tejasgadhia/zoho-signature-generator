@@ -1137,42 +1137,14 @@ function updatePreview() {
     // If no user data, show example preview
     const previewData = hasUserData ? filteredData : EXAMPLE_DATA;
 
-    let previewHtml = SignatureGenerator.generatePreview(
+    const previewHtml = SignatureGenerator.generatePreview(
         previewData,
         AppState.signatureStyle,
         AppState.socialOptions,
         AppState.accentColor
     );
 
-    // Apply placeholder styling to example data
-    if (!hasUserData) {
-        previewHtml = applyPlaceholderStyling(previewHtml);
-    }
-
     elements.preview.innerHTML = previewHtml;
-}
-
-/**
- * Apply placeholder styling to example preview data
- * Makes example data appear gray and italic for visual clarity
- */
-function applyPlaceholderStyling(html) {
-    // Wrap specific example data patterns in placeholder-text spans
-    const patterns = [
-        { search: /Account Executive/g, replace: '<span class="placeholder-text">Account Executive</span>' },
-        { search: /Enterprise Sales/g, replace: '<span class="placeholder-text">Enterprise Sales</span>' },
-        { search: /sarah\.mitchell@zohocorp\.com/gi, replace: '<span class="placeholder-text">sarah.mitchell@zohocorp.com</span>' },
-        { search: /\+1 \(512\) 555-0123/g, replace: '<span class="placeholder-text">+1 (512) 555-0123</span>' },
-        { search: /(linkedin\.com\/in\/sarahmitchell)/gi, replace: '<span class="placeholder-text">$1</span>' },
-        { search: /(x\.com\/sarahmitchell)/gi, replace: '<span class="placeholder-text">$1</span>' }
-    ];
-
-    let styledHtml = html;
-    patterns.forEach(({ search, replace }) => {
-        styledHtml = styledHtml.replace(search, replace);
-    });
-
-    return styledHtml;
 }
 
 /**

@@ -1357,12 +1357,6 @@ body {
     max-width: 100%;
 }
 
-/* Placeholder text styling for example preview */
-.signature-preview .placeholder-text {
-    color: #999;
-    font-style: italic;
-}
-
 /* Dark Mode Warning */
 .dark-mode-warning {
     font-size: 12px;
