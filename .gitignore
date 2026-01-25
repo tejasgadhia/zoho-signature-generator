@@ -25,6 +25,21 @@ Temporary Items
 # Claude plans
 .claude/
 
+# Internal development docs (keep locally, don't publish)
+LEARNINGS.md
+NEXT-STEPS.md
+PROJECT-STATUS.md
+docs/sessions/
+docs/plans/
+docs/archive/
+docs/learnings/
+docs/troubleshooting/
+docs/test-results/
+docs/issues/
+docs/future/
+docs/dark-mode-test-results.md
+.ui-design/reviews/
+
 # Git worktrees
 .worktrees/
 
