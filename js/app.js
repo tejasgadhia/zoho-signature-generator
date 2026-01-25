@@ -58,13 +58,13 @@ const LOWERCASE_WORDS = [
 
 // Example data for preview when fields are empty
 const EXAMPLE_DATA = {
-    name: 'Sarah Mitchell',
-    title: 'Account Executive',
-    department: 'Enterprise Sales',
-    email: 'sarah.mitchell@zohocorp.com',
-    phone: '+1 (512) 555-0123',
-    linkedin: 'https://linkedin.com/in/sarahmitchell',
-    twitter: 'https://x.com/sarahmitchell',
+    name: 'Jasmine Frank',
+    title: 'Director of Marketing',
+    department: 'Sales',
+    email: 'jasmine.frank@zohocorp.com',
+    phone: '+1 (800) 555-5293',
+    linkedin: 'https://linkedin.com/in/jasminefrank',
+    twitter: 'https://x.com/jasminefrank',
     website: 'https://www.zoho.com'
 };
 
