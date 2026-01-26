@@ -60,9 +60,9 @@ const LOWERCASE_WORDS = [
 const EXAMPLE_DATA = {
     name: 'Jasmine Frank',
     title: 'Director of Marketing',
-    department: 'Sales',
+    department: 'Zoho One',
     email: 'jasmine.frank@zohocorp.com',
-    phone: '+1 (800) 555-5293',
+    phone: '+1 (281) 330-8004',
     linkedin: 'https://linkedin.com/in/jasminefrank',
     twitter: 'https://x.com/jasminefrank',
     website: 'https://www.zoho.com'
