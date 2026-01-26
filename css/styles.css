@@ -328,7 +328,7 @@ body {
 .input-group {
     margin-bottom: var(--spacing-1);  /* 4px - Reduced vertical spacing */
     display: grid;
-    grid-template-columns: 140px 1fr auto;  /* Added auto column for help icons */
+    grid-template-columns: 140px 1fr 32px;  /* Fixed width for help icon column */
     gap: var(--spacing-sm);
     align-items: center;
     position: relative;
@@ -1157,6 +1157,7 @@ body {
     overflow: hidden;
     transition: all var(--transition-base);
     flex: 1;  /* Take full available width */
+    padding-right: 28px;  /* Space for validation icon (fixes Pin 2 overlap) */
 }
 
 .email-split-input:focus-within {
@@ -1176,7 +1177,7 @@ body {
 }
 
 .email-domain-suffix {
-    padding: 0.625rem 0.875rem 0.625rem 0.5rem;
+    padding: 0.625rem 0.5rem 0.625rem 0.5rem;  /* Reduced right padding since parent has padding-right */
     font-size: 0.95rem;
     color: #999;
     background: #F5F5F5;
@@ -1223,11 +1224,11 @@ body {
 
 /* Help Panel - Accordion-style expandable help (auto-shows on input focus) */
 .help-panel {
-    grid-column: 2 / 4;  /* Span from input wrapper to help icon column */
+    grid-column: 1 / -1;  /* Span all columns from label to end (fixes Pin 4) */
     background: #333;
     color: white;
     padding: 0;  /* No padding when collapsed */
-    margin: 0;  /* No margin when collapsed - fixes Pin 2 spacing issue */
+    margin: 0;  /* No margin when collapsed - fixes spacing issue */
     line-height: 1.4;
     border-radius: 6px;
     font-size: 12px;
@@ -1310,6 +1311,7 @@ body {
     overflow: hidden;
     transition: all var(--transition-base);
     flex: 1;  /* Take full available width */
+    padding-right: 28px;  /* Space for validation icon (same as email-split-input) */
 }
 
 .url-prefix-input:focus-within {
@@ -2059,7 +2061,7 @@ kbd::before {
 /* Validation Icons - Show/Hide via JS */
 .validation-icon {
     position: absolute;
-    right: 12px;
+    right: 8px;  /* Reduced from 12px to avoid overlap with email domain suffix */
     top: 50%;
     transform: translateY(-50%);
     width: 20px;
@@ -2067,7 +2069,7 @@ kbd::before {
     display: none; /* Hidden by default, shown by JS */
     align-items: center;
     justify-content: center;
-    font-size: 18px;
+    font-size: 16px;  /* Slightly smaller to fit better */
     font-weight: bold;
     z-index: 5;
 }
