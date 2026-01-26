@@ -29,7 +29,7 @@ const AppState = {
     signatureStyle: 'classic',
     socialOptions: {
         enabled: true,
-        channels: ['twitter', 'linkedin', 'facebook', 'instagram'],
+        channels: ['linkedin', 'twitter', 'instagram', 'facebook'],
         displayType: 'text'
     },
     isDarkModePreview: false,  // Changed from isDarkMode - only affects preview
@@ -562,7 +562,7 @@ function setupStyleSelector() {
  */
 function setupZohoSocialControls() {
     // Define canonical order for social channels (this determines display order)
-    const canonicalOrder = ['twitter', 'linkedin', 'facebook', 'instagram'];
+    const canonicalOrder = ['linkedin', 'twitter', 'instagram', 'facebook'];
 
     // Helper function to sort channels by canonical order
     const sortChannels = (channels) => {
