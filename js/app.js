@@ -210,6 +210,7 @@ function setupWebsiteTracking() {
     AppState.formData.website = getTrackedWebsiteURL();
 }
 
+
 // DOM elements
 const elements = {
     form: document.getElementById('signatureForm'),
@@ -268,6 +269,7 @@ function init() {
     setupFormatLockIcons();   // Smart title case lock icons
     setupSmartTitleCase();    // Smart title case formatting
     setupWebsiteTracking();   // URL tracking for zoho.com
+    setupPhoneFormatting();    // Phone auto-formatting with Cleave.js
 
     // Initial preview update
     updatePreview();
@@ -1200,15 +1202,25 @@ function validateField(input) {
         }
     }
 
-    // Validate phone - accept common formats
+    // Validate phone - accept common formats (icon-only feedback)
     if (input.type === 'tel' && value) {
+        const validationIcon = input.parentElement.querySelector('.validation-icon');
+
         if (!SignatureGenerator.isValidPhone(value)) {
-            const message = 'Please enter a valid phone number (e.g., +1 (512) 555-1234)';
-            input.setCustomValidity(message);
-            displayValidationError(input, message);
+            input.setCustomValidity('Phone number must be 10 digits');
+            input.setAttribute('aria-invalid', 'true');
+            if (validationIcon) {
+                validationIcon.textContent = '⚠';
+                validationIcon.style.display = 'block';
+                validationIcon.title = 'Enter 10 digits (e.g., 512-555-1234)';
+            }
         } else {
             input.setCustomValidity('');
-            displayValidationError(input, '');
+            input.removeAttribute('aria-invalid');
+            if (validationIcon) {
+                validationIcon.style.display = 'none';
+                validationIcon.textContent = '';
+            }
         }
     }
 

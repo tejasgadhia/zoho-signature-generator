@@ -1412,8 +1412,16 @@ body {
 .validation-icon {
     position: absolute;
     right: 12px;
-    font-size: 16px;
-    pointer-events: none;
+    font-size: 18px;
+    pointer-events: auto; /* Allow hover for tooltip */
+    cursor: help;
+    color: #DC2626; /* Red warning color */
+    display: none; /* Hidden by default */
+}
+
+/* Dark mode validation icon */
+[data-theme="dark"] .validation-icon {
+    color: #FCA5A5; /* Lighter red for dark mode */
 }
 
 .validation-icon.valid {
@@ -1951,17 +1959,31 @@ kbd::before {
     background: var(--zoho-red);
 }
 
-/* Form Validation Error Messages */
+/* Form Validation Error Messages - Hidden for phone field */
 .error-message {
-    font-size: var(--font-size-xs);
-    color: var(--color-error);
-    margin-top: var(--spacing-1);
-    display: none;
-    line-height: var(--line-height-normal);
+    display: none; /* Disabled - using icon-only validation */
 }
 
-.error-message.visible {
-    display: block;
+/* Invalid input state - red border (Stripe pattern) */
+.input-wrapper input[aria-invalid="true"] {
+    border-color: #DC2626; /* Softer red to match error text */
+    background-color: var(--bg-primary); /* Maintain background */
+}
+
+.input-wrapper input[aria-invalid="true"]:focus {
+    border-color: #DC2626;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1); /* Subtle red glow */
+    outline: none;
+}
+
+/* Dark mode invalid input state */
+[data-theme="dark"] .input-wrapper input[aria-invalid="true"] {
+    border-color: #FCA5A5; /* Lighter red for dark mode */
+}
+
+[data-theme="dark"] .input-wrapper input[aria-invalid="true"]:focus {
+    border-color: #FCA5A5;
+    box-shadow: 0 0 0 3px rgba(252, 165, 165, 0.15); /* Subtle red glow in dark mode */
 }
 
 /* Desktop-Only Design (No responsive needed) */
