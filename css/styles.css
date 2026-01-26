@@ -386,6 +386,13 @@ body {
     background: #16A34A;  /* Green when enabled */
 }
 
+/* Disabled toggle switch (decorative only, for visual alignment) */
+.toggle-switch.disabled {
+    pointer-events: none;
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 .toggle-switch::before {
     content: '';
     position: absolute;
