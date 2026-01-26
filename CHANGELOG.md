@@ -7,6 +7,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.11.0] - 2026-01-26
+
+### ✨ Added
+
+#### Email Auto-Lowercase + Enhanced Validation (#15)
+- **Auto-lowercase on blur**: Uppercase letters (JOHN.DOE) automatically convert to lowercase (john.doe) when field loses focus
+- **Stricter character restrictions**: Only allows `a-z`, `0-9`, and `.` (dots) - explicitly rejects hyphens, underscores, plus signs, and all special characters
+- **Comprehensive dot validation**: Catches trailing dots ("john."), leading dots (".john"), and consecutive dots ("john..doe")
+- **Minimum length check**: Email prefix must be at least 2 characters
+- **Text error messages**: Clear, actionable error messages appear below field (matching phone validation UX)
+
+#### Phone Validation Improvements (#18)
+- **Text error messages**: Replaced icon-only validation (⚠ with tooltip) with text error messages below field
+- **Consistent UX**: Phone and email validation now use same visual pattern (`displayValidationError()`)
+- **Clear error format**: "Phone number must be at least 10 digits (e.g., 512-555-1234 or +1-512-555-1234)"
+- **Maintains auto-formatting**: Blur-based formatting still works (converts to +1 (555) 123-4567)
+
+### 🔧 Changed
+- **Error message visibility**: Fixed CSS bug where `.error-message` had `display: none` globally - added `.error-message.visible { display: block; }` to show error text
+- **Validation UX consistency**: Both email and phone fields now show text-based errors instead of icon-only feedback
+
+### 🎨 Design
+- **Error text styling**:
+  - Light mode: `#DC2626` red
+  - Dark mode: `#FCA5A5` light red
+  - Font size: 0.875rem, line height: 1.4
+- **Red borders**: Invalid inputs show red border (`aria-invalid="true"`)
+- **Accessible**: WCAG AA compliant, screen reader friendly, ARIA labels
+
+### 🐛 Fixed
+- **Email validation error display**: Error messages now visible (previously hidden by global `display: none`)
+- **Phone validation feedback**: Users no longer need to hover to see validation errors
+
+---
+
 ## [0.9.0] - 2026-01-24
 
 ### ✨ Added
