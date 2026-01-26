@@ -7,6 +7,78 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.12.0] - 2026-01-26
+
+### ✨ Added
+
+#### Comprehensive Form UX Improvements (#10)
+
+**Help Text System (WCAG 2.2 AA Compliant)**
+- **Replaced CSS tooltips with accessible inline help**:
+  - Removed 18px hover-only info icons (❌ inaccessible, below 44px WCAG minimum)
+  - Added always-visible inline hints below all form fields (✅ no hover required)
+  - Added 44x44px expandable help buttons with detailed instructions (✅ WCAG compliant)
+- **Expandable help panels**: Click `?` button to show/hide detailed help for complex fields
+- **Keyboard navigation**: Space/Enter to toggle, Escape to close all help panels
+- **Screen reader support**: Proper ARIA labels, live regions announce state changes
+- **Dark mode support**: Help buttons and panels styled for both themes
+
+**Enhanced Validation Error Messages**
+- **Visual feedback icons**:
+  - ✓ green checkmark for valid fields (only shown when field has value)
+  - ✗ red X for invalid fields
+  - Icons hidden for empty fields (no visual clutter)
+- **Improved error message phrasing** (user-friendly with examples):
+  - Before: "Email prefix can only contain lowercase letters, numbers, and dots (no hyphens, underscores, or special characters)"
+  - After: "Use only letters, numbers, and dots (e.g., john.smith or jsmith2)"
+  - Before: "Dots cannot be at the start, end, or consecutive"
+  - After: "Dots can't be at the start, end, or in a row (e.g., john.smith ✓, .john ✗)"
+- **Success feedback**: Valid fields show green ✓ icon (adaptive validation timing)
+- **Enhanced styling**: Error messages include red ✗ icon + improved typography
+
+**Fields Updated** (5 total):
+1. **Email Address**: Auto-generation explanation + format rules
+2. **Phone Number**: International format guidance + examples
+3. **LinkedIn Profile**: Step-by-step instructions to find username
+4. **X Handle**: Format clarification (no @ symbol needed)
+5. **Zoho Bookings Link**: How to find booking page ID in settings
+
+### 🔧 Changed
+- **Validation icon management**: Icons now actively managed by JavaScript (show/hide based on validation state)
+- **ARIA enhancements**: Proper `aria-describedby` references for hints + errors
+- **Error message insertion**: Errors now inserted after inline hints (better visual hierarchy)
+
+### 🎨 Design
+- **Help button styling**:
+  - Background: Light blue (#E8F4FD) / Dark mode: Blue overlay
+  - Hover: Slightly darker + scale(1.05) animation
+  - Expanded: Blue background (#226DB4) + white text
+  - 44x44px circular button with "?" icon
+- **Help panel styling**:
+  - Background: Light blue (#F8FBFD) / Dark mode: White overlay
+  - Left border: 4px solid blue (#226DB4)
+  - Expand animation: 200ms ease-out
+- **Validation icons**:
+  - Valid: Green (#089949) / Dark mode: Lighter green (#6EE7B7)
+  - Invalid: Red (#DC2626) / Dark mode: Lighter red (#FCA5A5)
+  - Size: 20x20px, positioned right side of input
+- **Error message icons**:
+  - Red ✗ icon (16px, bold) before error text
+  - Flex layout with 6px gap
+
+### ♿ Accessibility
+- **WCAG 2.2 AA compliant**: All touch targets 44x44px minimum
+- **Keyboard navigation**: Full keyboard support (Tab, Space, Enter, Escape)
+- **Screen reader support**: ARIA labels, live regions, proper focus management
+- **Color contrast**: All colors meet 4.5:1 (text) and 3:1 (UI components) minimum
+
+### 📚 References
+- Research: Nielsen Norman Group, Baymard Institute, Smashing Magazine
+- Design pillars: Stripe (precision), GOV.UK (accessibility), Airbnb (hospitality)
+- Unified design system: Consistent colors, spacing, typography across help + errors
+
+---
+
 ## [0.11.1] - 2026-01-26
 
 ### ✨ Added

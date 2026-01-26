@@ -210,6 +210,96 @@ function setupWebsiteTracking() {
     AppState.formData.website = getTrackedWebsiteURL();
 }
 
+/**
+ * Setup help button toggle functionality
+ * Implements expandable help panels with keyboard support (WCAG 2.2 AA)
+ */
+function setupHelpButtons() {
+    const helpButtons = document.querySelectorAll('.help-button');
+
+    helpButtons.forEach(button => {
+        const panelId = button.getAttribute('aria-controls');
+        const panel = document.getElementById(panelId);
+
+        if (!panel) {
+            console.warn(`Help panel not found: ${panelId}`);
+            return;
+        }
+
+        const toggleHelp = () => {
+            const isExpanded = button.getAttribute('aria-expanded') === 'true';
+
+            if (isExpanded) {
+                button.setAttribute('aria-expanded', 'false');
+                panel.setAttribute('hidden', '');
+            } else {
+                button.setAttribute('aria-expanded', 'true');
+                panel.removeAttribute('hidden');
+            }
+
+            // Announce to screen readers
+            announceToScreenReader(
+                isExpanded ? 'Help collapsed' : 'Help expanded'
+            );
+        };
+
+        // Click handler
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            toggleHelp();
+        });
+
+        // Keyboard handler
+        button.addEventListener('keydown', (e) => {
+            if (e.key === ' ' || e.key === 'Enter') {
+                e.preventDefault();
+                toggleHelp();
+            } else if (e.key === 'Escape') {
+                if (button.getAttribute('aria-expanded') === 'true') {
+                    toggleHelp();
+                }
+            }
+        });
+    });
+
+    // Close all help panels on Escape (global handler)
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            helpButtons.forEach(button => {
+                if (button.getAttribute('aria-expanded') === 'true') {
+                    button.setAttribute('aria-expanded', 'false');
+                    const panelId = button.getAttribute('aria-controls');
+                    const panel = document.getElementById(panelId);
+                    if (panel) panel.setAttribute('hidden', '');
+                }
+            });
+        }
+    });
+
+    console.info(`Initialized ${helpButtons.length} help buttons`);
+}
+
+/**
+ * Announce messages to screen readers
+ * Creates/updates aria-live region for dynamic announcements
+ */
+function announceToScreenReader(message) {
+    let liveRegion = document.getElementById('sr-announcer');
+
+    if (!liveRegion) {
+        liveRegion = document.createElement('div');
+        liveRegion.id = 'sr-announcer';
+        liveRegion.setAttribute('role', 'status');
+        liveRegion.setAttribute('aria-live', 'polite');
+        liveRegion.className = 'sr-only';
+        liveRegion.style.cssText = 'position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden;';
+        document.body.appendChild(liveRegion);
+    }
+
+    liveRegion.textContent = '';
+    setTimeout(() => liveRegion.textContent = message, 100);
+}
+
 
 // DOM elements
 const elements = {
@@ -270,6 +360,7 @@ function init() {
     setupSmartTitleCase();    // Smart title case formatting
     setupWebsiteTracking();   // URL tracking for zoho.com
     setupPhoneFormatting();    // Phone auto-formatting with Cleave.js
+    setupHelpButtons();       // Expandable help panels (WCAG 2.2 AA)
 
     // Initial preview update
     updatePreview();
@@ -1193,19 +1284,19 @@ function validateField(input) {
 
         // Check for invalid characters (catches hyphens, +, _, uppercase, etc.)
         if (!prefixRegex.test(value)) {
-            const message = 'Email prefix can only contain lowercase letters, numbers, and dots (no hyphens, underscores, or special characters)';
+            const message = 'Use only letters, numbers, and dots (e.g., john.smith or jsmith2)';
             input.setCustomValidity(message);
             displayValidationError(input, message);
         }
         // Check for trailing dots, leading dots, or consecutive dots
         else if (value.startsWith('.') || value.endsWith('.') || value.includes('..')) {
-            const message = 'Dots cannot be at the start, end, or consecutive';
+            const message = 'Dots can\'t be at the start, end, or in a row (e.g., john.smith ✓, .john ✗)';
             input.setCustomValidity(message);
             displayValidationError(input, message);
         }
         // Check for minimum length (at least 2 characters for valid email)
         else if (value.length < 2) {
-            const message = 'Email prefix must be at least 2 characters';
+            const message = 'Email needs at least 2 characters (e.g., js, john.smith)';
             input.setCustomValidity(message);
             displayValidationError(input, message);
         }
@@ -1223,7 +1314,7 @@ function validateField(input) {
             input.setCustomValidity(message);
             displayValidationError(input, message);
         } else if (!value.endsWith('@zohocorp.com')) {
-            const message = 'Email must be a @zohocorp.com address';
+            const message = 'Email must end with @zohocorp.com (e.g., john.smith@zohocorp.com)';
             input.setCustomValidity(message);
             displayValidationError(input, message);
         } else {
@@ -1268,10 +1359,14 @@ function validateField(input) {
 
 /**
  * Display or hide error message for an input
+ * Enhanced with visual icons and improved styling (WCAG 2.2 AA)
  */
 function displayValidationError(input, message) {
     const inputGroup = input.closest('.input-group');
     if (!inputGroup) return;
+
+    // Find validation icon
+    const validationIcon = inputGroup.querySelector('.validation-icon');
 
     // Find or create error message element
     let errorElement = inputGroup.querySelector('.error-message');
@@ -1282,28 +1377,68 @@ function displayValidationError(input, message) {
         errorElement.setAttribute('role', 'alert');
         errorElement.setAttribute('aria-live', 'polite');
 
-        // Insert after input-wrapper
+        // Insert after input-wrapper or inline-hint
         const inputWrapper = inputGroup.querySelector('.input-wrapper');
-        if (inputWrapper) {
-            inputWrapper.parentNode.insertBefore(errorElement, inputWrapper.nextSibling);
+        const inlineHint = inputGroup.querySelector('.inline-hint');
+        const insertAfter = inlineHint || inputWrapper;
+
+        if (insertAfter) {
+            insertAfter.parentNode.insertBefore(errorElement, insertAfter.nextSibling);
         }
     }
 
     // Set error ID for aria-describedby
     const errorId = `${input.id}-error`;
+    const hintId = `${input.id}-hint`;
     errorElement.id = errorId;
 
     if (message) {
-        // Show error
-        errorElement.textContent = message;
+        // Show error state
+        errorElement.innerHTML = `<span class="error-icon" aria-hidden="true">✗</span> ${message}`;
         errorElement.classList.add('visible');
-        input.setAttribute('aria-describedby', errorId);
+
+        // Update ARIA
+        const describedBy = [hintId, errorId].filter(id => document.getElementById(id)).join(' ');
+        input.setAttribute('aria-describedby', describedBy);
         input.setAttribute('aria-invalid', 'true');
+
+        // Show error icon
+        if (validationIcon) {
+            validationIcon.textContent = '✗';
+            validationIcon.className = 'validation-icon invalid';
+            validationIcon.style.display = 'flex';
+            validationIcon.setAttribute('aria-label', 'Invalid input');
+        }
     } else {
-        // Hide error
+        // Check if field has value (show success if valid and not empty)
+        const hasValue = input.value.trim().length > 0;
+
+        if (hasValue) {
+            // Show success state
+            if (validationIcon) {
+                validationIcon.textContent = '✓';
+                validationIcon.className = 'validation-icon valid';
+                validationIcon.style.display = 'flex';
+                validationIcon.setAttribute('aria-label', 'Valid input');
+            }
+        } else {
+            // Hide validation icon for empty fields
+            if (validationIcon) {
+                validationIcon.style.display = 'none';
+            }
+        }
+
+        // Hide error message
         errorElement.textContent = '';
         errorElement.classList.remove('visible');
-        input.removeAttribute('aria-describedby');
+
+        // Update ARIA
+        const describedBy = document.getElementById(hintId) ? hintId : '';
+        if (describedBy) {
+            input.setAttribute('aria-describedby', describedBy);
+        } else {
+            input.removeAttribute('aria-describedby');
+        }
         input.removeAttribute('aria-invalid');
     }
 }

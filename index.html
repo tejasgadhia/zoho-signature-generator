@@ -122,10 +122,7 @@
 
                 <!-- Email Address (Optional with toggle and auto-generation) -->
                 <div class="input-group">
-                    <label for="email-prefix">
-                        Email Address
-                        <span class="info-icon" data-tooltip="Auto-generated from your name. Edit the part before @zohocorp.com if needed.">ⓘ</span>
-                    </label>
+                    <label for="email-prefix">Email Address</label>
                     <div class="input-wrapper">
                         <div class="toggle-switch active" data-field="email" role="switch" aria-checked="true" aria-label="Toggle email address" tabindex="0"></div>
                         <div class="email-split-input">
@@ -133,32 +130,66 @@
                                    id="email-prefix"
                                    name="email-prefix"
                                    placeholder="jasmine.frank"
-                                   class="email-prefix-field">
+                                   class="email-prefix-field"
+                                   aria-describedby="email-prefix-hint">
                             <span class="email-domain-suffix">@zohocorp.com</span>
                         </div>
-                        <span class="validation-icon" style="display: none;"></span>
+                        <button type="button" class="help-button"
+                                aria-label="Show help for email address format"
+                                aria-expanded="false"
+                                aria-controls="email-prefix-help-panel">
+                            <span aria-hidden="true">?</span>
+                        </button>
+                        <span class="validation-icon" aria-live="polite"></span>
+                    </div>
+                    <div id="email-prefix-hint" class="inline-hint">
+                        Auto-generated from your name. Use only letters, numbers, and dots.
+                    </div>
+                    <div id="email-prefix-help-panel" class="help-panel" hidden>
+                        <h4 class="help-panel-title">Email Address Format</h4>
+                        <p>Your email is auto-generated from your full name, but you can edit the part before @zohocorp.com.</p>
+                        <ul>
+                            <li><strong>jasmine.frank</strong> - Recommended: firstname.lastname</li>
+                            <li><strong>jfrank</strong> - Alternative: first initial + last name</li>
+                            <li><strong>jasmine.frank2</strong> - If name is taken, add a number</li>
+                        </ul>
+                        <p><strong>Rules:</strong> Only lowercase letters, numbers, and dots. No dots at start, end, or in a row.</p>
                     </div>
                 </div>
 
                 <!-- Phone Number (Optional with toggle and validation) -->
                 <div class="input-group">
-                    <label for="phone">
-                        Phone Number
-                        <span class="info-icon" data-tooltip="Format: +1 (555) 123-4567. Include country code.">ⓘ</span>
-                    </label>
+                    <label for="phone">Phone Number</label>
                     <div class="input-wrapper">
                         <div class="toggle-switch active" data-field="phone" role="switch" aria-checked="true" aria-label="Toggle phone number" tabindex="0"></div>
-                        <input type="tel" id="phone" name="phone" placeholder="+1 (281) 330-8004">
-                        <span class="validation-icon" style="display: none;"></span>
+                        <input type="tel" id="phone" name="phone" placeholder="+1 (281) 330-8004"
+                               aria-describedby="phone-hint">
+                        <button type="button" class="help-button"
+                                aria-label="Show help for phone number format"
+                                aria-expanded="false"
+                                aria-controls="phone-help-panel">
+                            <span aria-hidden="true">?</span>
+                        </button>
+                        <span class="validation-icon" aria-live="polite"></span>
+                    </div>
+                    <div id="phone-hint" class="inline-hint">
+                        Format: +1 (555) 123-4567. Include country code for international colleagues.
+                    </div>
+                    <div id="phone-help-panel" class="help-panel" hidden>
+                        <h4 class="help-panel-title">Phone Number Format</h4>
+                        <p>Enter your phone number in any common format:</p>
+                        <ul>
+                            <li><strong>+1 (555) 123-4567</strong> - International (recommended)</li>
+                            <li><strong>512-555-1234</strong> - Local with area code</li>
+                            <li><strong>(512) 555-1234</strong> - With parentheses</li>
+                        </ul>
+                        <p><strong>Why?</strong> Including the country code helps international colleagues reach you easily.</p>
                     </div>
                 </div>
 
                 <!-- LinkedIn Profile (Optional with toggle) -->
                 <div class="input-group">
-                    <label for="linkedin-username">
-                        LinkedIn Profile
-                        <span class="info-icon" data-tooltip="Your username from your profile URL. Visit LinkedIn, click your profile, and copy the text after /in/ in the address bar.">ⓘ</span>
-                    </label>
+                    <label for="linkedin-username">LinkedIn Profile</label>
                     <div class="input-wrapper">
                         <div class="toggle-switch" data-field="linkedin" role="switch" aria-checked="false" aria-label="Toggle LinkedIn profile" tabindex="0"></div>
                         <div class="url-prefix-input">
@@ -168,18 +199,35 @@
                                    name="linkedin-username"
                                    placeholder="username"
                                    class="url-username-field"
+                                   aria-describedby="linkedin-username-hint"
                                    disabled>
                         </div>
-                        <span class="validation-icon" style="display: none;"></span>
+                        <button type="button" class="help-button"
+                                aria-label="Show help for LinkedIn username"
+                                aria-expanded="false"
+                                aria-controls="linkedin-username-help-panel">
+                            <span aria-hidden="true">?</span>
+                        </button>
+                        <span class="validation-icon" aria-live="polite"></span>
+                    </div>
+                    <div id="linkedin-username-hint" class="inline-hint">
+                        Your username from your profile URL (the part after /in/).
+                    </div>
+                    <div id="linkedin-username-help-panel" class="help-panel" hidden>
+                        <h4 class="help-panel-title">Finding Your LinkedIn Username</h4>
+                        <p>Your LinkedIn username is in your profile URL:</p>
+                        <ol>
+                            <li>Visit <strong>LinkedIn</strong> and click your profile picture</li>
+                            <li>Look at the address bar: <strong>linkedin.com/in/yourname</strong></li>
+                            <li>Copy the text after <strong>/in/</strong> (just "yourname")</li>
+                        </ol>
+                        <p><strong>Example:</strong> If your URL is <code>linkedin.com/in/jasmine-frank-123</code>, enter <strong>jasmine-frank-123</strong></p>
                     </div>
                 </div>
 
                 <!-- X Handle (Optional with toggle) -->
                 <div class="input-group">
-                    <label for="twitter-username">
-                        X Handle
-                        <span class="info-icon" data-tooltip="Your handle without the @ symbol.">ⓘ</span>
-                    </label>
+                    <label for="twitter-username">X Handle</label>
                     <div class="input-wrapper">
                         <div class="toggle-switch" data-field="twitter" role="switch" aria-checked="false" aria-label="Toggle X handle" tabindex="0"></div>
                         <div class="url-prefix-input">
@@ -189,17 +237,34 @@
                                    name="twitter-username"
                                    placeholder="username"
                                    class="url-username-field"
+                                   aria-describedby="twitter-username-hint"
                                    disabled>
                         </div>
+                        <button type="button" class="help-button"
+                                aria-label="Show help for X handle"
+                                aria-expanded="false"
+                                aria-controls="twitter-username-help-panel">
+                            <span aria-hidden="true">?</span>
+                        </button>
+                        <span class="validation-icon" aria-live="polite"></span>
+                    </div>
+                    <div id="twitter-username-hint" class="inline-hint">
+                        Your handle without the @ symbol (e.g., zoho).
+                    </div>
+                    <div id="twitter-username-help-panel" class="help-panel" hidden>
+                        <h4 class="help-panel-title">X (Twitter) Handle Format</h4>
+                        <p>Enter your X handle without the @ symbol:</p>
+                        <ul>
+                            <li><strong>zoho</strong> - Correct</li>
+                            <li><strong>@zoho</strong> - Incorrect (remove the @)</li>
+                        </ul>
+                        <p><strong>Why?</strong> The signature automatically adds x.com/ before your handle to create the full profile link.</p>
                     </div>
                 </div>
 
                 <!-- Zoho Bookings Link (Optional with toggle) -->
                 <div class="input-group">
-                    <label for="bookings-id">
-                        Zoho Bookings Link
-                        <span class="info-icon" data-tooltip="Your booking page ID from Zoho Bookings. Find it in Settings > Booking Page URL.">ⓘ</span>
-                    </label>
+                    <label for="bookings-id">Zoho Bookings Link</label>
                     <div class="input-wrapper">
                         <div class="toggle-switch" data-field="bookings" role="switch" aria-checked="false" aria-label="Toggle Zoho Bookings link" tabindex="0"></div>
                         <div class="url-prefix-input bookings-disabled">
@@ -209,9 +274,30 @@
                                    name="bookings-id"
                                    placeholder="enter ID to show link"
                                    class="url-username-field"
+                                   aria-describedby="bookings-id-hint"
                                    disabled>
                         </div>
-                        <span class="validation-icon" style="display: none;"></span>
+                        <button type="button" class="help-button"
+                                aria-label="Show help for Zoho Bookings ID"
+                                aria-expanded="false"
+                                aria-controls="bookings-id-help-panel">
+                            <span aria-hidden="true">?</span>
+                        </button>
+                        <span class="validation-icon" aria-live="polite"></span>
+                    </div>
+                    <div id="bookings-id-hint" class="inline-hint">
+                        Your booking page ID from Zoho Bookings (found in Settings).
+                    </div>
+                    <div id="bookings-id-help-panel" class="help-panel" hidden>
+                        <h4 class="help-panel-title">Finding Your Zoho Bookings ID</h4>
+                        <p>Your Bookings ID is in your booking page URL:</p>
+                        <ol>
+                            <li>Log in to <strong>Zoho Bookings</strong></li>
+                            <li>Go to <strong>Settings</strong> → <strong>Booking Page URL</strong></li>
+                            <li>Look for: <code>bookings.zoho.com/portal/<strong>yourname</strong></code></li>
+                            <li>Copy just the ID part (e.g., <strong>yourname</strong>)</li>
+                        </ol>
+                        <p><strong>Why?</strong> This creates a clickable link in your signature where people can book time with you.</p>
                     </div>
                 </div>
 
