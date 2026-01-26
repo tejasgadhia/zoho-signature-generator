@@ -241,11 +241,9 @@ function setupHelpButtons() {
             ${helpConfig.content}
         `;
 
-        // Insert help panel after input-wrapper
-        const inputWrapper = inputGroup.querySelector('.input-wrapper');
-        if (inputWrapper) {
-            inputWrapper.after(helpPanel);
-        }
+        // Insert help panel after help icon (at end of input-group)
+        // This allows it to span columns 2-4 with grid-column: 2 / 4
+        icon.after(helpPanel);
 
         // Get the input field
         const inputField = document.getElementById(fieldId);

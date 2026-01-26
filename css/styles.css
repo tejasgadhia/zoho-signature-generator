@@ -326,13 +326,12 @@ body {
 
 /* Input Groups */
 .input-group {
-    margin-bottom: var(--spacing-xs);
+    margin-bottom: var(--spacing-1);  /* 4px - Reduced vertical spacing */
     display: grid;
-    grid-template-columns: 140px 1fr;
+    grid-template-columns: 140px 1fr auto;  /* Added auto column for help icons */
     gap: var(--spacing-sm);
     align-items: center;
     position: relative;
-    padding-right: 28px;  /* Space for right-aligned info icons */
 }
 
 .input-group label {
@@ -1190,38 +1189,36 @@ body {
    Help Text System (Accordion-Style on Focus)
    ============================================================================= */
 
-/* Help Icon - Positioned right side of input (like old tooltips) */
+/* Help Icon - Positioned outside input wrapper in grid */
 .help-icon {
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 18px;
-    height: 18px;
+    width: 24px;  /* Increased to 24px for better touch target */
+    height: 24px;
     border-radius: 50%;
-    background: #E0E0E0;
-    color: #666;
-    font-size: 11px;
+    background: #1976D2;  /* Blue background */
+    color: white;
+    font-size: 13px;
     font-weight: 600;
     cursor: help;
     transition: all 0.2s ease;
-    z-index: 10;
+    flex-shrink: 0;  /* Don't shrink in grid */
+    margin-left: 8px;  /* Small gap from input wrapper */
 }
 
 .help-icon:hover {
-    background: #D1D1D1;
-    transform: translateY(-50%) scale(1.1);
+    background: #1565C0;  /* Darker blue on hover */
+    transform: scale(1.1);
 }
 
 /* Help Panel - Accordion-style expandable help (auto-shows on input focus) */
 .help-panel {
+    grid-column: 2 / 4;  /* Span from input wrapper to help icon column */
     background: #333;
     color: white;
     padding: 10px 14px;
-    margin-top: 8px;
+    margin-top: 4px;  /* Reduced from 8px */
     line-height: 1.4;
     border-radius: 6px;
     font-size: 12px;
@@ -1235,7 +1232,7 @@ body {
 .help-panel.visible {
     max-height: 600px;
     opacity: 1;
-    margin-bottom: 8px;
+    margin-bottom: 4px;  /* Reduced from 8px */
 }
 
 .help-panel h4 {
@@ -1278,12 +1275,12 @@ body {
 
 /* Dark mode support */
 [data-theme="dark"] .help-icon {
-    background: #444;
-    color: #999;
+    background: #1976D2;  /* Keep same blue in dark mode */
+    color: white;
 }
 
 [data-theme="dark"] .help-icon:hover {
-    background: #555;
+    background: #1565C0;  /* Darker blue on hover */
 }
 
 [data-theme="dark"] .help-panel {
