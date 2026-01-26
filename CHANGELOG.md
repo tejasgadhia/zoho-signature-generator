@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.11.1] - 2026-01-26
+
+### ✨ Added
+
+#### Auto-focus Full Name field (#20)
+- **Immediate typing**: Full Name field automatically receives focus on page load
+- **Keyboard-first workflow**: Users can start typing without manual clicking
+- **Accessibility**: Screen readers properly announce the focused field
+- **Implementation**: Uses standard HTML `autofocus` attribute for reliable, semantic behavior
+
+---
+
 ## [0.11.0] - 2026-01-26
 
 ### ✨ Added
