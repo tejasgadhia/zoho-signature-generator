@@ -1165,6 +1165,13 @@ body {
     flex: 1;  /* Take full available width */
 }
 
+/* When nested inside .input-wrapper, remove duplicate border/radius */
+.input-wrapper .email-split-input {
+    border: none;
+    border-radius: 0;
+    background: transparent;
+}
+
 .email-split-input:focus-within {
     border-color: var(--zoho-red);
     box-shadow: 0 0 0 3px var(--zoho-red-light);
@@ -1229,7 +1236,7 @@ body {
 
 /* Help Panel - Accordion-style expandable help (auto-shows on input focus) */
 .help-panel {
-    grid-column: 1 / -1;  /* Span all columns from label to end (fixes Pin 4) */
+    grid-column: 1 / 3;  /* Span label + input columns only, NOT help icon column */
     background: #333;
     color: white;
     padding: 0;  /* No padding when collapsed */
@@ -1316,6 +1323,13 @@ body {
     overflow: hidden;
     transition: all var(--transition-base);
     flex: 1;  /* Take full available width */
+}
+
+/* When nested inside .input-wrapper, remove duplicate border/radius */
+.input-wrapper .url-prefix-input {
+    border: none;
+    border-radius: 0;
+    background: transparent;
 }
 
 .url-prefix-input:focus-within {
@@ -2100,11 +2114,11 @@ kbd::before {
     outline: none;
 }
 
-/* Valid input state (subtle) */
-.input-wrapper:has(input:not([aria-invalid]):valid):focus-within {
-    border-color: #089949;
-    box-shadow: 0 0 0 3px rgba(8, 153, 73, 0.1);
-}
+/* Valid input state (subtle) - REMOVED
+   This was overriding the standard red focus glow with green.
+   Focus should always be red (Zoho brand color), not green.
+   Validation feedback is handled by icons only, not border colors.
+*/
 
 /* Dark mode support */
 [data-theme="dark"] .error-message {
@@ -2128,10 +2142,9 @@ kbd::before {
     box-shadow: 0 0 0 3px rgba(252, 165, 165, 0.15);
 }
 
-[data-theme="dark"] .input-wrapper:has(input:not([aria-invalid]):valid):focus-within {
-    border-color: #6EE7B7;
-    box-shadow: 0 0 0 3px rgba(110, 231, 183, 0.15);
-}
+/* Dark mode valid focus state - REMOVED
+   Same reason as above: focus should always be red, not green.
+*/
 
 /* Desktop-Only Design (No responsive needed) */
 /* Minimum viewport: 1440x900 (13" MacBook) */
