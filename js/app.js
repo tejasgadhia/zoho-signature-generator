@@ -300,6 +300,20 @@ function setupHelpButtons() {
         }
     });
 
+    // Close help panel when clicking outside of it
+    document.addEventListener('click', (e) => {
+        if (!currentlyOpenPanel) return;
+
+        // Check if click is outside both the help panel and help icon
+        const clickedInsidePanel = currentlyOpenPanel.contains(e.target);
+        const clickedHelpIcon = e.target.closest('.help-icon');
+
+        if (!clickedInsidePanel && !clickedHelpIcon) {
+            currentlyOpenPanel.classList.remove('visible');
+            currentlyOpenPanel = null;
+        }
+    });
+
     console.info(`Initialized accordion-style help for ${helpIcons.length} fields`);
 }
 

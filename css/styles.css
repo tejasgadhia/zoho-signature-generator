@@ -564,6 +564,14 @@ body {
     margin: var(--spacing-md) 0;
 }
 
+/* Form Section Dividers - Subtle grouping without adding spacing */
+.form-section-divider {
+    height: 1px;
+    background: var(--color-border);
+    opacity: 0.4;
+    margin: 24px 0;
+}
+
 /* Section Title */
 .section-title {
     font-size: 1rem;
