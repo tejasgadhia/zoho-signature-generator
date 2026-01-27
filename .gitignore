@@ -27,8 +27,11 @@ Temporary Items
 
 # Internal development docs (keep locally, don't publish)
 LEARNINGS.md
+LEARNINGS-backup-*.md
 NEXT-STEPS.md
 PROJECT-STATUS.md
+SESSION-*.md
+TESTING-*.md
 docs/sessions/
 docs/plans/
 docs/archive/
@@ -39,6 +42,9 @@ docs/issues/
 docs/future/
 docs/dark-mode-test-results.md
 .ui-design/reviews/
+
+# Testing directory (local only)
+testing/
 
 # Git worktrees
 .worktrees/
