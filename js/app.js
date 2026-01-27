@@ -691,6 +691,16 @@ function setupStyleSelector() {
     styleRadios.forEach(radio => {
         radio.addEventListener('change', (e) => {
             AppState.signatureStyle = e.target.value;
+
+            // Update ARIA attributes for accessibility
+            styleRadios.forEach(r => {
+                if (r === e.target) {
+                    r.setAttribute('aria-checked', 'true');
+                } else {
+                    r.removeAttribute('aria-checked');
+                }
+            });
+
             updatePreview();
         });
     });

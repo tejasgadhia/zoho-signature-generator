@@ -629,21 +629,24 @@ body {
     opacity: 0;
 }
 
-/* Checkmark removed - border highlight is sufficient visual feedback */
-/* .style-option input[type="radio"]:checked + .style-content::before {
-    content: '✓';
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    color: #E42527;
-    font-weight: bold;
-    font-size: 18px;
-} */
-
 .style-option:has(input[type="radio"]:checked) {
     border-color: #E42527;
+    border-width: 3px;
     background: #FFF5F5;
     box-shadow: 0 2px 8px rgba(228,37,39,0.2);
+}
+
+/* Checkmark indicator for selected style (accessibility - non-color indicator) */
+.style-option:has(input[type="radio"]:checked) .style-content::after {
+    content: '✓';
+    position: absolute;
+    top: -6px;
+    right: 4px;
+    color: #E42527;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 1;
+    text-shadow: 0 0 2px rgba(255, 255, 255, 0.8);
 }
 
 .style-content {
