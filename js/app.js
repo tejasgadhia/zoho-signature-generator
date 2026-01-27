@@ -474,8 +474,14 @@ function setupFormListeners() {
     const linkedinUsernameInput = document.getElementById('linkedin-username');
     if (linkedinUsernameInput) {
         linkedinUsernameInput.addEventListener('input', (e) => {
-            const username = e.target.value.trim();
-            AppState.formData.linkedin = username ? `https://linkedin.com/in/${username}` : '';
+            const input = e.target.value.trim();
+            if (!input) {
+                AppState.formData.linkedin = '';
+            } else {
+                // Sanitize input to extract username/path (prevents double URL bug)
+                const sanitized = SignatureGenerator.sanitizeSocialUrl(input, 'linkedin.com');
+                AppState.formData.linkedin = `https://linkedin.com/${sanitized}`;
+            }
             updatePreview();
         });
 
@@ -488,8 +494,14 @@ function setupFormListeners() {
     const twitterUsernameInput = document.getElementById('twitter-username');
     if (twitterUsernameInput) {
         twitterUsernameInput.addEventListener('input', (e) => {
-            const username = e.target.value.trim();
-            AppState.formData.twitter = username ? `@${username}` : '';
+            const input = e.target.value.trim();
+            if (!input) {
+                AppState.formData.twitter = '';
+            } else {
+                // Sanitize input to extract username (prevents double URL bug)
+                const sanitized = SignatureGenerator.sanitizeSocialUrl(input, 'x.com').replace('@', '');
+                AppState.formData.twitter = `@${sanitized}`;
+            }
             updatePreview();
         });
 
