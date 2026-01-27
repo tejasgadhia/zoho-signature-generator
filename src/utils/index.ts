@@ -38,3 +38,6 @@ export {
   getSocialChannelOrder,
   saveSocialChannelOrder
 } from './storage';
+
+// Performance utilities
+export { debounce } from './debounce';

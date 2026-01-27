@@ -9,19 +9,22 @@ import type { FormData } from '../types';
 import {
   isValidEmail,
   isValidPhone,
-  cleanLinkedInUrl,
   generateEmailPrefix,
   toSmartTitleCase,
-  getTrackedWebsiteURL
+  getTrackedWebsiteURL,
+  debounce
 } from '../utils';
 
 export class FormHandler {
   private stateManager: AppStateManager;
   private previewRenderer: PreviewRenderer;
+  private debouncedRender: () => void;
 
   constructor(stateManager: AppStateManager, previewRenderer: PreviewRenderer) {
     this.stateManager = stateManager;
     this.previewRenderer = previewRenderer;
+    // Debounce preview updates to reduce lag during typing (300ms delay)
+    this.debouncedRender = debounce(() => this.previewRenderer.render(), 300);
   }
 
   /**
@@ -79,13 +82,16 @@ export class FormHandler {
     if (linkedinUsernameInput) {
       linkedinUsernameInput.addEventListener('input', (e) => {
         const value = (e.target as HTMLInputElement).value;
-        const fullUrl = cleanLinkedInUrl(value);
+        // Construct full URL from username (user only types username, not full URL)
+        const cleaned = value.replace(/^(https?:\/\/)?(www\.)?linkedin\.com\/in\//, '');
+        const fullUrl = cleaned ? `https://linkedin.com/in/${cleaned}` : '';
         this.handleFieldChange('linkedin', fullUrl);
       });
 
       linkedinUsernameInput.addEventListener('blur', (e) => {
         const value = (e.target as HTMLInputElement).value;
         if (value) {
+          // Clean up any accidentally pasted full URLs
           const cleaned = value.replace(/^(https?:\/\/)?(www\.)?linkedin\.com\/in\//, '');
           (e.target as HTMLInputElement).value = cleaned;
         }
@@ -93,7 +99,7 @@ export class FormHandler {
     }
 
     // Twitter/X username input
-    const twitterUsernameInput = document.getElementById('x-username') as HTMLInputElement;
+    const twitterUsernameInput = document.getElementById('twitter-username') as HTMLInputElement;
     if (twitterUsernameInput) {
       twitterUsernameInput.addEventListener('input', (e) => {
         const value = (e.target as HTMLInputElement).value;
@@ -154,26 +160,41 @@ export class FormHandler {
    */
   private handleFieldChange(field: keyof FormData, value: string): void {
     this.stateManager.updateFormData(field, value);
-    this.previewRenderer.render();
+    this.debouncedRender();
   }
 
   /**
    * Validate a field and show/hide error messages
    */
   private validateField(field: keyof FormData, value: string): boolean {
-    const inputGroup = document.querySelector(`#${field}`)?.closest('.input-group');
-    const errorMessage = inputGroup?.querySelector('.error-message') as HTMLElement;
+    // Map field names to actual input IDs (handles special cases like email-prefix)
+    const inputIdMap: Record<string, string> = {
+      'email': 'email-prefix',
+      'linkedin': 'linkedin-username',
+      'twitter': 'twitter-username',
+      'bookings': 'bookings-id',
+      'phone': 'phone'
+    };
 
-    if (!errorMessage) return true;
+    const inputId = inputIdMap[field] || field;
+    const inputElement = document.getElementById(inputId);
+    const inputGroup = inputElement?.closest('.input-group');
+    const validationIcon = inputGroup?.querySelector('.validation-icon') as HTMLElement;
+
+    if (!validationIcon) return true;
 
     let isValid = true;
     let message = '';
+    let iconContent = '';
 
     switch (field) {
       case 'email':
         if (value && !isValidEmail(value)) {
           isValid = false;
           message = '✗ Must use @zohocorp.com domain. Example: john.doe@zohocorp.com';
+          iconContent = '✗';
+        } else if (value) {
+          iconContent = '✓';
         }
         break;
 
@@ -181,18 +202,21 @@ export class FormHandler {
         if (value && !isValidPhone(value)) {
           isValid = false;
           message = '✗ Must contain at least 10 digits. Example: +1 (281) 330-8004';
+          iconContent = '✗';
+        } else if (value) {
+          iconContent = '✓';
         }
         break;
     }
 
-    // Show/hide error message
-    if (!isValid) {
-      errorMessage.textContent = message;
-      errorMessage.classList.add('visible');
-      errorMessage.setAttribute('aria-hidden', 'false');
+    // Update validation icon
+    if (iconContent) {
+      validationIcon.textContent = iconContent;
+      validationIcon.className = isValid ? 'validation-icon valid' : 'validation-icon invalid';
+      validationIcon.style.display = '';
+      validationIcon.setAttribute('aria-label', message || 'Valid');
     } else {
-      errorMessage.classList.remove('visible');
-      errorMessage.setAttribute('aria-hidden', 'true');
+      validationIcon.style.display = 'none';
     }
 
     return isValid;
@@ -231,7 +255,7 @@ export class FormHandler {
           } else if (field === 'linkedin') {
             inputId = 'linkedin-username';
           } else if (field === 'twitter') {
-            inputId = 'x-username';
+            inputId = 'twitter-username';
           } else if (field === 'bookings') {
             inputId = 'bookings-id';
           }
@@ -264,9 +288,23 @@ export class FormHandler {
         if (target.checked) {
           const style = target.value as any;
           this.stateManager.setSignatureStyle(style);
+          // Use immediate render for style changes (not debounced)
           this.previewRenderer.render();
         }
       });
+
+      // Also listen on the parent label for clicks
+      const label = radio.closest('.style-option') as HTMLElement;
+      if (label) {
+        label.addEventListener('click', () => {
+          if (!radio.checked) {
+            radio.checked = true;
+            const style = radio.value as any;
+            this.stateManager.setSignatureStyle(style);
+            this.previewRenderer.render();
+          }
+        });
+      }
     });
   }
 
@@ -274,16 +312,16 @@ export class FormHandler {
    * Setup accent color selector
    */
   private setupAccentColorSelector(): void {
-    const colorButtons = document.querySelectorAll<HTMLButtonElement>('.accent-color-btn');
+    const colorButtons = document.querySelectorAll<HTMLButtonElement>('.color-btn');
 
     colorButtons.forEach((button) => {
       button.addEventListener('click', () => {
         const color = button.dataset.color;
         if (!color) return;
 
-        // Update active state
-        colorButtons.forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
+        // Update selected state (CSS uses 'selected' class for checkmark and border)
+        colorButtons.forEach(btn => btn.classList.remove('selected'));
+        button.classList.add('selected');
 
         // Update state and preview
         this.stateManager.setAccentColor(color);

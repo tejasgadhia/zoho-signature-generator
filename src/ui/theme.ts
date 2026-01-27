@@ -57,7 +57,7 @@ export class ThemeManager {
     }
 
     // Update theme toggle checkbox if it exists
-    const themeToggle = document.getElementById('theme-toggle') as HTMLInputElement;
+    const themeToggle = document.getElementById('themeToggle') as HTMLInputElement;
     if (themeToggle) {
       themeToggle.checked = theme === 'dark';
     }
@@ -67,7 +67,7 @@ export class ThemeManager {
    * Setup theme toggle listener
    */
   setupThemeToggle(): void {
-    const themeToggle = document.getElementById('theme-toggle') as HTMLInputElement;
+    const themeToggle = document.getElementById('themeToggle') as HTMLInputElement;
 
     if (themeToggle) {
       themeToggle.addEventListener('change', () => {

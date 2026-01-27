@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zoho Email Signature Generator</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <!-- Three-Column Layout -->
@@ -14,7 +15,7 @@
             <!-- Scrollable content wrapper -->
             <div class="sidebar-scrollable">
                 <div class="sidebar-branding">
-                    <img src="assets/zoho-logo-web.svg"
+                    <img src="/zoho-signature-generator/assets/zoho-logo-web.svg"
                          alt="Zoho Logo"
                          class="sidebar-logo">
                     <h1 class="sidebar-title">Email Signature Generator</h1>
@@ -38,16 +39,16 @@
                 <div class="import-instructions">
                     <h3 class="import-section-title">Import Instructions</h3>
 
-                    <button class="import-btn import-btn-split import-btn-zoho-mail" data-client-type="zoho-mail">
+                    <button class="import-btn import-btn-split import-btn-zoho-mail" data-client="zoho-mail">
                         <span class="import-btn-logo-wrapper">
-                            <img src="assets/mail-full.svg" alt="" class="import-btn-logo">
+                            <img src="/zoho-signature-generator/assets/mail-full.svg" alt="" class="import-btn-logo">
                         </span>
                         <span class="import-btn-text">Zoho Mail</span>
                     </button>
 
-                    <button class="import-btn import-btn-split import-btn-zoho-desk" data-client-type="zoho-desk">
+                    <button class="import-btn import-btn-split import-btn-zoho-desk" data-client="zoho-desk">
                         <span class="import-btn-logo-wrapper">
-                            <img src="assets/desk-full.svg" alt="" class="import-btn-logo">
+                            <img src="/zoho-signature-generator/assets/desk-full.svg" alt="" class="import-btn-logo">
                         </span>
                         <span class="import-btn-text">Zoho Desk</span>
                     </button>
@@ -61,18 +62,18 @@
                     <span>Other Email Clients</span>
                 </div>
 
-                <button class="import-btn import-btn-secondary" data-client-type="gmail">
-                    <img src="assets/gmail-logo.svg" alt="" class="import-btn-logo">
+                <button class="import-btn import-btn-secondary" data-client="gmail">
+                    <img src="/zoho-signature-generator/assets/gmail-logo.svg" alt="" class="import-btn-logo">
                     Gmail
                 </button>
 
-                <button class="import-btn import-btn-secondary" data-client-type="apple-mail">
-                    <img src="assets/apple-mail-logo.svg" alt="" class="import-btn-logo">
+                <button class="import-btn import-btn-secondary" data-client="apple-mail">
+                    <img src="/zoho-signature-generator/assets/apple-mail-logo.svg" alt="" class="import-btn-logo">
                     Apple Mail
                 </button>
 
-                <button class="import-btn import-btn-secondary" data-client-type="outlook">
-                    <img src="assets/outlook-logo.svg" alt="" class="import-btn-logo">
+                <button class="import-btn import-btn-secondary" data-client="outlook">
+                    <img src="/zoho-signature-generator/assets/outlook-logo.svg" alt="" class="import-btn-logo">
                     Outlook
                 </button>
 
@@ -177,21 +178,21 @@
 
                 <!-- X Handle (Optional with toggle) -->
                 <div class="input-group">
-                    <label for="x-username">X Handle</label>
+                    <label for="twitter-username">X Handle</label>
                     <div class="input-wrapper">
                         <div class="toggle-switch" data-field="twitter" role="switch" aria-checked="false" aria-label="Toggle X handle" tabindex="0"></div>
                         <div class="url-prefix-input">
                             <span class="url-prefix">x.com/</span>
                             <input type="text"
-                                   id="x-username"
-                                   name="x-username"
+                                   id="twitter-username"
+                                   name="twitter-username"
                                    placeholder="username"
                                    class="url-username-field"
                                    disabled>
                         </div>
                         <span class="validation-icon" aria-live="polite"></span>
                     </div>
-                    <span class="help-icon" data-field="x-username">?</span>
+                    <span class="help-icon" data-field="twitter-username">?</span>
                 </div>
 
                 <!-- Zoho Bookings Link (Optional with toggle) -->
@@ -238,22 +239,22 @@
 
                 <!-- Social Channels Grid -->
                 <div class="social-compact-grid" id="socialCompactGrid">
-                        <div class="social-channel-card active" draggable="true" data-channel="linkedin" role="button" tabindex="0" aria-label="LinkedIn - Click to toggle, drag to reorder">
+                        <div class="social-compact-card active" draggable="true" data-channel="linkedin" role="button" tabindex="0" aria-label="LinkedIn - Click to toggle, drag to reorder">
                             <span class="social-drag-handle">⋮⋮</span>
                             <span class="social-compact-icon">in</span>
                             <span class="social-compact-label">LinkedIn</span>
                         </div>
-                        <div class="social-channel-card active" draggable="true" data-channel="twitter" role="button" tabindex="0" aria-label="X - Click to toggle, drag to reorder">
+                        <div class="social-compact-card active" draggable="true" data-channel="twitter" role="button" tabindex="0" aria-label="X - Click to toggle, drag to reorder">
                             <span class="social-drag-handle">⋮⋮</span>
                             <span class="social-compact-icon">𝕏</span>
                             <span class="social-compact-label">X</span>
                         </div>
-                        <div class="social-channel-card active" draggable="true" data-channel="instagram" role="button" tabindex="0" aria-label="Instagram - Click to toggle, drag to reorder">
+                        <div class="social-compact-card active" draggable="true" data-channel="instagram" role="button" tabindex="0" aria-label="Instagram - Click to toggle, drag to reorder">
                             <span class="social-drag-handle">⋮⋮</span>
                             <span class="social-compact-icon">IG</span>
                             <span class="social-compact-label">Instagram</span>
                         </div>
-                        <div class="social-channel-card active" draggable="true" data-channel="facebook" role="button" tabindex="0" aria-label="Facebook - Click to toggle, drag to reorder">
+                        <div class="social-compact-card active" draggable="true" data-channel="facebook" role="button" tabindex="0" aria-label="Facebook - Click to toggle, drag to reorder">
                             <span class="social-drag-handle">⋮⋮</span>
                             <span class="social-compact-icon">f</span>
                             <span class="social-compact-label">Facebook</span>
@@ -282,42 +283,42 @@
                     <label class="style-selector-label">Step 1: Choose a Style</label>
                     <div class="style-selector">
                         <label class="style-option">
-                            <input type="radio" name="signature-style" value="classic" checked aria-checked="true">
+                            <input type="radio" name="signatureStyle" value="classic" checked aria-checked="true">
                             <div class="style-content">
                                 <span class="style-label">Classic</span>
                                 <span class="style-desc">Best for everyone - Universal, polished format</span>
                             </div>
                         </label>
                         <label class="style-option">
-                            <input type="radio" name="signature-style" value="professional">
+                            <input type="radio" name="signatureStyle" value="professional">
                             <div class="style-content">
                                 <span class="style-label">Professional</span>
                                 <span class="style-desc">Best for Sales, Account Management - Two-column layout</span>
                             </div>
                         </label>
                         <label class="style-option">
-                            <input type="radio" name="signature-style" value="minimalist">
+                            <input type="radio" name="signatureStyle" value="minimalist">
                             <div class="style-content">
                                 <span class="style-label">Minimalist</span>
                                 <span class="style-desc">Best for Engineering, Technical Support - Text-only, no logo</span>
                             </div>
                         </label>
                         <label class="style-option">
-                            <input type="radio" name="signature-style" value="compact">
+                            <input type="radio" name="signatureStyle" value="compact">
                             <div class="style-content">
                                 <span class="style-label">Compact</span>
                                 <span class="style-desc">Best for mobile-heavy users - Space-efficient layout</span>
                             </div>
                         </label>
                         <label class="style-option">
-                            <input type="radio" name="signature-style" value="modern">
+                            <input type="radio" name="signatureStyle" value="modern">
                             <div class="style-content">
                                 <span class="style-label">Modern</span>
                                 <span class="style-desc">Best for Product, Engineering Leadership - Accent bar design</span>
                             </div>
                         </label>
                         <label class="style-option">
-                            <input type="radio" name="signature-style" value="creative">
+                            <input type="radio" name="signatureStyle" value="creative">
                             <div class="style-content">
                                 <span class="style-label">Creative</span>
                                 <span class="style-desc">Best for Marketing, Design, Events - Bold left accent bar</span>
@@ -330,16 +331,16 @@
                 <div class="color-switcher-container">
                     <label class="color-switcher-label">Step 2: Choose Color</label>
                     <div class="color-switcher">
-                        <button type="button" class="accent-color-btn selected" data-color="#E42527" data-name="red" aria-label="Select red accent color" aria-current="true">
+                        <button type="button" class="color-btn selected" data-color="#E42527" data-name="red" aria-label="Select red accent color" aria-current="true">
                             Red
                         </button>
-                        <button type="button" class="accent-color-btn" data-color="#089949" data-name="green" aria-label="Select green accent color">
+                        <button type="button" class="color-btn" data-color="#089949" data-name="green" aria-label="Select green accent color">
                             Green
                         </button>
-                        <button type="button" class="accent-color-btn" data-color="#226DB4" data-name="blue" aria-label="Select blue accent color">
+                        <button type="button" class="color-btn" data-color="#226DB4" data-name="blue" aria-label="Select blue accent color">
                             Blue
                         </button>
-                        <button type="button" class="accent-color-btn" data-color="#F9B21D" data-name="yellow" aria-label="Select yellow accent color">
+                        <button type="button" class="color-btn" data-color="#F9B21D" data-name="yellow" aria-label="Select yellow accent color">
                             Yellow
                         </button>
                     </div>
@@ -384,7 +385,6 @@
     <!-- Toast Notification -->
     <div id="toast" class="toast" role="alert" aria-live="polite"></div>
 
-    <!-- Vite Module Script -->
     <script type="module" src="/src/main.ts"></script>
 </body>
 </html>

@@ -11,7 +11,7 @@ import { FormHandler } from './app/form-handler';
 import { PreviewRenderer } from './app/preview-renderer';
 import { ClipboardManager } from './app/clipboard';
 import { ModalController } from './ui/modal';
-// import { ThemeManager } from './ui/theme'; // Not used yet - no app-wide theme toggle
+import { ThemeManager } from './ui/theme';
 import { DragDropHandler } from './ui/drag-drop';
 
 // Initialize application when DOM is ready
@@ -32,9 +32,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize clipboard manager
   const clipboardManager = new ClipboardManager(state);
 
-  // Initialize theme manager (currently unused - no app-wide theme toggle in UI)
-  // const themeManager = new ThemeManager();
-  // themeManager.initialize();
+  // Initialize theme manager (app-wide light/dark mode)
+  const themeManager = new ThemeManager();
+  themeManager.initialize();
 
   // Initialize drag-drop handler
   const dragDropHandler = new DragDropHandler(state);
@@ -63,10 +63,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Setup import instruction buttons
-  const importButtons = document.querySelectorAll('[data-client-type]');
+  const importButtons = document.querySelectorAll('[data-client]');
   importButtons.forEach((button) => {
     button.addEventListener('click', () => {
-      const clientType = (button as HTMLElement).dataset.clientType;
+      const clientType = (button as HTMLElement).dataset.client;
       if (clientType) {
         ModalController.open(clientType as any);
       }
