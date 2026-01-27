@@ -1495,6 +1495,23 @@ body {
     max-width: 100%;
 }
 
+/* Hover Highlighting (Issue #28) */
+/* Highlights signature preview elements when hovering over corresponding form fields */
+.preview-highlight {
+    background-color: rgba(226, 37, 39, 0.08) !important;
+    outline: 2px solid rgba(226, 37, 39, 0.3) !important;
+    outline-offset: 2px !important;
+    border-radius: 3px !important;
+    transition: all 0.15s ease-in-out !important;
+}
+
+/* Dark mode variant - slightly stronger highlight for visibility */
+.dark-mode .preview-highlight,
+.preview-container.dark-mode .preview-highlight {
+    background-color: rgba(226, 37, 39, 0.15) !important;
+    outline: 2px solid rgba(226, 37, 39, 0.5) !important;
+}
+
 /* Dark Mode Warning */
 .dark-mode-warning {
     font-size: 12px;

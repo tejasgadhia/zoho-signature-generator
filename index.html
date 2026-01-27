@@ -95,7 +95,7 @@
                     <label for="name">Full Name <span class="required">*</span></label>
                     <div class="input-wrapper">
                         <div class="toggle-switch active disabled" aria-disabled="true" aria-label="Full name (always required)"></div>
-                        <input type="text" id="name" name="name" placeholder="Jasmine Frank" required autofocus autocomplete="name">
+                        <input type="text" id="name" name="name" placeholder="Jasmine Frank" required autofocus autocomplete="name" data-preview-target="name">
                         <button type="button" class="format-lock-icon locked" data-field="name" aria-label="Toggle auto-formatting" title="Auto-format enabled (click to disable)"></button>
                         <span class="validation-icon" style="display: none;"></span>
                     </div>
@@ -107,7 +107,7 @@
                     <label for="title">Job Title</label>
                     <div class="input-wrapper">
                         <div class="toggle-switch active" data-field="title" role="switch" aria-checked="true" aria-label="Toggle job title" tabindex="0"></div>
-                        <input type="text" id="title" name="title" placeholder="Director of Marketing" autocomplete="organization-title">
+                        <input type="text" id="title" name="title" placeholder="Director of Marketing" autocomplete="organization-title" data-preview-target="title">
                         <button type="button" class="format-lock-icon locked" data-field="title" aria-label="Toggle auto-formatting" title="Auto-format enabled (click to disable)"></button>
                         <span class="validation-icon" style="display: none;"></span>
                     </div>
@@ -119,7 +119,7 @@
                     <label for="department">Department</label>
                     <div class="input-wrapper">
                         <div class="toggle-switch active" data-field="department" role="switch" aria-checked="true" aria-label="Toggle department" tabindex="0"></div>
-                        <input type="text" id="department" name="department" placeholder="Zoho One" autocomplete="organization">
+                        <input type="text" id="department" name="department" placeholder="Zoho One" autocomplete="organization" data-preview-target="department">
                         <button type="button" class="format-lock-icon locked" data-field="department" aria-label="Toggle auto-formatting" title="Auto-format enabled (click to disable)"></button>
                     </div>
                     <span class="help-icon-placeholder"></span>
@@ -136,7 +136,8 @@
                                    name="email-prefix"
                                    placeholder="jasmine.frank"
                                    class="email-prefix-field"
-                                   autocomplete="email">
+                                   autocomplete="email"
+                                   data-preview-target="email">
                             <span class="email-domain-suffix">@zohocorp.com</span>
                         </div>
                         <span class="validation-icon" aria-live="polite"></span>
@@ -149,7 +150,7 @@
                     <label for="phone">Phone Number</label>
                     <div class="input-wrapper">
                         <div class="toggle-switch active" data-field="phone" role="switch" aria-checked="true" aria-label="Toggle phone number" tabindex="0"></div>
-                        <input type="tel" id="phone" name="phone" placeholder="+1 (281) 330-8004" autocomplete="tel">
+                        <input type="tel" id="phone" name="phone" placeholder="+1 (281) 330-8004" autocomplete="tel" data-preview-target="phone">
                         <span class="validation-icon" aria-live="polite"></span>
                     </div>
                     <span class="help-icon" data-field="phone">?</span>
@@ -169,7 +170,8 @@
                                    name="linkedin-username"
                                    placeholder="username"
                                    class="url-username-field"
-                                   disabled>
+                                   disabled
+                                   data-preview-target="linkedin">
                         </div>
                         <span class="validation-icon" aria-live="polite"></span>
                     </div>
@@ -188,7 +190,8 @@
                                    name="twitter-username"
                                    placeholder="username"
                                    class="url-username-field"
-                                   disabled>
+                                   disabled
+                                   data-preview-target="twitter">
                         </div>
                         <span class="validation-icon" aria-live="polite"></span>
                     </div>
@@ -207,7 +210,8 @@
                                    name="bookings-id"
                                    placeholder="enter ID to show link"
                                    class="url-username-field"
-                                   disabled>
+                                   disabled
+                                   data-preview-target="bookings">
                         </div>
                         <span class="validation-icon" aria-live="polite"></span>
                     </div>
@@ -220,7 +224,7 @@
                 <div class="input-group">
                     <label for="website">Company Website</label>
                     <div class="input-wrapper">
-                        <input type="url" id="website" name="website" value="https://www.zoho.com" readonly>
+                        <input type="url" id="website" name="website" value="https://www.zoho.com" readonly data-preview-target="website">
                         <span style="position: absolute; right: 12px; font-size: 18px;">🔒</span>
                     </div>
                     <span class="help-icon-placeholder"></span>
@@ -266,7 +270,7 @@
         <!-- Preview Section -->
         <section class="preview-section">
             <div class="preview-header">
-                <h2>Preview</h2>
+                <h2>Live Signature Preview</h2>
                 <div class="preview-controls">
                     <label class="theme-toggle">
                         <span class="theme-toggle-label">Preview Dark Mode</span>

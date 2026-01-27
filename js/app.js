@@ -317,6 +317,43 @@ function setupHelpButtons() {
     console.info(`Initialized accordion-style help for ${helpIcons.length} fields`);
 }
 
+/**
+ * Setup hover highlighting for form-to-preview connection
+ * When hovering over a form field, highlights the corresponding section in the signature preview
+ */
+function setupHoverHighlighting() {
+    // Get all form inputs with data-preview-target attribute
+    const formInputs = document.querySelectorAll('[data-preview-target]');
+
+    formInputs.forEach(input => {
+        // Mouse enter - highlight corresponding preview elements
+        input.addEventListener('mouseenter', (e) => {
+            const target = e.target.getAttribute('data-preview-target');
+            if (!target) return;
+
+            // Find all preview elements with matching data-preview-field attribute
+            // Use ~= selector to match space-separated tokens (for title/department)
+            const previewElements = document.querySelectorAll(`[data-preview-field~="${target}"]`);
+            previewElements.forEach(el => {
+                el.classList.add('preview-highlight');
+            });
+        });
+
+        // Mouse leave - remove highlight
+        input.addEventListener('mouseleave', (e) => {
+            const target = e.target.getAttribute('data-preview-target');
+            if (!target) return;
+
+            const previewElements = document.querySelectorAll(`[data-preview-field~="${target}"]`);
+            previewElements.forEach(el => {
+                el.classList.remove('preview-highlight');
+            });
+        });
+    });
+
+    console.info(`Initialized hover highlighting for ${formInputs.length} form inputs`);
+}
+
 
 // DOM elements
 const elements = {
@@ -378,6 +415,7 @@ function init() {
     setupWebsiteTracking();   // URL tracking for zoho.com
     setupPhoneFormatting();    // Phone auto-formatting with Cleave.js
     setupHelpButtons();       // Expandable help panels (WCAG 2.2 AA)
+    setupHoverHighlighting(); // Hover highlighting for form-to-preview connection
 
     // Initial preview update
     updatePreview();

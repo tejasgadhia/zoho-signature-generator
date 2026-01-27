@@ -221,10 +221,10 @@ const SignatureGenerator = {
         // Tier 1: Primary Contact (Phone + Email)
         const tier1Links = [];
         if (data.phone) {
-            tier1Links.push(`<a href="tel:${this.sanitizePhone(data.phone)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">${this.escapeHtml(data.phone)}</a>`);
+            tier1Links.push(`<a href="tel:${this.sanitizePhone(data.phone)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;" data-preview-field="phone">${this.escapeHtml(data.phone)}</a>`);
         }
         if (data.email) {
-            tier1Links.push(`<a href="mailto:${this.escapeHtml(data.email)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">${this.escapeHtml(data.email)}</a>`);
+            tier1Links.push(`<a href="mailto:${this.escapeHtml(data.email)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;" data-preview-field="email">${this.escapeHtml(data.email)}</a>`);
         }
         const tier1Html = tier1Links.length > 0
             ? tier1Links.join(` <span class="sig-separator" style="color: ${accentColor};">•</span> `)
@@ -235,14 +235,14 @@ const SignatureGenerator = {
         if (data.linkedin) {
             const linkedinPath = this.sanitizeSocialUrl(data.linkedin, 'linkedin.com');
             const linkedinUrl = `https://www.linkedin.com/${linkedinPath}`;
-            tier2Links.push(`<a href="${linkedinUrl}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">LinkedIn</a>`);
+            tier2Links.push(`<a href="${linkedinUrl}" class="sig-link" style="color: ${accentColor}; text-decoration: none;" data-preview-field="linkedin">LinkedIn</a>`);
         }
         if (data.twitter) {
             const xHandle = this.sanitizeSocialUrl(data.twitter, 'x.com').replace('@', '');
-            tier2Links.push(`<a href="https://x.com/${xHandle}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">X</a>`);
+            tier2Links.push(`<a href="https://x.com/${xHandle}" class="sig-link" style="color: ${accentColor}; text-decoration: none;" data-preview-field="twitter">X</a>`);
         }
         if (data.bookings) {
-            tier2Links.push(`<a href="${this.escapeHtml(data.bookings)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">Book a Meeting</a>`);
+            tier2Links.push(`<a href="${this.escapeHtml(data.bookings)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;" data-preview-field="bookings">Book a Meeting</a>`);
         }
         const tier2Html = tier2Links.length > 0
             ? tier2Links.join(` <span class="sig-separator" style="color: ${accentColor};">•</span> `)
@@ -252,16 +252,16 @@ const SignatureGenerator = {
 <table cellpadding="0" cellspacing="0" border="0" style="font-family: Verdana, Geneva, sans-serif; font-size: 13px; line-height: 1.6; color: #333333;">
     <tr>
         <td style="padding-bottom: 10px;">
-            ${this.generateDualLogos(websiteUrl, 34)}
+            <span data-preview-field="website">${this.generateDualLogos(websiteUrl, 34)}</span>
         </td>
     </tr>
     <tr>
         <td>
-            <div class="sig-name" style="font-size: 15px; font-weight: bold; color: #333333; margin-bottom: 3px;">
+            <div class="sig-name" style="font-size: 15px; font-weight: bold; color: #333333; margin-bottom: 3px;" data-preview-field="name">
                 ${this.escapeHtml(data.name)}
             </div>
             ${titleLine ? `
-            <div class="sig-title" style="font-size: 13px; color: #666666; margin-bottom: 7px;">
+            <div class="sig-title" style="font-size: 13px; color: #666666; margin-bottom: 7px;" data-preview-field="${data.title ? 'title' : ''}${data.title && data.department ? ' ' : ''}${data.department ? 'department' : ''}">
                 ${titleLine}
             </div>
             ` : ''}
@@ -296,10 +296,10 @@ const SignatureGenerator = {
         // Tier 1: Primary Contact (Phone + Email)
         const tier1Links = [];
         if (data.phone) {
-            tier1Links.push(`<a href="tel:${this.sanitizePhone(data.phone)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">${this.escapeHtml(data.phone)}</a>`);
+            tier1Links.push(`<a href="tel:${this.sanitizePhone(data.phone)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;" data-preview-field="phone">${this.escapeHtml(data.phone)}</a>`);
         }
         if (data.email) {
-            tier1Links.push(`<a href="mailto:${this.escapeHtml(data.email)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">${this.escapeHtml(data.email)}</a>`);
+            tier1Links.push(`<a href="mailto:${this.escapeHtml(data.email)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;" data-preview-field="email">${this.escapeHtml(data.email)}</a>`);
         }
         const tier1Html = tier1Links.length > 0
             ? tier1Links.join(` <span class="sig-separator" style="color: ${accentColor};">•</span> `)
@@ -310,14 +310,14 @@ const SignatureGenerator = {
         if (data.linkedin) {
             const linkedinPath = this.sanitizeSocialUrl(data.linkedin, 'linkedin.com');
             const linkedinUrl = `https://www.linkedin.com/${linkedinPath}`;
-            tier2Links.push(`<a href="${linkedinUrl}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">LinkedIn</a>`);
+            tier2Links.push(`<a href="${linkedinUrl}" class="sig-link" style="color: ${accentColor}; text-decoration: none;" data-preview-field="linkedin">LinkedIn</a>`);
         }
         if (data.twitter) {
             const xHandle = this.sanitizeSocialUrl(data.twitter, 'x.com').replace('@', '');
-            tier2Links.push(`<a href="https://x.com/${xHandle}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">X</a>`);
+            tier2Links.push(`<a href="https://x.com/${xHandle}" class="sig-link" style="color: ${accentColor}; text-decoration: none;" data-preview-field="twitter">X</a>`);
         }
         if (data.bookings) {
-            tier2Links.push(`<a href="${this.escapeHtml(data.bookings)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">Book a Meeting</a>`);
+            tier2Links.push(`<a href="${this.escapeHtml(data.bookings)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;" data-preview-field="bookings">Book a Meeting</a>`);
         }
         const tier2Html = tier2Links.length > 0
             ? tier2Links.join(` <span class="sig-separator" style="color: ${accentColor};">•</span> `)
@@ -327,14 +327,14 @@ const SignatureGenerator = {
 <table cellpadding="0" cellspacing="0" border="0" style="font-family: Verdana, Geneva, sans-serif; font-size: 13px; line-height: 1.6; color: #333333;">
     <tr>
         <td style="padding-right: 14px; vertical-align: top; width: 75px;">
-            ${this.generateDualLogos(websiteUrl, 38)}
+            <span data-preview-field="website">${this.generateDualLogos(websiteUrl, 38)}</span>
         </td>
         <td style="vertical-align: top;">
-            <div class="sig-name" style="font-size: 15px; font-weight: bold; color: #333333; margin-bottom: 3px;">
+            <div class="sig-name" style="font-size: 15px; font-weight: bold; color: #333333; margin-bottom: 3px;" data-preview-field="name">
                 ${this.escapeHtml(data.name)}
             </div>
             ${titleLine ? `
-            <div class="sig-title" style="font-size: 13px; color: #666666; margin-bottom: 7px;">
+            <div class="sig-title" style="font-size: 13px; color: #666666; margin-bottom: 7px;" data-preview-field="${data.title ? 'title' : ''}${data.title && data.department ? ' ' : ''}${data.department ? 'department' : ''}">
                 ${titleLine}
             </div>
             ` : ''}
@@ -369,10 +369,10 @@ const SignatureGenerator = {
         // Tier 1: Primary Contact (Phone + Email)
         const tier1Links = [];
         if (data.phone) {
-            tier1Links.push(`<a href="tel:${this.sanitizePhone(data.phone)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">${this.escapeHtml(data.phone)}</a>`);
+            tier1Links.push(`<a href="tel:${this.sanitizePhone(data.phone)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;" data-preview-field="phone">${this.escapeHtml(data.phone)}</a>`);
         }
         if (data.email) {
-            tier1Links.push(`<a href="mailto:${this.escapeHtml(data.email)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">${this.escapeHtml(data.email)}</a>`);
+            tier1Links.push(`<a href="mailto:${this.escapeHtml(data.email)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;" data-preview-field="email">${this.escapeHtml(data.email)}</a>`);
         }
         const tier1Html = tier1Links.length > 0
             ? tier1Links.join(` <span class="sig-separator" style="color: ${accentColor};">•</span> `)
@@ -383,14 +383,14 @@ const SignatureGenerator = {
         if (data.linkedin) {
             const linkedinPath = this.sanitizeSocialUrl(data.linkedin, 'linkedin.com');
             const linkedinUrl = `https://www.linkedin.com/${linkedinPath}`;
-            tier2Links.push(`<a href="${linkedinUrl}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">LinkedIn</a>`);
+            tier2Links.push(`<a href="${linkedinUrl}" class="sig-link" style="color: ${accentColor}; text-decoration: none;" data-preview-field="linkedin">LinkedIn</a>`);
         }
         if (data.twitter) {
             const xHandle = this.sanitizeSocialUrl(data.twitter, 'x.com').replace('@', '');
-            tier2Links.push(`<a href="https://x.com/${xHandle}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">X</a>`);
+            tier2Links.push(`<a href="https://x.com/${xHandle}" class="sig-link" style="color: ${accentColor}; text-decoration: none;" data-preview-field="twitter">X</a>`);
         }
         if (data.bookings) {
-            tier2Links.push(`<a href="${this.escapeHtml(data.bookings)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">Book a Meeting</a>`);
+            tier2Links.push(`<a href="${this.escapeHtml(data.bookings)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;" data-preview-field="bookings">Book a Meeting</a>`);
         }
         const tier2Html = tier2Links.length > 0
             ? tier2Links.join(` <span class="sig-separator" style="color: ${accentColor};">•</span> `)
@@ -400,12 +400,12 @@ const SignatureGenerator = {
 <table cellpadding="0" cellspacing="0" border="0" style="font-family: Verdana, Geneva, sans-serif; font-size: 12px; line-height: 1.6; color: #333333;">
     <tr>
         <td style="padding-right: 10px; vertical-align: middle;">
-            ${this.generateDualLogos(websiteUrl, 26)}
+            <span data-preview-field="website">${this.generateDualLogos(websiteUrl, 26)}</span>
         </td>
         <td style="vertical-align: middle;">
             <div style="margin-bottom: 3px;">
-                <span class="sig-name" style="font-weight: bold; color: #333333;">${this.escapeHtml(data.name)}</span>
-                ${titleLine ? `<span class="sig-separator" style="color: ${accentColor};"> • </span><span class="sig-title" style="color: #666666;">${titleLine}</span>` : ''}
+                <span class="sig-name" style="font-weight: bold; color: #333333;" data-preview-field="name">${this.escapeHtml(data.name)}</span>
+                ${titleLine ? `<span class="sig-separator" style="color: ${accentColor};"> • </span><span class="sig-title" style="color: #666666;" data-preview-field="${data.title ? 'title' : ''}${data.title && data.department ? ' ' : ''}${data.department ? 'department' : ''}">${titleLine}</span>` : ''}
             </div>
             ${tier1Html ? `
             <div style="margin-bottom: 3px;">
@@ -438,10 +438,10 @@ const SignatureGenerator = {
         // Tier 1: Primary Contact (Phone + Email)
         const tier1Links = [];
         if (data.phone) {
-            tier1Links.push(`<a href="tel:${this.sanitizePhone(data.phone)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">${this.escapeHtml(data.phone)}</a>`);
+            tier1Links.push(`<a href="tel:${this.sanitizePhone(data.phone)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;" data-preview-field="phone">${this.escapeHtml(data.phone)}</a>`);
         }
         if (data.email) {
-            tier1Links.push(`<a href="mailto:${this.escapeHtml(data.email)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">${this.escapeHtml(data.email)}</a>`);
+            tier1Links.push(`<a href="mailto:${this.escapeHtml(data.email)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;" data-preview-field="email">${this.escapeHtml(data.email)}</a>`);
         }
         const tier1Html = tier1Links.length > 0
             ? tier1Links.join(` <span class="sig-separator" style="color: ${accentColor};">•</span> `)
@@ -452,14 +452,14 @@ const SignatureGenerator = {
         if (data.linkedin) {
             const linkedinPath = this.sanitizeSocialUrl(data.linkedin, 'linkedin.com');
             const linkedinUrl = `https://www.linkedin.com/${linkedinPath}`;
-            tier2Links.push(`<a href="${linkedinUrl}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">LinkedIn</a>`);
+            tier2Links.push(`<a href="${linkedinUrl}" class="sig-link" style="color: ${accentColor}; text-decoration: none;" data-preview-field="linkedin">LinkedIn</a>`);
         }
         if (data.twitter) {
             const xHandle = this.sanitizeSocialUrl(data.twitter, 'x.com').replace('@', '');
-            tier2Links.push(`<a href="https://x.com/${xHandle}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">X</a>`);
+            tier2Links.push(`<a href="https://x.com/${xHandle}" class="sig-link" style="color: ${accentColor}; text-decoration: none;" data-preview-field="twitter">X</a>`);
         }
         if (data.bookings) {
-            tier2Links.push(`<a href="${this.escapeHtml(data.bookings)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">Book a Meeting</a>`);
+            tier2Links.push(`<a href="${this.escapeHtml(data.bookings)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;" data-preview-field="bookings">Book a Meeting</a>`);
         }
         const tier2Html = tier2Links.length > 0
             ? tier2Links.join(` <span class="sig-separator" style="color: ${accentColor};">•</span> `)
@@ -469,15 +469,15 @@ const SignatureGenerator = {
 <table cellpadding="0" cellspacing="0" border="0" style="font-family: Verdana, Geneva, sans-serif; font-size: 13px; line-height: 1.6; color: #333333;">
     <tr>
         <td style="padding-right: 14px; vertical-align: top; width: 75px;">
-            ${this.generateDualLogos(websiteUrl, 38)}
+            <span data-preview-field="website">${this.generateDualLogos(websiteUrl, 38)}</span>
         </td>
         <td style="width: 2px; background: ${accentColor}; opacity: 0.3;">&nbsp;</td>
         <td style="padding-left: 14px; vertical-align: top;">
-            <div class="sig-name" style="font-size: 15px; font-weight: bold; color: #333333; margin-bottom: 3px;">
+            <div class="sig-name" style="font-size: 15px; font-weight: bold; color: #333333; margin-bottom: 3px;" data-preview-field="name">
                 ${this.escapeHtml(data.name)}
             </div>
             ${titleLine ? `
-            <div class="sig-title" style="font-size: 13px; color: #666666; margin-bottom: 7px;">
+            <div class="sig-title" style="font-size: 13px; color: #666666; margin-bottom: 7px;" data-preview-field="${data.title ? 'title' : ''}${data.title && data.department ? ' ' : ''}${data.department ? 'department' : ''}">
                 ${titleLine}
             </div>
             ` : ''}
@@ -512,10 +512,10 @@ const SignatureGenerator = {
         // Tier 1: Primary Contact (Phone + Email)
         const tier1Links = [];
         if (data.phone) {
-            tier1Links.push(`<a href="tel:${this.sanitizePhone(data.phone)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">${this.escapeHtml(data.phone)}</a>`);
+            tier1Links.push(`<a href="tel:${this.sanitizePhone(data.phone)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;" data-preview-field="phone">${this.escapeHtml(data.phone)}</a>`);
         }
         if (data.email) {
-            tier1Links.push(`<a href="mailto:${this.escapeHtml(data.email)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">${this.escapeHtml(data.email)}</a>`);
+            tier1Links.push(`<a href="mailto:${this.escapeHtml(data.email)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;" data-preview-field="email">${this.escapeHtml(data.email)}</a>`);
         }
         const tier1Html = tier1Links.length > 0
             ? tier1Links.join(` <span class="sig-separator" style="color: ${accentColor};">•</span> `)
@@ -526,14 +526,14 @@ const SignatureGenerator = {
         if (data.linkedin) {
             const linkedinPath = this.sanitizeSocialUrl(data.linkedin, 'linkedin.com');
             const linkedinUrl = `https://www.linkedin.com/${linkedinPath}`;
-            tier2Links.push(`<a href="${linkedinUrl}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">LinkedIn</a>`);
+            tier2Links.push(`<a href="${linkedinUrl}" class="sig-link" style="color: ${accentColor}; text-decoration: none;" data-preview-field="linkedin">LinkedIn</a>`);
         }
         if (data.twitter) {
             const xHandle = this.sanitizeSocialUrl(data.twitter, 'x.com').replace('@', '');
-            tier2Links.push(`<a href="https://x.com/${xHandle}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">X</a>`);
+            tier2Links.push(`<a href="https://x.com/${xHandle}" class="sig-link" style="color: ${accentColor}; text-decoration: none;" data-preview-field="twitter">X</a>`);
         }
         if (data.bookings) {
-            tier2Links.push(`<a href="${this.escapeHtml(data.bookings)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">Book a Meeting</a>`);
+            tier2Links.push(`<a href="${this.escapeHtml(data.bookings)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;" data-preview-field="bookings">Book a Meeting</a>`);
         }
         const tier2Html = tier2Links.length > 0
             ? tier2Links.join(` <span class="sig-separator" style="color: ${accentColor};">•</span> `)
@@ -545,13 +545,13 @@ const SignatureGenerator = {
         <td style="width: 4px; background: ${accentColor};">&nbsp;</td>
         <td style="padding-left: 14px; vertical-align: top;">
             <div style="margin-bottom: 10px;">
-                ${this.generateDualLogos(websiteUrl, 32)}
+                <span data-preview-field="website">${this.generateDualLogos(websiteUrl, 32)}</span>
             </div>
-            <div class="sig-name" style="font-size: 15px; font-weight: bold; color: #333333; margin-bottom: 3px;">
+            <div class="sig-name" style="font-size: 15px; font-weight: bold; color: #333333; margin-bottom: 3px;" data-preview-field="name">
                 ${this.escapeHtml(data.name)}
             </div>
             ${titleLine ? `
-            <div class="sig-title" style="font-size: 13px; color: #666666; margin-bottom: 7px;">
+            <div class="sig-title" style="font-size: 13px; color: #666666; margin-bottom: 7px;" data-preview-field="${data.title ? 'title' : ''}${data.title && data.department ? ' ' : ''}${data.department ? 'department' : ''}">
                 ${titleLine}
             </div>
             ` : ''}
@@ -586,10 +586,10 @@ const SignatureGenerator = {
         // Tier 1: Primary Contact (Phone + Email)
         const tier1Links = [];
         if (data.phone) {
-            tier1Links.push(`<a href="tel:${this.sanitizePhone(data.phone)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">${this.escapeHtml(data.phone)}</a>`);
+            tier1Links.push(`<a href="tel:${this.sanitizePhone(data.phone)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;" data-preview-field="phone">${this.escapeHtml(data.phone)}</a>`);
         }
         if (data.email) {
-            tier1Links.push(`<a href="mailto:${this.escapeHtml(data.email)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">${this.escapeHtml(data.email)}</a>`);
+            tier1Links.push(`<a href="mailto:${this.escapeHtml(data.email)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;" data-preview-field="email">${this.escapeHtml(data.email)}</a>`);
         }
         const tier1Html = tier1Links.length > 0
             ? tier1Links.join(` <span class="sig-separator" style="color: ${accentColor};">•</span> `)
@@ -600,14 +600,14 @@ const SignatureGenerator = {
         if (data.linkedin) {
             const linkedinPath = this.sanitizeSocialUrl(data.linkedin, 'linkedin.com');
             const linkedinUrl = `https://www.linkedin.com/${linkedinPath}`;
-            tier2Links.push(`<a href="${linkedinUrl}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">LinkedIn</a>`);
+            tier2Links.push(`<a href="${linkedinUrl}" class="sig-link" style="color: ${accentColor}; text-decoration: none;" data-preview-field="linkedin">LinkedIn</a>`);
         }
         if (data.twitter) {
             const xHandle = this.sanitizeSocialUrl(data.twitter, 'x.com').replace('@', '');
-            tier2Links.push(`<a href="https://x.com/${xHandle}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">X</a>`);
+            tier2Links.push(`<a href="https://x.com/${xHandle}" class="sig-link" style="color: ${accentColor}; text-decoration: none;" data-preview-field="twitter">X</a>`);
         }
         if (data.bookings) {
-            tier2Links.push(`<a href="${this.escapeHtml(data.bookings)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">Book a Meeting</a>`);
+            tier2Links.push(`<a href="${this.escapeHtml(data.bookings)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;" data-preview-field="bookings">Book a Meeting</a>`);
         }
         const tier2Html = tier2Links.length > 0
             ? tier2Links.join(` <span class="sig-separator" style="color: ${accentColor};">•</span> `)
@@ -617,11 +617,11 @@ const SignatureGenerator = {
 <table cellpadding="0" cellspacing="0" border="0" style="font-family: Verdana, Geneva, sans-serif; font-size: 13px; line-height: 1.6; color: #333333; max-width: 450px;">
     <tr>
         <td>
-            <div class="sig-name" style="font-size: 16px; font-weight: bold; color: #333333; margin-bottom: 2px;">
+            <div class="sig-name" style="font-size: 16px; font-weight: bold; color: #333333; margin-bottom: 2px;" data-preview-field="name">
                 ${this.escapeHtml(data.name)}
             </div>
             ${titleLine ? `
-            <div class="sig-title" style="font-size: 13px; color: #666666; margin-bottom: 8px;">
+            <div class="sig-title" style="font-size: 13px; color: #666666; margin-bottom: 8px;" data-preview-field="${data.title ? 'title' : ''}${data.title && data.department ? ' ' : ''}${data.department ? 'department' : ''}">
                 ${titleLine}
             </div>
             ` : ''}
@@ -654,7 +654,7 @@ const SignatureGenerator = {
     <tr>
         <td style="padding: 20px 0; text-align: center;">
             <!-- Name (large, bold) -->
-            <div class="sig-name" style="font-size: 20px; font-weight: 700; color: #000000; margin-bottom: 4px;">
+            <div class="sig-name" style="font-size: 20px; font-weight: 700; color: #000000; margin-bottom: 4px;" data-preview-field="name">
                 ${this.escapeHtml(data.name)}
             </div>
 
@@ -663,14 +663,14 @@ const SignatureGenerator = {
 
             <!-- Title (if provided) -->
             ${data.title ? `
-            <div class="sig-title" style="font-size: 14px; color: #666666; margin-bottom: 12px;">
+            <div class="sig-title" style="font-size: 14px; color: #666666; margin-bottom: 12px;" data-preview-field="title">
                 ${this.escapeHtml(data.title)}
             </div>
             ` : ''}
 
             <!-- Logo -->
             <div style="margin: 16px 0;">
-                <a href="${websiteUrl}" style="text-decoration: none; display: inline-block;">
+                <span data-preview-field="website"><a href="${websiteUrl}" style="text-decoration: none; display: inline-block;">
                     <img src="${logos.light}"
                          alt="Zoho"
                          class="sig-logo-light"
@@ -681,13 +681,13 @@ const SignatureGenerator = {
                          class="sig-logo-dark"
                          style="height: 40px; display: none; border: 0;"
                          height="40">
-                </a>
+                </a></span>
             </div>
 
             <!-- Contact info (vertical stack, centered) -->
             ${data.email ? `
             <div style="margin-bottom: 4px;">
-                <a href="mailto:${this.escapeHtml(data.email)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">
+                <a href="mailto:${this.escapeHtml(data.email)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;" data-preview-field="email">
                     ${this.escapeHtml(data.email)}
                 </a>
             </div>
@@ -695,7 +695,7 @@ const SignatureGenerator = {
 
             ${data.phone ? `
             <div style="margin-bottom: 4px;">
-                <a href="tel:${this.sanitizePhone(data.phone)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">
+                <a href="tel:${this.sanitizePhone(data.phone)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;" data-preview-field="phone">
                     ${this.escapeHtml(data.phone)}
                 </a>
             </div>
@@ -703,7 +703,7 @@ const SignatureGenerator = {
 
             ${websiteUrl ? `
             <div style="margin-bottom: 4px;">
-                <a href="${websiteUrl}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">
+                <a href="${websiteUrl}" class="sig-link" style="color: ${accentColor}; text-decoration: none;" data-preview-field="website">
                     zoho.com
                 </a>
             </div>
@@ -727,18 +727,18 @@ const SignatureGenerator = {
         // Build contact links (will be colored in accent color)
         const contacts = [];
         if (data.email) {
-            contacts.push(`<a href="mailto:${this.escapeHtml(data.email)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">${this.escapeHtml(data.email)}</a>`);
+            contacts.push(`<a href="mailto:${this.escapeHtml(data.email)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;" data-preview-field="email">${this.escapeHtml(data.email)}</a>`);
         }
         if (data.phone) {
-            contacts.push(`<a href="tel:${this.sanitizePhone(data.phone)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">${this.escapeHtml(data.phone)}</a>`);
+            contacts.push(`<a href="tel:${this.sanitizePhone(data.phone)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;" data-preview-field="phone">${this.escapeHtml(data.phone)}</a>`);
         }
         if (data.linkedin) {
             const linkedinPath = this.sanitizeSocialUrl(data.linkedin, 'linkedin.com');
             const linkedinUrl = `https://www.linkedin.com/${linkedinPath}`;
-            contacts.push(`<a href="${linkedinUrl}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">LinkedIn</a>`);
+            contacts.push(`<a href="${linkedinUrl}" class="sig-link" style="color: ${accentColor}; text-decoration: none;" data-preview-field="linkedin">LinkedIn</a>`);
         }
         if (websiteUrl) {
-            contacts.push(`<a href="${websiteUrl}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">zoho.com</a>`);
+            contacts.push(`<a href="${websiteUrl}" class="sig-link" style="color: ${accentColor}; text-decoration: none;" data-preview-field="website">zoho.com</a>`);
         }
 
         // Build social media icons if enabled
@@ -775,7 +775,7 @@ const SignatureGenerator = {
                 <tr>
                     <!-- Logo (left) -->
                     <td style="width: 60px; vertical-align: middle; padding-right: 12px;">
-                        <a href="${websiteUrl}" style="text-decoration: none; display: block;">
+                        <span data-preview-field="website"><a href="${websiteUrl}" style="text-decoration: none; display: block;">
                             <img src="${logos.light}"
                                  alt="Zoho"
                                  class="sig-logo-light"
@@ -786,18 +786,18 @@ const SignatureGenerator = {
                                  class="sig-logo-dark"
                                  style="height: 32px; display: none; border: 0;"
                                  height="32">
-                        </a>
+                        </a></span>
                     </td>
 
                     <!-- Info block -->
                     <td style="vertical-align: middle;">
                         <!-- Colored name/title block -->
                         <div style="background: ${accentColor}; color: ${textColor}; padding: 12px 16px; border-radius: 8px; margin-bottom: 8px;">
-                            <div class="sig-name" style="font-size: 16px; font-weight: 700; margin-bottom: 2px;">
+                            <div class="sig-name" style="font-size: 16px; font-weight: 700; margin-bottom: 2px;" data-preview-field="name">
                                 ${this.escapeHtml(data.name)}
                             </div>
                             ${data.title ? `
-                            <div class="sig-title" style="font-size: 13px; opacity: 0.9;">
+                            <div class="sig-title" style="font-size: 13px; opacity: 0.9;" data-preview-field="title">
                                 ${this.escapeHtml(data.title)}
                             </div>
                             ` : ''}
