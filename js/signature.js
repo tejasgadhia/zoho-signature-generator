@@ -112,7 +112,7 @@ const SignatureGenerator = {
      */
     generate(data, style = 'classic', socialOptions = {enabled: false, channels: [], displayType: 'text'}, accentColor = '#E42527', isPreview = false) {
         const logoUrl = 'https://www.zoho.com/sites/zweb/images/zoho_general_pages/zoho-logo-512.png';
-        const websiteUrl = data.website || 'https://www.zoho.com';
+        const websiteUrl = 'https://www.zoho.com';
 
         // Build contact details array
         const contacts = [];
@@ -252,7 +252,7 @@ const SignatureGenerator = {
 <table cellpadding="0" cellspacing="0" border="0" style="font-family: Verdana, Geneva, sans-serif; font-size: 13px; line-height: 1.6; color: #333333;">
     <tr>
         <td style="padding-bottom: 10px;">
-            <span data-preview-field="website">${this.generateDualLogos(websiteUrl, 34)}</span>
+            ${this.generateDualLogos(websiteUrl, 34)}
         </td>
     </tr>
     <tr>
@@ -327,7 +327,7 @@ const SignatureGenerator = {
 <table cellpadding="0" cellspacing="0" border="0" style="font-family: Verdana, Geneva, sans-serif; font-size: 13px; line-height: 1.6; color: #333333;">
     <tr>
         <td style="padding-right: 14px; vertical-align: top; width: 75px;">
-            <span data-preview-field="website">${this.generateDualLogos(websiteUrl, 38)}</span>
+            ${this.generateDualLogos(websiteUrl, 38)}
         </td>
         <td style="vertical-align: top;">
             <div class="sig-name" style="font-size: 15px; font-weight: bold; color: #333333; margin-bottom: 3px;" data-preview-field="name">
@@ -400,7 +400,7 @@ const SignatureGenerator = {
 <table cellpadding="0" cellspacing="0" border="0" style="font-family: Verdana, Geneva, sans-serif; font-size: 12px; line-height: 1.6; color: #333333;">
     <tr>
         <td style="padding-right: 10px; vertical-align: middle;">
-            <span data-preview-field="website">${this.generateDualLogos(websiteUrl, 26)}</span>
+            ${this.generateDualLogos(websiteUrl, 26)}
         </td>
         <td style="vertical-align: middle;">
             <div style="margin-bottom: 3px;">
@@ -469,7 +469,7 @@ const SignatureGenerator = {
 <table cellpadding="0" cellspacing="0" border="0" style="font-family: Verdana, Geneva, sans-serif; font-size: 13px; line-height: 1.6; color: #333333;">
     <tr>
         <td style="padding-right: 14px; vertical-align: top; width: 75px;">
-            <span data-preview-field="website">${this.generateDualLogos(websiteUrl, 38)}</span>
+            ${this.generateDualLogos(websiteUrl, 38)}
         </td>
         <td style="width: 2px; background: ${accentColor}; opacity: 0.3;">&nbsp;</td>
         <td style="padding-left: 14px; vertical-align: top;">
@@ -545,7 +545,7 @@ const SignatureGenerator = {
         <td style="width: 4px; background: ${accentColor};">&nbsp;</td>
         <td style="padding-left: 14px; vertical-align: top;">
             <div style="margin-bottom: 10px;">
-                <span data-preview-field="website">${this.generateDualLogos(websiteUrl, 32)}</span>
+                ${this.generateDualLogos(websiteUrl, 32)}
             </div>
             <div class="sig-name" style="font-size: 15px; font-weight: bold; color: #333333; margin-bottom: 3px;" data-preview-field="name">
                 ${this.escapeHtml(data.name)}
@@ -670,7 +670,7 @@ const SignatureGenerator = {
 
             <!-- Logo -->
             <div style="margin: 16px 0;">
-                <span data-preview-field="website"><a href="${websiteUrl}" style="text-decoration: none; display: inline-block;">
+                <a href="${websiteUrl}" style="text-decoration: none; display: inline-block;">
                     <img src="${logos.light}"
                          alt="Zoho"
                          class="sig-logo-light"
@@ -681,7 +681,7 @@ const SignatureGenerator = {
                          class="sig-logo-dark"
                          style="height: 40px; display: none; border: 0;"
                          height="40">
-                </a></span>
+                </a>
             </div>
 
             <!-- Contact info (vertical stack, centered) -->
@@ -703,7 +703,7 @@ const SignatureGenerator = {
 
             ${websiteUrl ? `
             <div style="margin-bottom: 4px;">
-                <a href="${websiteUrl}" class="sig-link" style="color: ${accentColor}; text-decoration: none;" data-preview-field="website">
+                <a href="${websiteUrl}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">
                     zoho.com
                 </a>
             </div>
@@ -738,7 +738,7 @@ const SignatureGenerator = {
             contacts.push(`<a href="${linkedinUrl}" class="sig-link" style="color: ${accentColor}; text-decoration: none;" data-preview-field="linkedin">LinkedIn</a>`);
         }
         if (websiteUrl) {
-            contacts.push(`<a href="${websiteUrl}" class="sig-link" style="color: ${accentColor}; text-decoration: none;" data-preview-field="website">zoho.com</a>`);
+            contacts.push(`<a href="${websiteUrl}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">zoho.com</a>`);
         }
 
         // Build social media icons if enabled
@@ -775,7 +775,7 @@ const SignatureGenerator = {
                 <tr>
                     <!-- Logo (left) -->
                     <td style="width: 60px; vertical-align: middle; padding-right: 12px;">
-                        <span data-preview-field="website"><a href="${websiteUrl}" style="text-decoration: none; display: block;">
+                        <a href="${websiteUrl}" style="text-decoration: none; display: block;">
                             <img src="${logos.light}"
                                  alt="Zoho"
                                  class="sig-logo-light"
@@ -786,7 +786,7 @@ const SignatureGenerator = {
                                  class="sig-logo-dark"
                                  style="height: 32px; display: none; border: 0;"
                                  height="32">
-                        </a></span>
+                        </a>
                     </td>
 
                     <!-- Info block -->

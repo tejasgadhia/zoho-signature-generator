@@ -177,39 +177,6 @@ function setupSmartTitleCase() {
 /**
  * Generate tracked zoho.com URL with UTM parameters
  */
-function getTrackedWebsiteURL() {
-    const emailPrefixInput = document.getElementById('email-prefix');
-    const emailPrefix = emailPrefixInput?.value.trim() || 'zoho-employee';
-    const baseURL = 'https://www.zoho.com';
-
-    // Build UTM parameters
-    const params = new URLSearchParams({
-        utm_source: 'email-signature',
-        utm_medium: 'signature',
-        utm_campaign: emailPrefix
-    });
-
-    return `${baseURL}?${params.toString()}`;
-}
-
-/**
- * Setup website URL tracking
- */
-function setupWebsiteTracking() {
-    const emailPrefixInput = document.getElementById('email-prefix');
-
-    if (emailPrefixInput) {
-        // Update tracked URL when email changes
-        emailPrefixInput.addEventListener('input', () => {
-            AppState.formData.website = getTrackedWebsiteURL();
-            updatePreview();
-        });
-    }
-
-    // Set initial tracked URL
-    AppState.formData.website = getTrackedWebsiteURL();
-}
-
 /**
  * Setup accordion-style help system
  * Auto-shows help panel when field is focused, hides when blurred
@@ -470,7 +437,6 @@ function init() {
     setupImportButtons();
     setupFormatLockIcons();   // Smart title case lock icons
     setupSmartTitleCase();    // Smart title case formatting
-    setupWebsiteTracking();   // URL tracking for zoho.com
     setupPhoneFormatting();    // Phone auto-formatting with Cleave.js
     setupHelpButtons();       // Expandable help panels (WCAG 2.2 AA)
     setupHoverHighlighting(); // Hover highlighting for form-to-preview connection
