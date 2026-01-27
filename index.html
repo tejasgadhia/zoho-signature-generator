@@ -4,13 +4,387 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zoho Email Signature Generator</title>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
 </head>
 <body>
-    <div id="app">
-        <h1>Zoho Email Signature Generator</h1>
-        <p>Vite + TypeScript Refactor in Progress...</p>
+    <!-- Three-Column Layout -->
+    <div class="layout-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <!-- Scrollable content wrapper -->
+            <div class="sidebar-scrollable">
+                <div class="sidebar-branding">
+                    <img src="assets/zoho-logo-web.svg"
+                         alt="Zoho Logo"
+                         class="sidebar-logo">
+                    <h1 class="sidebar-title">Email Signature Generator</h1>
+                    <p class="sidebar-education">Outdated signatures reflect badly on Zoho. Use this tool for professional, brand-compliant email signatures.</p>
+                </div>
+
+                <!-- Quick Start -->
+                <div class="quick-start">
+                    <h3 class="quick-start-title">Quick Start:</h3>
+                    <ol>
+                        <li>Fill in your information</li>
+                        <li>Choose a signature style</li>
+                        <li>Toggle dark mode to preview</li>
+                        <li>Copy and import to email</li>
+                    </ol>
+                </div>
+
+                <hr class="sidebar-separator">
+
+                <!-- Import Instructions (Zoho products) -->
+                <div class="import-instructions">
+                    <h3 class="import-section-title">Import Instructions</h3>
+
+                    <button class="import-btn import-btn-split import-btn-zoho-mail" data-client-type="zoho-mail">
+                        <span class="import-btn-logo-wrapper">
+                            <img src="assets/mail-full.svg" alt="" class="import-btn-logo">
+                        </span>
+                        <span class="import-btn-text">Zoho Mail</span>
+                    </button>
+
+                    <button class="import-btn import-btn-split import-btn-zoho-desk" data-client-type="zoho-desk">
+                        <span class="import-btn-logo-wrapper">
+                            <img src="assets/desk-full.svg" alt="" class="import-btn-logo">
+                        </span>
+                        <span class="import-btn-text">Zoho Desk</span>
+                    </button>
+                </div>
+            </div>
+            <!-- End scrollable wrapper -->
+
+            <!-- Pinned footer section -->
+            <div class="sidebar-footer">
+                <div class="import-section-divider">
+                    <span>Other Email Clients</span>
+                </div>
+
+                <button class="import-btn import-btn-secondary" data-client-type="gmail">
+                    <img src="assets/gmail-logo.svg" alt="" class="import-btn-logo">
+                    Gmail
+                </button>
+
+                <button class="import-btn import-btn-secondary" data-client-type="apple-mail">
+                    <img src="assets/apple-mail-logo.svg" alt="" class="import-btn-logo">
+                    Apple Mail
+                </button>
+
+                <button class="import-btn import-btn-secondary" data-client-type="outlook">
+                    <img src="assets/outlook-logo.svg" alt="" class="import-btn-logo">
+                    Outlook
+                </button>
+
+                <!-- Disclaimer Box -->
+                <div class="disclaimer-box">
+                    <span class="disclaimer-icon">⚠️</span>
+                    <p class="disclaimer-text">This is an unofficial community tool, not endorsed by Zoho Corporation.</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Form Section -->
+        <section class="form-section">
+            <h2>Your Information</h2>
+            <p class="form-helper-text">Toggle fields on or off to include them in your email signature.</p>
+            <form id="signatureForm">
+                <!-- Full Name (Required) -->
+                <div class="input-group">
+                    <label for="name">Full Name <span class="required">*</span></label>
+                    <div class="input-wrapper">
+                        <div class="toggle-switch active disabled" aria-disabled="true" aria-label="Full name (always required)"></div>
+                        <input type="text" id="name" name="name" placeholder="Jasmine Frank" required autofocus autocomplete="name">
+                        <button type="button" class="format-lock-icon locked" data-field="name" aria-label="Toggle auto-formatting" title="Auto-format enabled (click to disable)"></button>
+                        <span class="validation-icon" style="display: none;"></span>
+                    </div>
+                    <span class="help-icon-placeholder"></span>
+                </div>
+
+                <!-- Job Title (Optional with toggle) -->
+                <div class="input-group">
+                    <label for="title">Job Title</label>
+                    <div class="input-wrapper">
+                        <div class="toggle-switch active" data-field="title" role="switch" aria-checked="true" aria-label="Toggle job title" tabindex="0"></div>
+                        <input type="text" id="title" name="title" placeholder="Director of Marketing" autocomplete="organization-title">
+                        <button type="button" class="format-lock-icon locked" data-field="title" aria-label="Toggle auto-formatting" title="Auto-format enabled (click to disable)"></button>
+                        <span class="validation-icon" style="display: none;"></span>
+                    </div>
+                    <span class="help-icon-placeholder"></span>
+                </div>
+
+                <!-- Department (Optional with toggle) -->
+                <div class="input-group">
+                    <label for="department">Department</label>
+                    <div class="input-wrapper">
+                        <div class="toggle-switch active" data-field="department" role="switch" aria-checked="true" aria-label="Toggle department" tabindex="0"></div>
+                        <input type="text" id="department" name="department" placeholder="Zoho One" autocomplete="organization">
+                        <button type="button" class="format-lock-icon locked" data-field="department" aria-label="Toggle auto-formatting" title="Auto-format enabled (click to disable)"></button>
+                    </div>
+                    <span class="help-icon-placeholder"></span>
+                </div>
+
+                <!-- Email Address (Optional with toggle and auto-generation) -->
+                <div class="input-group">
+                    <label for="email-prefix">Email Address</label>
+                    <div class="input-wrapper">
+                        <div class="toggle-switch active" data-field="email" role="switch" aria-checked="true" aria-label="Toggle email address" tabindex="0"></div>
+                        <div class="email-split-input">
+                            <input type="text"
+                                   id="email-prefix"
+                                   name="email-prefix"
+                                   placeholder="jasmine.frank"
+                                   class="email-prefix-field"
+                                   autocomplete="email">
+                            <span class="email-domain-suffix">@zohocorp.com</span>
+                        </div>
+                        <span class="validation-icon" aria-live="polite"></span>
+                    </div>
+                    <span class="help-icon" data-field="email-prefix">?</span>
+                </div>
+
+                <!-- Phone Number (Optional with toggle and validation) -->
+                <div class="input-group">
+                    <label for="phone">Phone Number</label>
+                    <div class="input-wrapper">
+                        <div class="toggle-switch active" data-field="phone" role="switch" aria-checked="true" aria-label="Toggle phone number" tabindex="0"></div>
+                        <input type="tel" id="phone" name="phone" placeholder="+1 (281) 330-8004" autocomplete="tel">
+                        <span class="validation-icon" aria-live="polite"></span>
+                    </div>
+                    <span class="help-icon" data-field="phone">?</span>
+                </div>
+
+                <div class="form-section-divider"></div>
+
+                <!-- LinkedIn Profile (Optional with toggle) -->
+                <div class="input-group">
+                    <label for="linkedin-username">LinkedIn Profile</label>
+                    <div class="input-wrapper">
+                        <div class="toggle-switch" data-field="linkedin" role="switch" aria-checked="false" aria-label="Toggle LinkedIn profile" tabindex="0"></div>
+                        <div class="url-prefix-input">
+                            <span class="url-prefix">linkedin.com/in/</span>
+                            <input type="text"
+                                   id="linkedin-username"
+                                   name="linkedin-username"
+                                   placeholder="username"
+                                   class="url-username-field"
+                                   disabled>
+                        </div>
+                        <span class="validation-icon" aria-live="polite"></span>
+                    </div>
+                    <span class="help-icon" data-field="linkedin-username">?</span>
+                </div>
+
+                <!-- X Handle (Optional with toggle) -->
+                <div class="input-group">
+                    <label for="x-username">X Handle</label>
+                    <div class="input-wrapper">
+                        <div class="toggle-switch" data-field="twitter" role="switch" aria-checked="false" aria-label="Toggle X handle" tabindex="0"></div>
+                        <div class="url-prefix-input">
+                            <span class="url-prefix">x.com/</span>
+                            <input type="text"
+                                   id="x-username"
+                                   name="x-username"
+                                   placeholder="username"
+                                   class="url-username-field"
+                                   disabled>
+                        </div>
+                        <span class="validation-icon" aria-live="polite"></span>
+                    </div>
+                    <span class="help-icon" data-field="x-username">?</span>
+                </div>
+
+                <!-- Zoho Bookings Link (Optional with toggle) -->
+                <div class="input-group">
+                    <label for="bookings-id">Zoho Bookings Link</label>
+                    <div class="input-wrapper">
+                        <div class="toggle-switch" data-field="bookings" role="switch" aria-checked="false" aria-label="Toggle Zoho Bookings link" tabindex="0"></div>
+                        <div class="url-prefix-input bookings-disabled">
+                            <span class="url-prefix">bookings.zohocorp.com/#/</span>
+                            <input type="text"
+                                   id="bookings-id"
+                                   name="bookings-id"
+                                   placeholder="enter ID to show link"
+                                   class="url-username-field"
+                                   disabled>
+                        </div>
+                        <span class="validation-icon" aria-live="polite"></span>
+                    </div>
+                    <span class="help-icon" data-field="bookings-id">?</span>
+                </div>
+
+                <div class="form-section-divider"></div>
+
+                <!-- Company Website (LOCKED to zoho.com) -->
+                <div class="input-group">
+                    <label for="website">Company Website</label>
+                    <div class="input-wrapper">
+                        <input type="url" id="website" name="website" value="https://www.zoho.com" readonly>
+                        <span style="position: absolute; right: 12px; font-size: 18px;">🔒</span>
+                    </div>
+                    <span class="help-icon-placeholder"></span>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- Zoho Social Media -->
+                <div class="input-group social-master-toggle-group">
+                    <label for="master-social-toggle">Zoho Social Links</label>
+                    <div class="input-wrapper social-master-wrapper">
+                        <div class="toggle-switch social-toggle active" id="master-social-toggle" role="switch" aria-checked="true" aria-label="Toggle Zoho social links" tabindex="0"></div>
+                        <span class="social-hint">Click cards to toggle on/off, drag to reorder</span>
+                    </div>
+                </div>
+
+                <!-- Social Channels Grid -->
+                <div class="social-compact-grid" id="socialCompactGrid">
+                        <div class="social-channel-card active" draggable="true" data-channel="linkedin" role="button" tabindex="0" aria-label="LinkedIn - Click to toggle, drag to reorder">
+                            <span class="social-drag-handle">⋮⋮</span>
+                            <span class="social-compact-icon">in</span>
+                            <span class="social-compact-label">LinkedIn</span>
+                        </div>
+                        <div class="social-channel-card active" draggable="true" data-channel="twitter" role="button" tabindex="0" aria-label="X - Click to toggle, drag to reorder">
+                            <span class="social-drag-handle">⋮⋮</span>
+                            <span class="social-compact-icon">𝕏</span>
+                            <span class="social-compact-label">X</span>
+                        </div>
+                        <div class="social-channel-card active" draggable="true" data-channel="instagram" role="button" tabindex="0" aria-label="Instagram - Click to toggle, drag to reorder">
+                            <span class="social-drag-handle">⋮⋮</span>
+                            <span class="social-compact-icon">IG</span>
+                            <span class="social-compact-label">Instagram</span>
+                        </div>
+                        <div class="social-channel-card active" draggable="true" data-channel="facebook" role="button" tabindex="0" aria-label="Facebook - Click to toggle, drag to reorder">
+                            <span class="social-drag-handle">⋮⋮</span>
+                            <span class="social-compact-icon">f</span>
+                            <span class="social-compact-label">Facebook</span>
+                        </div>
+                    </div>
+            </form>
+        </section>
+
+        <!-- Preview Section -->
+        <section class="preview-section">
+            <div class="preview-header">
+                <h2>Preview</h2>
+                <div class="preview-controls">
+                    <label class="theme-toggle">
+                        <span class="theme-toggle-label">Preview Dark Mode</span>
+                        <input type="checkbox" id="themeToggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Design Section: Style + Color Selection -->
+            <div class="design-section">
+                <!-- Style Selector (3x2 Grid for 6 styles) -->
+                <div class="style-selector-container">
+                    <label class="style-selector-label">Step 1: Choose a Style</label>
+                    <div class="style-selector">
+                        <label class="style-option">
+                            <input type="radio" name="signature-style" value="classic" checked aria-checked="true">
+                            <div class="style-content">
+                                <span class="style-label">Classic</span>
+                                <span class="style-desc">Best for everyone - Universal, polished format</span>
+                            </div>
+                        </label>
+                        <label class="style-option">
+                            <input type="radio" name="signature-style" value="professional">
+                            <div class="style-content">
+                                <span class="style-label">Professional</span>
+                                <span class="style-desc">Best for Sales, Account Management - Two-column layout</span>
+                            </div>
+                        </label>
+                        <label class="style-option">
+                            <input type="radio" name="signature-style" value="minimalist">
+                            <div class="style-content">
+                                <span class="style-label">Minimalist</span>
+                                <span class="style-desc">Best for Engineering, Technical Support - Text-only, no logo</span>
+                            </div>
+                        </label>
+                        <label class="style-option">
+                            <input type="radio" name="signature-style" value="compact">
+                            <div class="style-content">
+                                <span class="style-label">Compact</span>
+                                <span class="style-desc">Best for mobile-heavy users - Space-efficient layout</span>
+                            </div>
+                        </label>
+                        <label class="style-option">
+                            <input type="radio" name="signature-style" value="modern">
+                            <div class="style-content">
+                                <span class="style-label">Modern</span>
+                                <span class="style-desc">Best for Product, Engineering Leadership - Accent bar design</span>
+                            </div>
+                        </label>
+                        <label class="style-option">
+                            <input type="radio" name="signature-style" value="creative">
+                            <div class="style-content">
+                                <span class="style-label">Creative</span>
+                                <span class="style-desc">Best for Marketing, Design, Events - Bold left accent bar</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Color Switcher -->
+                <div class="color-switcher-container">
+                    <label class="color-switcher-label">Step 2: Choose Color</label>
+                    <div class="color-switcher">
+                        <button type="button" class="accent-color-btn selected" data-color="#E42527" data-name="red" aria-label="Select red accent color" aria-current="true">
+                            Red
+                        </button>
+                        <button type="button" class="accent-color-btn" data-color="#089949" data-name="green" aria-label="Select green accent color">
+                            Green
+                        </button>
+                        <button type="button" class="accent-color-btn" data-color="#226DB4" data-name="blue" aria-label="Select blue accent color">
+                            Blue
+                        </button>
+                        <button type="button" class="accent-color-btn" data-color="#F9B21D" data-name="yellow" aria-label="Select yellow accent color">
+                            Yellow
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preview Container -->
+            <div class="preview-container" id="previewContainer">
+                <div id="signaturePreview" class="signature-preview"></div>
+            </div>
+
+            <!-- Dark Mode Warning -->
+            <div class="dark-mode-warning">
+                <span class="dark-mode-warning-icon">⚠️</span>
+                <span>Dark mode optimized for Gmail. Outlook/Apple Mail may display slightly differently.</span>
+            </div>
+
+            <!-- Action Buttons (Copy only, no "How to Import") -->
+            <div class="action-buttons">
+                <button type="button" id="copyButton" class="btn btn-primary">
+                    <span class="btn-icon">📋</span>
+                    <span class="btn-text">Copy Signature</span>
+                </button>
+            </div>
+        </section>
     </div>
+
+    <!-- Import Instructions Modals (one per email client) -->
+    <div id="import-modal" class="modal" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header" id="modal-header-content">
+                <!-- Logo, title, and time estimate will be dynamically inserted -->
+                <button type="button" class="modal-close" aria-label="Close modal">×</button>
+            </div>
+            <div class="modal-body" id="modal-body-content">
+                <!-- Content will be dynamically inserted by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Vite Module Script -->
     <script type="module" src="/src/main.ts"></script>
 </body>
 </html>

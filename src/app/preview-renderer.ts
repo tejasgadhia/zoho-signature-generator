@@ -13,7 +13,7 @@ export class PreviewRenderer {
 
   constructor(stateManager: AppStateManager) {
     this.stateManager = stateManager;
-    this.previewContainer = document.getElementById('preview');
+    this.previewContainer = document.getElementById('signaturePreview');
   }
 
   /**

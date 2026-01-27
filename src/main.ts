@@ -11,7 +11,7 @@ import { FormHandler } from './app/form-handler';
 import { PreviewRenderer } from './app/preview-renderer';
 import { ClipboardManager } from './app/clipboard';
 import { ModalController } from './ui/modal';
-import { ThemeManager } from './ui/theme';
+// import { ThemeManager } from './ui/theme'; // Not used yet - no app-wide theme toggle
 import { DragDropHandler } from './ui/drag-drop';
 
 // Initialize application when DOM is ready
@@ -32,9 +32,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize clipboard manager
   const clipboardManager = new ClipboardManager(state);
 
-  // Initialize theme manager
-  const themeManager = new ThemeManager();
-  themeManager.initialize();
+  // Initialize theme manager (currently unused - no app-wide theme toggle in UI)
+  // const themeManager = new ThemeManager();
+  // themeManager.initialize();
 
   // Initialize drag-drop handler
   const dragDropHandler = new DragDropHandler(state);
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Setup dark mode preview toggle
-  const darkModePreviewToggle = document.getElementById('dark-mode-preview-toggle') as HTMLInputElement;
+  const darkModePreviewToggle = document.getElementById('themeToggle') as HTMLInputElement;
   if (darkModePreviewToggle) {
     darkModePreviewToggle.addEventListener('change', () => {
       previewRenderer.toggleDarkMode(darkModePreviewToggle.checked);
