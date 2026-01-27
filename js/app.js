@@ -486,6 +486,12 @@ function setupFormListeners() {
         });
 
         linkedinUsernameInput.addEventListener('blur', (e) => {
+            // Clean up the input field to show just the username/path
+            const input = e.target.value.trim();
+            if (input) {
+                const sanitized = SignatureGenerator.sanitizeSocialUrl(input, 'linkedin.com');
+                e.target.value = sanitized;
+            }
             validateField(e.target);
         });
     }
@@ -506,6 +512,12 @@ function setupFormListeners() {
         });
 
         twitterUsernameInput.addEventListener('blur', (e) => {
+            // Clean up the input field to show just the username
+            const input = e.target.value.trim();
+            if (input) {
+                const sanitized = SignatureGenerator.sanitizeSocialUrl(input, 'x.com').replace('@', '');
+                e.target.value = sanitized;
+            }
             validateField(e.target);
         });
     }
