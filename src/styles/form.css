@@ -1,0 +1,701 @@
+/**
+ * Form Styles
+ * Input groups, validation, help system, action buttons
+ */
+
+/* Form Section */
+.form-section {
+    background: #FFFFFF;
+    padding: 32px;
+    overflow-y: auto;
+    box-shadow: -2px 0 10px rgba(0,0,0,0.05);
+}
+
+.form-section h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #333333;
+}
+
+.form-helper-text {
+    font-size: 14px;
+    color: #6B7280;
+    margin-bottom: 24px;
+    margin-top: 0;
+    line-height: 1.5;
+}
+
+/* Input Groups */
+.input-group {
+    margin-bottom: var(--spacing-1);  /* 4px - Reduced vertical spacing */
+    display: grid;
+    grid-template-columns: 140px 1fr 32px;  /* Fixed width for help icon column */
+    gap: var(--spacing-sm);
+    align-items: center;
+    position: relative;
+}
+
+.input-group label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-neutral-700);  /* Darker for better readability (11:1 contrast) */
+    text-align: right;
+    padding-right: var(--spacing-xs);
+}
+
+.required {
+    color: var(--zoho-red);
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex: 1;  /* Take full available width */
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: white;
+    transition: all var(--transition-base);
+}
+
+.input-wrapper input[type="text"],
+.input-wrapper input[type="email"],
+.input-wrapper input[type="tel"],
+.input-wrapper input[type="url"] {
+    width: 100%;
+    padding: 0.625rem 32px 0.625rem 0.875rem;  /* Fixed padding for validation icon */
+    font-size: 0.95rem;
+    border: none;
+    background: transparent;
+    color: #333333;  /* Dark text for readability */
+    transition: all var(--transition-base);
+    min-height: 42px;
+}
+
+/* Toggle Switches (iOS-style) */
+.toggle-switch {
+    position: relative;
+    width: 48px;
+    height: 26px;
+    background: #9CA3AF;  /* Neutral gray when disabled */
+    border-radius: 100px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    flex-shrink: 0;
+    margin-right: var(--spacing-xs);
+}
+
+.toggle-switch.active {
+    background: #16A34A;  /* Green when enabled */
+}
+
+/* Disabled toggle switch (decorative only, for visual alignment) */
+.toggle-switch.disabled {
+    pointer-events: none;
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.toggle-switch::before {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+    background: var(--color-bg-elevated);
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+    box-shadow: var(--shadow-sm);
+}
+
+.toggle-switch.active::before {
+    transform: translateX(22px);
+}
+
+.input-wrapper input[type="text"]:disabled,
+.input-wrapper input[type="email"]:disabled,
+.input-wrapper input[type="tel"]:disabled,
+.input-wrapper input[type="url"]:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: var(--color-surface);
+}
+
+.input-wrapper input[readonly] {
+    background: #F5F5F5;  /* Light gray for readonly */
+    cursor: not-allowed;
+    color: var(--color-neutral-700);
+    font-weight: 500;
+}
+
+/* Format lock/unlock button for title case */
+.format-lock-icon {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #E5E7EB;  /* Gray when disabled */
+    border: none;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 4px 6px;
+    line-height: 1;
+    color: #6B7280;
+    transition: all 0.2s ease;
+}
+
+.format-lock-icon:hover {
+    background: #D1D5DB;
+}
+
+.format-lock-icon.locked {
+    background: #D1FAE5;  /* Light green when enabled */
+    color: #059669;
+}
+
+.format-lock-icon.locked:hover {
+    background: #A7F3D0;
+}
+
+.format-lock-icon::before {
+    content: 'Aa';  /* Always show "Aa" to indicate title case */
+}
+
+/* Lock icon tooltip - appears to the RIGHT of the icon */
+.format-lock-icon:hover::after {
+    content: 'Title Case OFF';
+    position: absolute;
+    left: calc(100% + 12px);
+    top: 50%;
+    transform: translateY(-50%);
+    background: #374151;
+    color: #F3F4F6;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.4;
+    white-space: nowrap;
+    z-index: 10000;
+    pointer-events: none;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.format-lock-icon.locked:hover::after {
+    content: 'Title Case ON\AAutomatically capitalizes text';
+    white-space: pre-line;
+}
+
+.input-wrapper:focus-within {
+    border-color: var(--zoho-red);
+    box-shadow: 0 0 0 3px var(--zoho-red-light);
+}
+
+.input-wrapper input:focus {
+    outline: none;
+}
+
+/* Validation error states */
+.input-wrapper:has(input:invalid:not(:placeholder-shown)):not(:focus-within) {
+    border-color: var(--color-error);
+}
+
+.input-wrapper:has(input:invalid:not(:placeholder-shown)):focus-within {
+    border-color: var(--color-error);
+    box-shadow: 0 0 0 3px var(--color-error-light);
+}
+
+/* Valid state (subtle positive feedback) */
+.input-wrapper:has(input:valid:not(:placeholder-shown)):not(:focus-within) {
+    border-color: var(--color-success);
+}
+
+.input-wrapper input::placeholder {
+    color: var(--color-text-muted);
+}
+
+/* Clear Button */
+.clear-btn {
+    position: absolute;
+    right: 0.5rem;
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    padding: var(--spacing-2);
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    opacity: 0;
+    transition: all var(--transition-fast);
+    pointer-events: none;
+    border-radius: var(--radius-sm);
+}
+
+.input-wrapper input:not(:placeholder-shown) ~ .clear-btn {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.clear-btn:hover {
+    color: var(--zoho-red);
+    transform: scale(1.1);
+}
+
+/* Divider */
+.divider {
+    height: 1px;
+    background: var(--color-border);
+    margin: var(--spacing-md) 0;
+}
+
+/* Form Section Dividers - Subtle grouping without adding spacing */
+.form-section-divider {
+    height: 1px;
+    background: var(--color-border);
+    opacity: 0.4;
+    margin: 24px 0;
+}
+
+/* Section Title */
+.section-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-xs);
+}
+
+/* Section Hint */
+.section-hint {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-tertiary);
+    margin: 0 0 var(--spacing-sm) 0;
+    font-style: italic;
+}
+
+/* Section Subtitle */
+.section-subtitle {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-xs);
+}
+
+/* Email Split Input */
+.email-split-input {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: white;
+    overflow: hidden;
+    transition: all var(--transition-base);
+    flex: 1;  /* Take full available width */
+}
+
+/* When nested inside .input-wrapper, remove duplicate border/radius */
+.input-wrapper .email-split-input {
+    border: none;
+    border-radius: 0;
+    background: transparent;
+}
+
+.email-split-input:focus-within {
+    border-color: var(--zoho-red);
+    box-shadow: 0 0 0 3px var(--zoho-red-light);
+}
+
+.email-prefix-field {
+    flex: 1;
+    border: none;
+    padding: 0.625rem 0.5rem 0.625rem 0.875rem;
+    font-size: 0.95rem;
+    outline: none;
+    background: transparent;
+    color: #333333;  /* Dark text for readability */
+    min-height: 38px;
+}
+
+.email-domain-suffix {
+    padding: 0.625rem 32px 0.625rem 0.5rem;  /* Match input padding-right for alignment */
+    font-size: 0.95rem;
+    color: #999;
+    background: #F5F5F5;
+    border-left: 1px solid #E0E0E0;
+    white-space: nowrap;
+    font-family: monospace;
+}
+
+/* =============================================================================
+   Help Text System (Accordion-Style on Focus)
+   ============================================================================= */
+
+/* Help Icon - Positioned outside input wrapper in grid */
+.help-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;  /* Increased to 24px for better touch target */
+    height: 24px;
+    border-radius: 50%;
+    background: #1976D2;  /* Blue background */
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: help;
+    transition: all 0.2s ease;
+    flex-shrink: 0;  /* Don't shrink in grid */
+    margin-left: 8px;  /* Small gap from input wrapper */
+}
+
+.help-icon:hover {
+    background: #1565C0;  /* Darker blue on hover */
+    transform: scale(1.1);
+}
+
+/* Placeholder for fields without help icons - maintains grid alignment (fixes Pin 1) */
+.help-icon-placeholder {
+    width: 24px;
+    height: 24px;
+    margin-left: 8px;
+    flex-shrink: 0;
+    visibility: hidden;  /* Invisible but takes up space */
+}
+
+/* Help Panel - Accordion-style expandable help (auto-shows on input focus) */
+.help-panel {
+    grid-column: 1 / 3;  /* Span label + input columns only, NOT help icon column */
+    background: #333;
+    color: white;
+    padding: 0;  /* No padding when collapsed */
+    margin: 0;  /* No margin when collapsed - fixes spacing issue */
+    line-height: 1.4;
+    border-radius: 6px;
+    font-size: 12px;
+    box-shadow: none;  /* No shadow when collapsed */
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.help-panel.visible {
+    max-height: 600px;
+    opacity: 1;
+    padding: 10px 14px;  /* Add padding when visible */
+    margin-top: 4px;  /* Add margin only when visible */
+    margin-bottom: 4px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);  /* Add shadow when visible */
+}
+
+.help-panel h4 {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0 0 8px 0;
+    color: var(--text-primary);
+}
+
+.help-panel p {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.help-panel ul,
+.help-panel ol {
+    margin: 8px 0;
+    padding-left: 20px;
+}
+
+.help-panel li {
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.help-panel strong {
+    color: white;
+    font-weight: 600;
+}
+
+.help-panel code {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: monospace;
+    font-size: 11px;
+}
+
+/* Dark mode support */
+[data-theme="dark"] .help-icon {
+    background: #1976D2;  /* Keep same blue in dark mode */
+    color: white;
+}
+
+[data-theme="dark"] .help-icon:hover {
+    background: #1565C0;  /* Darker blue on hover */
+}
+
+[data-theme="dark"] .help-panel {
+    background: #2a2a2a;
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] .form-helper-text {
+    color: #9CA3AF;  /* Lighter gray for dark mode */
+}
+
+/* URL Prefix Input (LinkedIn, Twitter, etc.) */
+.url-prefix-input {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: white;
+    overflow: hidden;
+    transition: all var(--transition-base);
+    flex: 1;  /* Take full available width */
+}
+
+/* When nested inside .input-wrapper, remove duplicate border/radius */
+.input-wrapper .url-prefix-input {
+    border: none;
+    border-radius: 0;
+    background: transparent;
+}
+
+.url-prefix-input:focus-within {
+    border-color: var(--zoho-red);
+    box-shadow: 0 0 0 3px var(--zoho-red-light);
+}
+
+.url-prefix {
+    padding: 0.625rem 0.5rem 0.625rem 0.875rem;
+    font-size: 13px;
+    color: #999;
+    background: #F5F5F5;
+    border-right: 1px solid #E0E0E0;
+    white-space: nowrap;
+    font-family: monospace;
+}
+
+.url-username-field {
+    flex: 1;
+    border: none;
+    padding: 0.625rem 32px 0.625rem 0.875rem;  /* Match regular input padding for alignment */
+    font-size: 0.95rem;
+    outline: none;
+    background: transparent;
+    color: #333333;  /* Dark text for readability */
+    min-height: 38px;
+}
+
+/* Field Tooltips */
+.field-tooltip {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #E0E0E0;
+    color: #666;
+    font-size: 11px;
+    cursor: help;
+}
+
+.field-tooltip-icon {
+    font-size: 11px;
+    line-height: 1;
+}
+
+/* Hide the text in field-tooltip, show on hover */
+.field-tooltip span:not(.field-tooltip-icon) {
+    display: none;
+}
+
+/* Validation States */
+.input-valid {
+    border-color: #089949 !important;
+}
+
+.input-invalid {
+    border-color: #E42527 !important;
+}
+
+.validation-icon {
+    position: absolute;
+    right: 12px;
+    font-size: 18px;
+    pointer-events: auto; /* Allow hover for tooltip */
+    cursor: help;
+    color: #DC2626; /* Red warning color */
+    display: none; /* Hidden by default */
+}
+
+/* Dark mode validation icon */
+[data-theme="dark"] .validation-icon {
+    color: #FCA5A5; /* Lighter red for dark mode */
+}
+
+.validation-icon.valid {
+    color: #089949;
+}
+
+.validation-icon.invalid {
+    color: #E42527;
+}
+
+/* Validation Icons - Show/Hide via JS */
+.validation-icon {
+    position: absolute;
+    right: 8px;  /* Reduced from 12px to avoid overlap with email domain suffix */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    display: none; /* Hidden by default, shown by JS */
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;  /* Slightly smaller to fit better */
+    font-weight: bold;
+    z-index: 5;
+}
+
+.validation-icon.valid {
+    color: #089949; /* Zoho green */
+}
+
+.validation-icon.invalid {
+    color: #DC2626; /* Red */
+}
+
+/* Invalid input state */
+.input-wrapper:has(input[aria-invalid="true"]) {
+    border-color: #DC2626;
+}
+
+.input-wrapper:has(input[aria-invalid="true"]):focus-within {
+    border-color: #DC2626;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+.input-wrapper input[aria-invalid="true"]:focus {
+    outline: none;
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.btn {
+    width: 100%;
+    padding: 14px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 48px;
+    font-family: inherit;
+}
+
+.btn-primary {
+    background: #E42527;
+    color: white;
+    box-shadow: 0 2px 4px rgba(228,37,39,0.2);
+}
+
+.btn-primary:hover {
+    background: #C81F21;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(228,37,39,0.3);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-icon {
+    font-size: 18px;
+}
+
+/* Copy Button Success State */
+.btn-primary.success {
+    background: #089949;
+}
+
+.btn-primary.success .btn-icon::before {
+    content: '✓ ';
+}
+
+/* =============================================================================
+   Error Messages (Enhanced with Icons)
+   ============================================================================= */
+
+.error-message {
+    display: none;
+    color: #DC2626;
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 6px;
+    line-height: 1.4;
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+}
+
+.error-message.visible {
+    display: flex;
+}
+
+.error-icon {
+    font-size: 16px;
+    font-weight: bold;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+/* Dark mode support */
+[data-theme="dark"] .error-message {
+    color: #FCA5A5;
+}
+
+[data-theme="dark"] .validation-icon.invalid {
+    color: #FCA5A5;
+}
+
+[data-theme="dark"] .validation-icon.valid {
+    color: #6EE7B7; /* Lighter green for dark mode */
+}
+
+[data-theme="dark"] .input-wrapper:has(input[aria-invalid="true"]) {
+    border-color: #FCA5A5;
+}
+
+[data-theme="dark"] .input-wrapper:has(input[aria-invalid="true"]):focus-within {
+    border-color: #FCA5A5;
+    box-shadow: 0 0 0 3px rgba(252, 165, 165, 0.15);
+}
