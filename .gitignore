@@ -65,3 +65,8 @@ docs/releases/
 *.swp
 *.swo
 *~
+
+# Node.js / Vite
+node_modules/
+dist/
+*.local
