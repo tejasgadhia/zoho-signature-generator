@@ -7,6 +7,47 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.0] - 2026-01-27 🎉 **Stable Release - Pre-Refactor Checkpoint**
+
+### ✨ Added
+
+#### Form Accessibility & Autocomplete (#33)
+- **HTML5 autocomplete attributes** added to all form inputs:
+  - `name` → `autocomplete="name"`
+  - `title` → `autocomplete="organization-title"`
+  - `department` → `autocomplete="organization"`
+  - `email` → `autocomplete="email"`
+  - `phone` → `autocomplete="tel"`
+- **Benefits**:
+  - ✅ WCAG 2.2 AA compliance (Success Criterion 1.3.5: Input Purpose Identification)
+  - ✅ Browser autofill support (faster form completion)
+  - ✅ Better screen reader compatibility
+  - ✅ Improved user experience (one-click form population)
+
+#### UX Improvements (#32, #24)
+- **Click-away help panels** (#32):
+  - Help panels now close when clicking outside (modern UX pattern)
+  - Maintains existing Escape key functionality
+  - Checks if click is outside both help panel and help icon
+- **Visual form grouping** (#24):
+  - Added subtle dividers (40% opacity) between form sections:
+    - Contact Information (Name, Title, Department, Email, Phone)
+    - Social Links (LinkedIn, X, Bookings)
+    - Company Website (locked field)
+    - Zoho Social Media (toggle cards)
+  - Improves scanability without adding spacing
+  - No layout changes, just visual guides
+
+### 📝 Documentation
+- Verified and documented intentional 1440px desktop-only design (#30)
+- Closed false positive LinkedIn styling issue (#34) - confirmed no inconsistency
+- Deferred feature enhancements to post-refactor (#28, #30)
+
+### 🎯 Why 1.0.0?
+This release marks a **stable checkpoint before major refactoring work**. All critical accessibility improvements and UX polish are complete. The application is production-ready and fully functional.
+
+---
+
 ## [0.12.0] - 2026-01-26
 
 ### ✨ Added

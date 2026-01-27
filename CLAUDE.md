@@ -1,6 +1,6 @@
 # Zoho Email Signature Generator - Developer Guidelines
 
-**Live Demo**: https://tejasgadhia.github.io/zoho-signature-generator | **Version**: 0.12.0 | **Updated**: 2026-01-26
+**Live Demo**: https://tejasgadhia.github.io/zoho-signature-generator | **Version**: 1.0.0 | **Updated**: 2026-01-27
 
 Professional, privacy-first web app for Zoho employees. 6 signature templates with Verdana font, 3-tier content hierarchy, 4 accent colors, live preview, one-click copy.
 
@@ -8,8 +8,8 @@ Professional, privacy-first web app for Zoho employees. 6 signature templates wi
 
 ## Recent Changes
 
-**Version**: 0.12.0 (2026-01-26)
-**Latest**: Comprehensive form UX improvements - accessible help text system + enhanced validation error messages (WCAG 2.2 AA compliant)
+**Version**: 1.0.0 (2026-01-27) - **Stable Release Before Refactor**
+**Latest**: Phase 2 improvements - Form accessibility (autocomplete attributes) + UX polish (click-away help, visual grouping)
 **Full history**: See [CHANGELOG.md](CHANGELOG.md)
 
 ---
