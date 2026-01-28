@@ -284,7 +284,7 @@ export class FormHandler {
    * Setup signature style selector
    */
   private setupStyleSelector(): void {
-    const styleRadios = document.querySelectorAll<HTMLInputElement>('input[name="signature-style"]');
+    const styleRadios = document.querySelectorAll<HTMLInputElement>('input[name="signatureStyle"]');
 
     styleRadios.forEach((radio) => {
       radio.addEventListener('change', (e) => {

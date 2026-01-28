@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zoho Email Signature Generator</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="stylesheet" href="css/styles.css">
+    <!-- CSS now loaded via Vite in src/main.ts -->
 </head>
 <body>
     <!-- Three-Column Layout -->
@@ -15,23 +15,13 @@
             <!-- Scrollable content wrapper -->
             <div class="sidebar-scrollable">
                 <div class="sidebar-branding">
-                    <img src="/zoho-signature-generator/assets/zoho-logo-web.svg"
+                    <img src="assets/zoho-logo-web.svg"
                          alt="Zoho Logo"
                          class="sidebar-logo">
                     <h1 class="sidebar-title">Email Signature Generator</h1>
                     <p class="sidebar-education">Outdated signatures reflect badly on Zoho. Use this tool for professional, brand-compliant email signatures.</p>
                 </div>
 
-                <!-- Quick Start -->
-                <div class="quick-start">
-                    <h3 class="quick-start-title">Quick Start:</h3>
-                    <ol>
-                        <li>Fill in your information</li>
-                        <li>Choose a signature style</li>
-                        <li>Toggle dark mode to preview</li>
-                        <li>Copy and import to email</li>
-                    </ol>
-                </div>
 
                 <hr class="sidebar-separator">
 
@@ -41,14 +31,14 @@
 
                     <button class="import-btn import-btn-split import-btn-zoho-mail" data-client="zoho-mail">
                         <span class="import-btn-logo-wrapper">
-                            <img src="/zoho-signature-generator/assets/mail-full.svg" alt="" class="import-btn-logo">
+                            <img src="assets/mail-full.svg" alt="" class="import-btn-logo">
                         </span>
                         <span class="import-btn-text">Zoho Mail</span>
                     </button>
 
                     <button class="import-btn import-btn-split import-btn-zoho-desk" data-client="zoho-desk">
                         <span class="import-btn-logo-wrapper">
-                            <img src="/zoho-signature-generator/assets/desk-full.svg" alt="" class="import-btn-logo">
+                            <img src="assets/desk-full.svg" alt="" class="import-btn-logo">
                         </span>
                         <span class="import-btn-text">Zoho Desk</span>
                     </button>
@@ -63,17 +53,17 @@
                 </div>
 
                 <button class="import-btn import-btn-secondary" data-client="gmail">
-                    <img src="/zoho-signature-generator/assets/gmail-logo.svg" alt="" class="import-btn-logo">
+                    <img src="assets/gmail-logo.svg" alt="" class="import-btn-logo">
                     Gmail
                 </button>
 
                 <button class="import-btn import-btn-secondary" data-client="apple-mail">
-                    <img src="/zoho-signature-generator/assets/apple-mail-logo.svg" alt="" class="import-btn-logo">
+                    <img src="assets/apple-mail-logo.svg" alt="" class="import-btn-logo">
                     Apple Mail
                 </button>
 
                 <button class="import-btn import-btn-secondary" data-client="outlook">
-                    <img src="/zoho-signature-generator/assets/outlook-logo.svg" alt="" class="import-btn-logo">
+                    <img src="assets/outlook-logo.svg" alt="" class="import-btn-logo">
                     Outlook
                 </button>
 
@@ -291,7 +281,7 @@
                             <input type="radio" name="signatureStyle" value="professional">
                             <div class="style-content">
                                 <span class="style-label">Professional</span>
-                                <span class="style-desc">Best for Sales, Account Management - Two-column layout</span>
+                                <span class="style-desc">Best for Sales, Customer Success - Two columns</span>
                             </div>
                         </label>
                         <label class="style-option">

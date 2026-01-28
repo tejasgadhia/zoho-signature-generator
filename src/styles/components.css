@@ -616,3 +616,42 @@ kbd::before {
 .toast.error {
     background: var(--zoho-red);
 }
+
+/* Feedback Button */
+.feedback-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    margin-top: 12px;
+    background: #FFFFFF;
+    border: 1px solid #E0E0E0;
+    border-radius: 8px;
+    font-family: 'Verdana', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333333;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.feedback-btn:hover {
+    background: #F5F5F5;
+    border-color: #CCCCCC;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.feedback-btn:active {
+    transform: translateY(0);
+}
+
+.feedback-btn-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.feedback-btn-text {
+    text-align: left;
+}

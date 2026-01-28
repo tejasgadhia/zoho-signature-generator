@@ -72,9 +72,19 @@ export class AppStateManager {
 
   /**
    * Update multiple form fields at once
+   * Note: Only allows known FormData keys to prevent prototype pollution
    */
   updateFormDataBatch(data: Partial<FormData>): void {
-    Object.assign(this.state.formData, data);
+    const safeKeys: (keyof FormData)[] = [
+      'name', 'title', 'department', 'email', 'phone',
+      'linkedin', 'twitter', 'bookings', 'website'
+    ];
+
+    for (const key of safeKeys) {
+      if (key in data && data[key] !== undefined) {
+        this.state.formData[key] = data[key] as string;
+      }
+    }
   }
 
   /**

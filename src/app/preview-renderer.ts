@@ -49,11 +49,14 @@ export class PreviewRenderer {
       // Update preview container
       this.previewContainer.innerHTML = html;
 
-      // Apply dark mode class if enabled
-      if (state.isDarkModePreview) {
-        this.previewContainer.classList.add('dark-preview');
-      } else {
-        this.previewContainer.classList.remove('dark-preview');
+      // Apply dark mode class to parent .preview-container (CSS targets that element)
+      const container = this.previewContainer.closest('.preview-container');
+      if (container) {
+        if (state.isDarkModePreview) {
+          container.classList.add('dark-mode');
+        } else {
+          container.classList.remove('dark-mode');
+        }
       }
     } catch (error) {
       console.error('Failed to render preview:', error);

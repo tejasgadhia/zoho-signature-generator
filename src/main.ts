@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // not for the entire app. See previewRenderer.toggleDarkMode() below.
 
   // Initialize drag-drop handler
-  const dragDropHandler = new DragDropHandler(state);
+  const dragDropHandler = new DragDropHandler(state, previewRenderer);
   dragDropHandler.initialize();
 
   // Initialize modal controller
@@ -70,6 +70,43 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+
+  // Expose copySignatureFromModal globally for modal inline onclick handlers
+  (window as any).copySignatureFromModal = async (event: Event) => {
+    event.preventDefault();
+    await clipboardManager.copySignature();
+  };
+
+  // Setup feedback button to open feedback modal
+  const feedbackButton = document.getElementById('feedbackButton');
+  const feedbackModal = document.getElementById('feedback-modal');
+  if (feedbackButton && feedbackModal) {
+    feedbackButton.addEventListener('click', () => {
+      feedbackModal.classList.add('active');
+      feedbackModal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    });
+
+    // Close feedback modal on backdrop click or close button
+    const feedbackBackdrop = feedbackModal.querySelector('.modal-backdrop');
+    const feedbackCloseBtn = feedbackModal.querySelector('.modal-close');
+
+    const closeFeedbackModal = () => {
+      feedbackModal.classList.remove('active');
+      feedbackModal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    };
+
+    feedbackBackdrop?.addEventListener('click', closeFeedbackModal);
+    feedbackCloseBtn?.addEventListener('click', closeFeedbackModal);
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && feedbackModal.classList.contains('active')) {
+        closeFeedbackModal();
+      }
+    });
+  }
 
   // Expose state for debugging (development only)
   // Note: import.meta.env.DEV is available at runtime via Vite

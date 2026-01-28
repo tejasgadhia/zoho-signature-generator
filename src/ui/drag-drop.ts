@@ -4,13 +4,16 @@
  */
 
 import type { AppStateManager } from '../app/state';
+import type { PreviewRenderer } from '../app/preview-renderer';
 
 export class DragDropHandler {
   private stateManager: AppStateManager;
+  private previewRenderer: PreviewRenderer;
   private draggedElement: HTMLElement | null = null;
 
-  constructor(stateManager: AppStateManager) {
+  constructor(stateManager: AppStateManager, previewRenderer: PreviewRenderer) {
     this.stateManager = stateManager;
+    this.previewRenderer = previewRenderer;
   }
 
   /**
@@ -130,7 +133,7 @@ export class DragDropHandler {
    * Save channel order to state and localStorage
    */
   private saveOrder(): void {
-    const cards = document.querySelectorAll('.social-compact-card');
+    const cards = document.querySelectorAll('.social-compact-card.active');
     const order = Array.from(cards).map((card) => {
       return (card as HTMLElement).dataset.channel || '';
     }).filter(Boolean);
@@ -138,6 +141,9 @@ export class DragDropHandler {
     // Update state
     this.stateManager.setSocialOptions({ channels: order as any });
     this.stateManager.saveSocialOrder();
+
+    // Re-render preview
+    this.previewRenderer.render();
   }
 
   /**
@@ -155,11 +161,28 @@ export class DragDropHandler {
 
         // Toggle active state
         htmlCard.classList.toggle('active');
+        htmlCard.setAttribute('aria-checked', String(htmlCard.classList.contains('active')));
 
-        // Note: Social options state update happens through setSocialOptions
-        // Just toggle the visual state here
+        // Update state with active channels and re-render preview
+        this.updateActiveChannels();
       });
     });
+  }
+
+  /**
+   * Get active channels from DOM and update state
+   */
+  private updateActiveChannels(): void {
+    const activeCards = document.querySelectorAll('.social-compact-card.active');
+    const activeChannels = Array.from(activeCards).map((card) => {
+      return (card as HTMLElement).dataset.channel || '';
+    }).filter(Boolean);
+
+    // Update state with active channels
+    this.stateManager.setSocialOptions({ channels: activeChannels as any });
+
+    // Re-render preview
+    this.previewRenderer.render();
   }
 
   /**
@@ -186,9 +209,11 @@ export class DragDropHandler {
         } else {
           htmlCard.classList.remove('active');
         }
-
-        // Note: Social options state managed through setSocialOptions
+        htmlCard.setAttribute('aria-checked', String(newState));
       });
+
+      // Update state and re-render preview
+      this.updateActiveChannels();
     });
   }
 }

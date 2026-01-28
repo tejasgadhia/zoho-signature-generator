@@ -26,6 +26,7 @@ Temporary Items
 .claude/
 
 # Internal development docs (keep locally, don't publish)
+ISSUE-PLAN.md
 LEARNINGS.md
 LEARNINGS-backup-*.md
 NEXT-STEPS.md
