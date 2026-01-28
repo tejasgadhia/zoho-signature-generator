@@ -82,6 +82,12 @@
                     <span class="disclaimer-icon">⚠️</span>
                     <p class="disclaimer-text">This is an unofficial community tool, not endorsed by Zoho Corporation.</p>
                 </div>
+
+                <!-- Feedback Button -->
+                <button class="feedback-btn" id="feedbackButton" aria-label="Share feedback or suggestions">
+                    <span class="feedback-btn-icon">💬</span>
+                    <span class="feedback-btn-text">Share Feedback</span>
+                </button>
             </div>
         </aside>
 
@@ -95,7 +101,7 @@
                     <label for="name">Full Name <span class="required">*</span></label>
                     <div class="input-wrapper">
                         <div class="toggle-switch active disabled" aria-disabled="true" aria-label="Full name (always required)"></div>
-                        <input type="text" id="name" name="name" placeholder="Jasmine Frank" required autofocus autocomplete="name">
+                        <input type="text" id="name" name="name" placeholder="Jasmine Frank" required autofocus autocomplete="name" data-preview-target="name">
                         <button type="button" class="format-lock-icon locked" data-field="name" aria-label="Toggle auto-formatting" title="Auto-format enabled (click to disable)"></button>
                         <span class="validation-icon" style="display: none;"></span>
                     </div>
@@ -107,7 +113,7 @@
                     <label for="title">Job Title</label>
                     <div class="input-wrapper">
                         <div class="toggle-switch active" data-field="title" role="switch" aria-checked="true" aria-label="Toggle job title" tabindex="0"></div>
-                        <input type="text" id="title" name="title" placeholder="Director of Marketing" autocomplete="organization-title">
+                        <input type="text" id="title" name="title" placeholder="Director of Marketing" autocomplete="organization-title" data-preview-target="title">
                         <button type="button" class="format-lock-icon locked" data-field="title" aria-label="Toggle auto-formatting" title="Auto-format enabled (click to disable)"></button>
                         <span class="validation-icon" style="display: none;"></span>
                     </div>
@@ -119,7 +125,7 @@
                     <label for="department">Department</label>
                     <div class="input-wrapper">
                         <div class="toggle-switch active" data-field="department" role="switch" aria-checked="true" aria-label="Toggle department" tabindex="0"></div>
-                        <input type="text" id="department" name="department" placeholder="Zoho One" autocomplete="organization">
+                        <input type="text" id="department" name="department" placeholder="Zoho One" autocomplete="organization" data-preview-target="department">
                         <button type="button" class="format-lock-icon locked" data-field="department" aria-label="Toggle auto-formatting" title="Auto-format enabled (click to disable)"></button>
                     </div>
                     <span class="help-icon-placeholder"></span>
@@ -136,7 +142,8 @@
                                    name="email-prefix"
                                    placeholder="jasmine.frank"
                                    class="email-prefix-field"
-                                   autocomplete="email">
+                                   autocomplete="email"
+                                   data-preview-target="email">
                             <span class="email-domain-suffix">@zohocorp.com</span>
                         </div>
                         <span class="validation-icon" aria-live="polite"></span>
@@ -149,7 +156,7 @@
                     <label for="phone">Phone Number</label>
                     <div class="input-wrapper">
                         <div class="toggle-switch active" data-field="phone" role="switch" aria-checked="true" aria-label="Toggle phone number" tabindex="0"></div>
-                        <input type="tel" id="phone" name="phone" placeholder="+1 (281) 330-8004" autocomplete="tel">
+                        <input type="tel" id="phone" name="phone" placeholder="+1 (281) 330-8004" autocomplete="tel" data-preview-target="phone">
                         <span class="validation-icon" aria-live="polite"></span>
                     </div>
                     <span class="help-icon" data-field="phone">?</span>
@@ -169,7 +176,8 @@
                                    name="linkedin-username"
                                    placeholder="username"
                                    class="url-username-field"
-                                   disabled>
+                                   disabled
+                                   data-preview-target="linkedin">
                         </div>
                         <span class="validation-icon" aria-live="polite"></span>
                     </div>
@@ -188,7 +196,8 @@
                                    name="twitter-username"
                                    placeholder="username"
                                    class="url-username-field"
-                                   disabled>
+                                   disabled
+                                   data-preview-target="twitter">
                         </div>
                         <span class="validation-icon" aria-live="polite"></span>
                     </div>
@@ -207,23 +216,12 @@
                                    name="bookings-id"
                                    placeholder="enter ID to show link"
                                    class="url-username-field"
-                                   disabled>
+                                   disabled
+                                   data-preview-target="bookings">
                         </div>
                         <span class="validation-icon" aria-live="polite"></span>
                     </div>
                     <span class="help-icon" data-field="bookings-id">?</span>
-                </div>
-
-                <div class="form-section-divider"></div>
-
-                <!-- Company Website (LOCKED to zoho.com) -->
-                <div class="input-group">
-                    <label for="website">Company Website</label>
-                    <div class="input-wrapper">
-                        <input type="url" id="website" name="website" value="https://www.zoho.com" readonly>
-                        <span style="position: absolute; right: 12px; font-size: 18px;">🔒</span>
-                    </div>
-                    <span class="help-icon-placeholder"></span>
                 </div>
 
                 <div class="divider"></div>
@@ -266,7 +264,7 @@
         <!-- Preview Section -->
         <section class="preview-section">
             <div class="preview-header">
-                <h2>Preview</h2>
+                <h2>Live Signature Preview</h2>
                 <div class="preview-controls">
                     <label class="theme-toggle">
                         <span class="theme-toggle-label">Preview Dark Mode</span>
@@ -378,6 +376,50 @@
             </div>
             <div class="modal-body" id="modal-body-content">
                 <!-- Content will be dynamically inserted by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Feedback Modal -->
+    <div id="feedback-modal" class="modal" role="dialog" aria-labelledby="feedbackModalTitle" aria-hidden="true">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="feedbackModalTitle">Share Your Feedback</h2>
+                <button type="button" class="modal-close" aria-label="Close modal">×</button>
+            </div>
+            <div class="modal-body">
+                <p style="margin-bottom: 20px; color: #666;">Choose your preferred way to get in touch:</p>
+
+                <!-- Cliq Option (Zoho Employees) -->
+                <div class="feedback-option">
+                    <span class="feedback-option-icon">💬</span>
+                    <div class="feedback-option-content">
+                        <h3 class="feedback-option-title">Contact on Cliq</h3>
+                        <p class="feedback-option-desc">Search for <strong>@tejas.gadhia</strong> or "Tejas Gadhia"</p>
+                        <p class="feedback-option-note">Fastest for Zoho employees</p>
+                    </div>
+                </div>
+
+                <!-- Email Option -->
+                <a href="mailto:tejas.gadhia@zohocorp.com?subject=Zoho%20Signature%20Generator%20Feedback" class="feedback-option feedback-option-link">
+                    <span class="feedback-option-icon">✉️</span>
+                    <div class="feedback-option-content">
+                        <h3 class="feedback-option-title">Send Email</h3>
+                        <p class="feedback-option-desc">tejas.gadhia@zohocorp.com</p>
+                        <p class="feedback-option-note">Opens your email client</p>
+                    </div>
+                </a>
+
+                <!-- GitHub Issues Option -->
+                <a href="https://github.com/tejasgadhia/zoho-signature-generator/issues/new" target="_blank" rel="noopener noreferrer" class="feedback-option feedback-option-link">
+                    <span class="feedback-option-icon">🐙</span>
+                    <div class="feedback-option-content">
+                        <h3 class="feedback-option-title">Report on GitHub</h3>
+                        <p class="feedback-option-desc">Public feedback benefits others</p>
+                        <p class="feedback-option-note">Requires GitHub account</p>
+                    </div>
+                </a>
             </div>
         </div>
     </div>

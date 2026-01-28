@@ -121,6 +121,45 @@ body {
     line-height: 1.5;
 }
 
+/* Feedback Button (Issue #23) */
+.feedback-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    margin-top: 12px;
+    background: #FFFFFF;
+    border: 1px solid #E0E0E0;
+    border-radius: 8px;
+    font-family: 'Verdana', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333333;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.feedback-btn:hover {
+    background: #F5F5F5;
+    border-color: #CCCCCC;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.feedback-btn:active {
+    transform: translateY(0);
+}
+
+.feedback-btn-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.feedback-btn-text {
+    text-align: left;
+}
+
 /* Quick Start */
 .quick-start {
     margin-bottom: 24px;
@@ -1495,6 +1534,23 @@ body {
     max-width: 100%;
 }
 
+/* Hover Highlighting (Issue #28) */
+/* Highlights signature preview elements when hovering over corresponding form fields */
+.preview-highlight {
+    background-color: rgba(226, 37, 39, 0.08) !important;
+    outline: 2px solid rgba(226, 37, 39, 0.3) !important;
+    outline-offset: 2px !important;
+    border-radius: 3px !important;
+    transition: all 0.15s ease-in-out !important;
+}
+
+/* Dark mode variant - slightly stronger highlight for visibility */
+.dark-mode .preview-highlight,
+.preview-container.dark-mode .preview-highlight {
+    background-color: rgba(226, 37, 39, 0.15) !important;
+    outline: 2px solid rgba(226, 37, 39, 0.5) !important;
+}
+
 /* Dark Mode Warning */
 .dark-mode-warning {
     font-size: 12px;
@@ -2194,23 +2250,68 @@ kbd::before {
    Same reason as above: focus should always be red, not green.
 */
 
-/* Desktop-Only Design (No responsive needed) */
-/* Minimum viewport: 1440x900 (13" MacBook) */
-@media (max-width: 1439px) {
-    body::before {
-        content: 'Please use a larger screen (1440px+ width) for best experience';
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        background: #F9B21D;
-        color: #333333;
-        padding: 12px;
-        text-align: center;
-        font-size: 14px;
-        font-weight: 600;
-        z-index: 10000;
-    }
+/* Responsive Design: Removed 1440px restriction (Issue #30) */
+/* Layout now works on standard laptops (1366px, 1280px) and tablets */
+/* Modals already responsive with width: 90vw, overflow-y: auto */
+
+/* Feedback Modal (Issue #23) */
+.feedback-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 16px;
+    margin-bottom: 12px;
+    background: #F9FAFB;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.feedback-option-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.feedback-option:hover,
+.feedback-option-link:hover {
+    background: #F3F4F6;
+    border-color: #D1D5DB;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.feedback-option:active {
+    transform: translateY(0);
+}
+
+.feedback-option-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.feedback-option-content {
+    flex: 1;
+}
+
+.feedback-option-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #111827;
+    margin: 0 0 4px 0;
+}
+
+.feedback-option-desc {
+    font-size: 14px;
+    color: #4B5563;
+    margin: 0 0 4px 0;
+}
+
+.feedback-option-note {
+    font-size: 12px;
+    color: #6B7280;
+    margin: 0;
+    font-style: italic;
 }
 
 /* Accessibility */

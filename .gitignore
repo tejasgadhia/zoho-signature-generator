@@ -70,3 +70,14 @@ docs/releases/
 node_modules/
 dist/
 *.local
+package-lock.json
+
+# BackstopJS (test output - reference images are committed)
+backstop_data/bitmaps_test/
+backstop_data/html_report/
+backstop_data/ci_report/
+
+# Playwright (test output)
+test-results/
+playwright-report/
+playwright/.cache/

@@ -1,0 +1,210 @@
+{
+  "id": "zoho-signature-generator",
+  "viewports": [
+    {
+      "label": "desktop",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "label": "laptop",
+      "width": 1280,
+      "height": 800
+    }
+  ],
+  "onBeforeScript": "puppet/onBefore.js",
+  "onReadyScript": "puppet/onReady.js",
+  "scenarios": [
+    {
+      "label": "01-full-page-light",
+      "url": "http://localhost:3003",
+      "delay": 500,
+      "selectors": ["document"],
+      "misMatchThreshold": 0.1
+    },
+    {
+      "label": "02-full-page-dark",
+      "url": "http://localhost:3003",
+      "onReadyScript": "puppet/setDarkMode.js",
+      "delay": 500,
+      "selectors": ["document"],
+      "misMatchThreshold": 0.1
+    },
+    {
+      "label": "03-style-classic-light",
+      "url": "http://localhost:3003",
+      "onReadyScript": "puppet/selectStyle.js",
+      "scriptParams": { "style": "classic" },
+      "delay": 500,
+      "selectors": [".preview-container"],
+      "misMatchThreshold": 0.1
+    },
+    {
+      "label": "04-style-compact-light",
+      "url": "http://localhost:3003",
+      "onReadyScript": "puppet/selectStyle.js",
+      "scriptParams": { "style": "compact" },
+      "delay": 500,
+      "selectors": [".preview-container"],
+      "misMatchThreshold": 0.1
+    },
+    {
+      "label": "05-style-modern-light",
+      "url": "http://localhost:3003",
+      "onReadyScript": "puppet/selectStyle.js",
+      "scriptParams": { "style": "modern" },
+      "delay": 500,
+      "selectors": [".preview-container"],
+      "misMatchThreshold": 0.1
+    },
+    {
+      "label": "06-style-minimal-light",
+      "url": "http://localhost:3003",
+      "onReadyScript": "puppet/selectStyle.js",
+      "scriptParams": { "style": "minimalist" },
+      "delay": 500,
+      "selectors": [".preview-container"],
+      "misMatchThreshold": 0.1
+    },
+    {
+      "label": "07-style-professional-light",
+      "url": "http://localhost:3003",
+      "onReadyScript": "puppet/selectStyle.js",
+      "scriptParams": { "style": "professional" },
+      "delay": 500,
+      "selectors": [".preview-container"],
+      "misMatchThreshold": 0.1
+    },
+    {
+      "label": "08-style-creative-light",
+      "url": "http://localhost:3003",
+      "onReadyScript": "puppet/selectStyle.js",
+      "scriptParams": { "style": "creative" },
+      "delay": 500,
+      "selectors": [".preview-container"],
+      "misMatchThreshold": 0.1
+    },
+    {
+      "label": "09-style-classic-dark",
+      "url": "http://localhost:3003",
+      "onReadyScript": "puppet/selectStyleDark.js",
+      "scriptParams": { "style": "classic" },
+      "delay": 500,
+      "selectors": [".preview-container"],
+      "misMatchThreshold": 0.1
+    },
+    {
+      "label": "10-style-compact-dark",
+      "url": "http://localhost:3003",
+      "onReadyScript": "puppet/selectStyleDark.js",
+      "scriptParams": { "style": "compact" },
+      "delay": 500,
+      "selectors": [".preview-container"],
+      "misMatchThreshold": 0.1
+    },
+    {
+      "label": "11-style-modern-dark",
+      "url": "http://localhost:3003",
+      "onReadyScript": "puppet/selectStyleDark.js",
+      "scriptParams": { "style": "modern" },
+      "delay": 500,
+      "selectors": [".preview-container"],
+      "misMatchThreshold": 0.1
+    },
+    {
+      "label": "12-style-minimal-dark",
+      "url": "http://localhost:3003",
+      "onReadyScript": "puppet/selectStyleDark.js",
+      "scriptParams": { "style": "minimalist" },
+      "delay": 500,
+      "selectors": [".preview-container"],
+      "misMatchThreshold": 0.1
+    },
+    {
+      "label": "13-style-professional-dark",
+      "url": "http://localhost:3003",
+      "onReadyScript": "puppet/selectStyleDark.js",
+      "scriptParams": { "style": "professional" },
+      "delay": 500,
+      "selectors": [".preview-container"],
+      "misMatchThreshold": 0.1
+    },
+    {
+      "label": "14-style-creative-dark",
+      "url": "http://localhost:3003",
+      "onReadyScript": "puppet/selectStyleDark.js",
+      "scriptParams": { "style": "creative" },
+      "delay": 500,
+      "selectors": [".preview-container"],
+      "misMatchThreshold": 0.1
+    },
+    {
+      "label": "15-accent-red",
+      "url": "http://localhost:3003",
+      "onReadyScript": "puppet/selectAccentColor.js",
+      "scriptParams": { "color": "#E42527" },
+      "delay": 500,
+      "selectors": [".preview-container", ".color-switcher"],
+      "misMatchThreshold": 0.1
+    },
+    {
+      "label": "16-accent-green",
+      "url": "http://localhost:3003",
+      "onReadyScript": "puppet/selectAccentColor.js",
+      "scriptParams": { "color": "#089949" },
+      "delay": 500,
+      "selectors": [".preview-container", ".color-switcher"],
+      "misMatchThreshold": 0.1
+    },
+    {
+      "label": "17-accent-blue",
+      "url": "http://localhost:3003",
+      "onReadyScript": "puppet/selectAccentColor.js",
+      "scriptParams": { "color": "#226DB4" },
+      "delay": 500,
+      "selectors": [".preview-container", ".color-switcher"],
+      "misMatchThreshold": 0.1
+    },
+    {
+      "label": "18-accent-yellow",
+      "url": "http://localhost:3003",
+      "onReadyScript": "puppet/selectAccentColor.js",
+      "scriptParams": { "color": "#F9B21D" },
+      "delay": 500,
+      "selectors": [".preview-container", ".color-switcher"],
+      "misMatchThreshold": 0.1
+    },
+    {
+      "label": "19-form-with-data",
+      "url": "http://localhost:3003",
+      "onReadyScript": "puppet/fillForm.js",
+      "delay": 500,
+      "selectors": [".form-section", ".preview-container"],
+      "misMatchThreshold": 0.1
+    },
+    {
+      "label": "20-feedback-modal",
+      "url": "http://localhost:3003",
+      "onReadyScript": "puppet/openFeedbackModal.js",
+      "delay": 500,
+      "selectors": ["#feedback-modal .modal-content"],
+      "misMatchThreshold": 0.1
+    }
+  ],
+  "paths": {
+    "bitmaps_reference": "backstop_data/bitmaps_reference",
+    "bitmaps_test": "backstop_data/bitmaps_test",
+    "engine_scripts": "backstop_data/engine_scripts",
+    "html_report": "backstop_data/html_report",
+    "ci_report": "backstop_data/ci_report"
+  },
+  "report": ["browser", "CI"],
+  "engine": "puppeteer",
+  "engineOptions": {
+    "args": ["--no-sandbox"]
+  },
+  "asyncCaptureLimit": 5,
+  "asyncCompareLimit": 50,
+  "debug": false,
+  "debugWindow": false
+}
