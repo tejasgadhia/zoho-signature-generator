@@ -7,6 +7,7 @@ import type { AppStateManager } from './state';
 import type { FormData, FieldToggles } from '../types';
 import { SignatureGenerator } from '../signature-generator/index';
 import { ANIMATION_DURATIONS, EXAMPLE_DATA } from '../constants';
+import { ModalController } from '../ui/modal';
 
 interface ToastAction {
   label: string;
@@ -174,10 +175,7 @@ export class ClipboardManager {
             {
               label: 'How to paste →',
               onClick: () => {
-                const zohoMailBtn = document.querySelector('[data-modal-target="zoho-mail-modal"]');
-                if (zohoMailBtn instanceof HTMLElement) {
-                  zohoMailBtn.click();
-                }
+                ModalController.open('zoho-mail');
               },
             },
           ],
@@ -221,10 +219,7 @@ export class ClipboardManager {
             label: 'How to paste →',
             onClick: () => {
               // Open the Zoho Mail instructions modal (most common use case)
-              const zohoMailBtn = document.querySelector('[data-modal-target="zoho-mail-modal"]');
-              if (zohoMailBtn instanceof HTMLElement) {
-                zohoMailBtn.click();
-              }
+              ModalController.open('zoho-mail');
             },
           },
         ],
