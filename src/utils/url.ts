@@ -53,7 +53,9 @@ export function sanitizeSocialUrl(input: string, domain: string): string {
     .replace(new RegExp(`^${domain}/?`, 'i'), '') // Remove domain
     .replace(/^\/+/, '')                  // Remove leading slashes
     .replace(/\/+$/, '')                  // Remove trailing slashes
-    .replace(/^@/, '');                   // Remove @ prefix
+    .replace(/^@/, '')                    // Remove @ prefix
+    .replace(/\s+/g, '')                  // Remove all spaces
+    .toLowerCase();                       // Convert to lowercase for consistency
 }
 
 /**

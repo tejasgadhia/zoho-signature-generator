@@ -11,7 +11,6 @@ import { FormHandler } from './app/form-handler';
 import { PreviewRenderer } from './app/preview-renderer';
 import { ClipboardManager } from './app/clipboard';
 import { ModalController } from './ui/modal';
-import { ThemeManager } from './ui/theme';
 import { DragDropHandler } from './ui/drag-drop';
 
 // Initialize application when DOM is ready
@@ -32,9 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize clipboard manager
   const clipboardManager = new ClipboardManager(state);
 
-  // Initialize theme manager (app-wide light/dark mode)
-  const themeManager = new ThemeManager();
-  themeManager.initialize();
+  // Note: ThemeManager removed - dark mode is ONLY for signature preview section,
+  // not for the entire app. See previewRenderer.toggleDarkMode() below.
 
   // Initialize drag-drop handler
   const dragDropHandler = new DragDropHandler(state);

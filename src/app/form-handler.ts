@@ -12,6 +12,7 @@ import {
   generateEmailPrefix,
   toSmartTitleCase,
   getTrackedWebsiteURL,
+  sanitizeSocialUrl,
   debounce
 } from '../utils';
 
@@ -19,6 +20,7 @@ export class FormHandler {
   private stateManager: AppStateManager;
   private previewRenderer: PreviewRenderer;
   private debouncedRender: () => void;
+  private userEditedEmailPrefix: boolean = false; // Track if user manually edited email prefix
 
   constructor(stateManager: AppStateManager, previewRenderer: PreviewRenderer) {
     this.stateManager = stateManager;
@@ -52,9 +54,9 @@ export class FormHandler {
         const value = (e.target as HTMLInputElement).value;
         this.handleFieldChange('name', value);
 
-        // Auto-generate email prefix from name
+        // Auto-generate email prefix from name (only if user hasn't manually edited it)
         const emailPrefixInput = document.getElementById('email-prefix') as HTMLInputElement;
-        if (emailPrefixInput && !emailPrefixInput.value) {
+        if (emailPrefixInput && !this.userEditedEmailPrefix) {
           const prefix = generateEmailPrefix(value);
           emailPrefixInput.value = prefix;
           this.handleEmailPrefixChange(prefix);
@@ -68,6 +70,7 @@ export class FormHandler {
       emailPrefixInput.addEventListener('input', (e) => {
         const value = (e.target as HTMLInputElement).value.toLowerCase();
         (e.target as HTMLInputElement).value = value;  // Force lowercase
+        this.userEditedEmailPrefix = true; // Mark as manually edited
         this.handleEmailPrefixChange(value);
       });
 
@@ -82,8 +85,8 @@ export class FormHandler {
     if (linkedinUsernameInput) {
       linkedinUsernameInput.addEventListener('input', (e) => {
         const value = (e.target as HTMLInputElement).value;
-        // Construct full URL from username (user only types username, not full URL)
-        const cleaned = value.replace(/^(https?:\/\/)?(www\.)?linkedin\.com\/in\//, '');
+        // Sanitize input (handles full URLs, spaces, tracking params)
+        const cleaned = sanitizeSocialUrl(value, 'linkedin.com');
         const fullUrl = cleaned ? `https://linkedin.com/in/${cleaned}` : '';
         this.handleFieldChange('linkedin', fullUrl);
       });
@@ -91,8 +94,8 @@ export class FormHandler {
       linkedinUsernameInput.addEventListener('blur', (e) => {
         const value = (e.target as HTMLInputElement).value;
         if (value) {
-          // Clean up any accidentally pasted full URLs
-          const cleaned = value.replace(/^(https?:\/\/)?(www\.)?linkedin\.com\/in\//, '');
+          // Clean up any accidentally pasted full URLs and update input
+          const cleaned = sanitizeSocialUrl(value, 'linkedin.com');
           (e.target as HTMLInputElement).value = cleaned;
         }
       });
@@ -103,8 +106,8 @@ export class FormHandler {
     if (twitterUsernameInput) {
       twitterUsernameInput.addEventListener('input', (e) => {
         const value = (e.target as HTMLInputElement).value;
-        // Construct full URL from username
-        const cleaned = value.replace(/^(https?:\/\/)?(www\.)?(x\.com|twitter\.com)\//, '');
+        // Sanitize input (handles full URLs, @symbol, spaces)
+        const cleaned = sanitizeSocialUrl(value, 'x.com');
         const fullUrl = cleaned ? `https://x.com/${cleaned}` : '';
         this.handleFieldChange('twitter', fullUrl);
       });
@@ -112,7 +115,8 @@ export class FormHandler {
       twitterUsernameInput.addEventListener('blur', (e) => {
         const value = (e.target as HTMLInputElement).value;
         if (value) {
-          const cleaned = value.replace(/^(https?:\/\/)?(www\.)?(x\.com|twitter\.com)\//, '');
+          // Clean up any accidentally pasted full URLs and update input
+          const cleaned = sanitizeSocialUrl(value, 'x.com');
           (e.target as HTMLInputElement).value = cleaned;
         }
       });
