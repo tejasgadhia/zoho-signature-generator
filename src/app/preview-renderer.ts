@@ -49,13 +49,25 @@ export class PreviewRenderer {
 
     const state = this.stateManager.getState();
     const formData = state.formData;
+    const fieldToggles = state.fieldToggles;
 
-    // Use example data for empty fields in preview
+    // Use example data for empty fields in preview, but ONLY if the field is enabled
     const previewData = { ...formData };
     Object.keys(previewData).forEach(key => {
       const fieldKey = key as keyof typeof previewData;
-      if (!previewData[fieldKey] && EXAMPLE_DATA[fieldKey]) {
+
+      // Check if this field has a toggle (some fields like 'name' don't)
+      const hasToggle = fieldKey in fieldToggles;
+      const isEnabled = hasToggle ? fieldToggles[fieldKey as keyof typeof fieldToggles] : true;
+
+      // Only fill example data if field is enabled AND empty
+      if (isEnabled && !previewData[fieldKey] && EXAMPLE_DATA[fieldKey]) {
         previewData[fieldKey] = EXAMPLE_DATA[fieldKey];
+      }
+
+      // Clear data for disabled fields (so they don't show in preview)
+      if (hasToggle && !isEnabled) {
+        previewData[fieldKey] = '';
       }
     });
 

@@ -302,10 +302,8 @@ export class FormHandler {
           const input = document.getElementById(inputId) as HTMLInputElement;
           if (input) {
             input.disabled = !enabled;
-            if (!enabled) {
-              input.value = '';
-              this.handleFieldChange(field as keyof FormData, '');
-            }
+            // Don't clear value when disabling - preserve it for re-enabling
+            // The preview renderer will handle hiding disabled fields
           }
 
           this.previewRenderer.render();
