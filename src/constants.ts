@@ -72,7 +72,7 @@ export const EXAMPLE_DATA: FormData = {
   phone: '+1 (281) 330-8004',
   linkedin: 'https://linkedin.com/in/jasminefrank',
   twitter: 'https://x.com/jasminefrank',
-  bookings: '',
+  bookings: 'https://bookings.zohocorp.com/#/jasminefrank',
   website: 'https://www.zoho.com',
 };
 
