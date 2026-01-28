@@ -101,15 +101,6 @@ export interface SignatureConfig {
 }
 
 /**
- * Format lock state for smart title case
- */
-export interface FormatLockState {
-  name: boolean;
-  title: boolean;
-  department: boolean;
-}
-
-/**
  * Social media channel data
  */
 export interface SocialChannelData {

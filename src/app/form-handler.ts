@@ -21,6 +21,7 @@ export class FormHandler {
   private previewRenderer: PreviewRenderer;
   private debouncedRender: () => void;
   private userEditedEmailPrefix: boolean = false; // Track if user manually edited email prefix
+  private formatLockAbortController: AbortController | null = null; // Track format lock listeners for cleanup
 
   constructor(stateManager: AppStateManager, previewRenderer: PreviewRenderer) {
     this.stateManager = stateManager;
@@ -217,7 +218,7 @@ export class FormHandler {
     if (iconContent) {
       validationIcon.textContent = iconContent;
       validationIcon.className = isValid ? 'validation-icon valid' : 'validation-icon invalid';
-      validationIcon.style.display = '';
+      validationIcon.style.display = 'flex';
       validationIcon.setAttribute('aria-label', message || 'Valid');
     } else {
       validationIcon.style.display = 'none';
@@ -338,6 +339,13 @@ export class FormHandler {
    * Setup format lock icons (title case auto-formatting)
    */
   private setupFormatLockIcons(): void {
+    // Abort any existing listeners before adding new ones (prevents leak on re-init)
+    if (this.formatLockAbortController) {
+      this.formatLockAbortController.abort();
+    }
+    this.formatLockAbortController = new AbortController();
+    const { signal } = this.formatLockAbortController;
+
     document.querySelectorAll('.format-lock-icon').forEach(icon => {
       const fieldId = (icon as HTMLElement).dataset.field as 'name' | 'title' | 'department';
 
@@ -350,7 +358,7 @@ export class FormHandler {
         icon.setAttribute('title', 'Title Case ON - formats as you type');
       }
 
-      // Toggle on click
+      // Toggle on click (with AbortController for cleanup)
       icon.addEventListener('click', () => {
         this.stateManager.toggleFormatLock(fieldId);
         const newState = this.stateManager.getFormatLock(fieldId);
@@ -360,7 +368,7 @@ export class FormHandler {
           ? 'Title Case ON - formats as you type'
           : 'Title Case OFF - click to enable auto-capitalization'
         );
-      });
+      }, { signal });
     });
   }
 

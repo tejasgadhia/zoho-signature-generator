@@ -15,7 +15,9 @@ import { DragDropHandler } from './ui/drag-drop';
 
 // Initialize application when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('Zoho Signature Generator - Initializing Phase 7 modules...');
+  if (import.meta.env.DEV) {
+    console.log('Zoho Signature Generator - Initializing...');
+  }
 
   // Initialize state manager
   const state = new AppStateManager();
@@ -113,7 +115,6 @@ document.addEventListener('DOMContentLoaded', () => {
     (window as any).AppState = state;
     (window as any).PreviewRenderer = previewRenderer;
     (window as any).ClipboardManager = clipboardManager;
+    console.log('Initialization complete');
   }
-
-  console.log('Phase 7: App State & UI Controllers - Initialization complete!');
 });

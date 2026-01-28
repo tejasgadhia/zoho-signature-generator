@@ -17,13 +17,13 @@ export function buildTier1Links(
 
   if (data.phone) {
     tier1Links.push(
-      `<a href="tel:${sanitizePhone(data.phone)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">${escapeHtml(data.phone)}</a>`
+      `<a href="tel:${sanitizePhone(data.phone)}" rel="noopener noreferrer" class="sig-link" style="color: ${accentColor}; text-decoration: none;">${escapeHtml(data.phone)}</a>`
     );
   }
 
   if (data.email) {
     tier1Links.push(
-      `<a href="mailto:${escapeHtml(data.email)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">${escapeHtml(data.email)}</a>`
+      `<a href="mailto:${escapeHtml(data.email)}" rel="noopener noreferrer" class="sig-link" style="color: ${accentColor}; text-decoration: none;">${escapeHtml(data.email)}</a>`
     );
   }
 
@@ -45,20 +45,20 @@ export function buildTier2Links(
     const linkedinPath = sanitizeSocialUrl(data.linkedin, 'linkedin.com');
     const linkedinUrl = `https://www.linkedin.com/${linkedinPath}`;
     tier2Links.push(
-      `<a href="${linkedinUrl}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">LinkedIn</a>`
+      `<a href="${linkedinUrl}" rel="noopener noreferrer" class="sig-link" style="color: ${accentColor}; text-decoration: none;">LinkedIn</a>`
     );
   }
 
   if (data.twitter) {
     const xHandle = sanitizeSocialUrl(data.twitter, 'x.com').replace('@', '');
     tier2Links.push(
-      `<a href="https://x.com/${xHandle}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">X</a>`
+      `<a href="https://x.com/${xHandle}" rel="noopener noreferrer" class="sig-link" style="color: ${accentColor}; text-decoration: none;">X</a>`
     );
   }
 
   if (data.bookings) {
     tier2Links.push(
-      `<a href="${escapeHtml(data.bookings)}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">Book a Meeting</a>`
+      `<a href="${escapeHtml(data.bookings)}" rel="noopener noreferrer" class="sig-link" style="color: ${accentColor}; text-decoration: none;">Book a Meeting</a>`
     );
   }
 

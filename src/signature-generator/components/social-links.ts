@@ -33,11 +33,11 @@ export function generateSocialLinks(
       const social = socialData[channel];
       if (displayType === 'icons') {
         links.push(
-          `<a href="${social.url}" class="sig-link" style="color: ${accentColor}; text-decoration: none; font-size: 14px; margin-right: 8px;" title="${social.text}">${social.icon}</a>`
+          `<a href="${social.url}" rel="noopener noreferrer" class="sig-link" style="color: ${accentColor}; text-decoration: none; font-size: 14px; margin-right: 8px;" title="${social.text}">${social.icon}</a>`
         );
       } else {
         links.push(
-          `<a href="${social.url}" class="sig-link" style="color: ${accentColor}; text-decoration: none;">${social.text}</a>`
+          `<a href="${social.url}" rel="noopener noreferrer" class="sig-link" style="color: ${accentColor}; text-decoration: none;">${social.text}</a>`
         );
       }
     }

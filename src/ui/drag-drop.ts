@@ -162,6 +162,9 @@ export class DragDropHandler {
     socialCards.forEach((card) => {
       const htmlCard = card as HTMLElement;
 
+      // Set initial aria-checked based on active class
+      htmlCard.setAttribute('aria-checked', String(htmlCard.classList.contains('active')));
+
       htmlCard.addEventListener('click', () => {
         // Prevent toggle during drag
         if (this.draggedElement) return;

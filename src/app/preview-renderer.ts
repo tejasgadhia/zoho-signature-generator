@@ -60,7 +60,12 @@ export class PreviewRenderer {
       }
     } catch (error) {
       console.error('Failed to render preview:', error);
-      this.previewContainer.innerHTML = '<p style="color: red;">Failed to generate preview</p>';
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      this.previewContainer.innerHTML = `
+        <p style="color: #666; font-size: 14px; padding: 20px; text-align: center;">
+          Unable to generate preview. ${errorMessage.includes('style') ? 'Please select a valid signature style.' : 'Please check your input fields.'}
+        </p>
+      `;
     }
   }
 
