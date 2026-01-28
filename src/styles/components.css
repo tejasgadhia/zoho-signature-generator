@@ -176,6 +176,77 @@
     margin-right: 8px;
 }
 
+/* Mini split buttons row (Gmail, Apple Mail, Outlook) */
+.import-btn-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.import-btn-mini-split {
+    flex: 1;
+    height: 40px;
+    padding: 0;
+    overflow: hidden;
+    background: #F5F5F5;
+    border: 1px solid #E0E0E0;
+    border-radius: var(--radius-md);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.import-btn-mini-split .import-btn-logo-wrapper {
+    background: #FFFFFF;
+    padding: 0 8px;
+    border-right: 1px solid #E0E0E0;
+}
+
+.import-btn-mini-split .import-btn-logo {
+    height: 20px;
+}
+
+.import-btn-mini-split .import-btn-text {
+    flex: 1;
+    color: #4B5563;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 0 10px;
+    justify-content: center;
+}
+
+.import-btn-mini-split:hover {
+    background: #EBEBEB;
+    border-color: #CCCCCC;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+}
+
+.import-btn-mini-split:focus-visible {
+    outline: 2px solid #1976D2;
+    outline-offset: 2px;
+}
+
+/* Dark mode mini split buttons */
+[data-theme="dark"] .import-btn-mini-split {
+    background: #374151;
+    border-color: #4B5563;
+}
+
+[data-theme="dark"] .import-btn-mini-split .import-btn-logo-wrapper {
+    background: #1F2937;
+    border-right-color: #4B5563;
+}
+
+[data-theme="dark"] .import-btn-mini-split .import-btn-text {
+    color: #D1D5DB;
+}
+
+[data-theme="dark"] .import-btn-mini-split:hover {
+    background: #4B5563;
+    border-color: #6B7280;
+}
+
 /* Modal */
 .modal {
     position: fixed;
