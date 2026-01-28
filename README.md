@@ -2,7 +2,7 @@
 
 **Professional email signatures for Zoho employees**
 
-![Version](https://img.shields.io/badge/version-2.0.0-blue.svg) ![License](https://img.shields.io/badge/license-O'Saasy-green.svg)
+![Version](https://img.shields.io/badge/version-3.0.0-blue.svg) ![License](https://img.shields.io/badge/license-O'Saasy-green.svg)
 
 **Live Demo**: https://tejasgadhia.github.io/zoho-signature-generator/
 

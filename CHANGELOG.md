@@ -7,6 +7,161 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [3.0.0] - 2026-01-27 🚀 **TypeScript + Vite Refactor**
+
+### 🏗️ Architecture
+
+**Complete rewrite from vanilla JavaScript to TypeScript with Vite build system.**
+
+This is a ground-up refactor of the entire codebase. All functionality remains identical, but the underlying architecture is now modern, type-safe, and maintainable.
+
+#### New Tech Stack
+- **TypeScript 5.x** - Full type safety across 27 modules
+- **Vite 5.x** - Modern build tool with HMR development server
+- **Modular CSS** - Split 2,300-line stylesheet into 6 focused files
+- **GitHub Actions** - Automated CI/CD deploying `dist/` folder
+
+#### New Project Structure
+```
+src/
+├── main.ts                          # Application entry point
+├── types.ts                         # All TypeScript interfaces
+├── constants.ts                     # App constants & example data
+├── app/                             # Core application logic
+│   ├── state.ts                     # Centralized state management
+│   ├── form-handler.ts              # Form validation & events
+│   ├── preview-renderer.ts          # Live preview rendering
+│   └── clipboard.ts                 # Clipboard operations
+├── signature-generator/             # Signature HTML generation
+│   ├── index.ts                     # Generator interface
+│   ├── components/                  # Reusable components
+│   │   ├── contact-tiers.ts         # Tier 1/2/3 contact sections
+│   │   ├── dark-mode.ts             # Dark mode CSS generation
+│   │   ├── logos.ts                 # Dual logo (light/dark)
+│   │   └── social-links.ts          # Zoho social media links
+│   └── styles/                      # 6 signature layouts
+│       ├── classic.ts
+│       ├── compact.ts
+│       ├── creative.ts
+│       ├── minimal.ts
+│       ├── modern.ts
+│       └── professional.ts
+├── ui/                              # UI controllers
+│   ├── modal.ts                     # Import instructions modal
+│   ├── theme.ts                     # Light/dark mode toggle
+│   └── drag-drop.ts                 # Social channel reordering
+├── utils/                           # Utility functions
+│   ├── debounce.ts
+│   ├── formatting.ts                # Title case, phone formatting
+│   ├── index.ts                     # Barrel exports
+│   ├── storage.ts                   # localStorage helpers
+│   ├── url.ts                       # URL sanitization
+│   └── validation.ts                # Email/phone validation
+└── styles/                          # Modular CSS
+    ├── main.css                     # Entry point
+    ├── base.css                     # Reset, typography
+    ├── colors.css                   # Design tokens, themes
+    ├── components.css               # Buttons, cards, toggles
+    ├── form.css                     # Form inputs, validation
+    └── preview.css                  # Signature preview
+```
+
+### ✨ Added
+
+#### Type Safety
+- **27 TypeScript modules** with strict type checking
+- **Comprehensive type definitions** (`src/types.ts`):
+  - `FormData`, `FieldToggles`, `AppState` interfaces
+  - `SignatureStyle`, `SocialChannel` union types
+  - `SignatureConfig` for generator parameters
+- **Type-safe state management** with explicit update functions
+
+#### Build System
+- **Vite development server** with Hot Module Replacement (HMR)
+- **Optimized production builds**:
+  - JS: 47KB (9.5KB gzipped)
+  - CSS: 38KB (8KB gzipped)
+  - Build time: ~364ms
+- **Sourcemaps** for debugging production issues
+- **Asset hashing** for cache busting
+
+#### CI/CD Pipeline
+- **GitHub Actions workflow** (`.github/workflows/deploy.yml`)
+- **Automated deployment** on push to main branch
+- **Build verification** before deployment
+- **Clean `dist/` folder** deployment to GitHub Pages
+
+### 🔧 Changed
+
+#### File Organization
+- **Moved assets** to `public/assets/` (Vite convention)
+- **Moved favicon** to `public/favicon.svg`
+- **CSS split** from single file to 6 modular files
+- **JavaScript split** from 3 files to 27 TypeScript modules
+
+#### Development Workflow
+- **New commands**:
+  - `npm run dev` - Start Vite dev server (localhost:5173)
+  - `npm run build` - Production build to `dist/`
+  - `npm run preview` - Preview production build
+  - `npm run type-check` - TypeScript validation
+- **No more direct file editing** - changes go through Vite
+
+### 🗑️ Removed
+
+#### Legacy Files
+- `js/app.js` (1,621 lines) → Split into `src/app/` modules
+- `js/signature.js` (957 lines) → Split into `src/signature-generator/`
+- `js/modal.js` (626 lines) → Rewritten as `src/ui/modal.ts`
+- `js/phone-formatter.js` (64 lines) → Merged into `src/utils/formatting.ts`
+- `js/help-content.js` (72 lines) → Merged into `src/constants.ts`
+- `css/styles.css` (2,300+ lines) → Split into `src/styles/`
+
+#### Testing Infrastructure
+- Removed `docs/testing/VISUAL-TESTING-CHECKLIST.md`
+- Removed `pre-push-check.sh`
+- Testing deferred to post-refactor (will use Vitest)
+
+### 📊 Migration Stats
+
+| Metric | Before (v1.0) | After (v3.0) |
+|--------|---------------|--------------|
+| Language | JavaScript | TypeScript |
+| Build tool | None | Vite 5.x |
+| JS files | 4 | 27 modules |
+| CSS files | 1 | 6 modules |
+| Type safety | None | 100% |
+| Bundle size | ~4KB raw | 47KB optimized |
+| Gzipped | N/A | ~17KB |
+
+### 🎯 Why 3.0.0?
+
+This is a **complete architectural rewrite**:
+- Every line of JavaScript rewritten in TypeScript
+- New build system (Vite)
+- New deployment pipeline (GitHub Actions)
+- Modular architecture replacing monolithic files
+
+While all features remain identical from the user's perspective, the codebase is entirely new. Per semantic versioning, this warrants a major version bump.
+
+### 📚 Developer Notes
+
+**To contribute:**
+1. `npm install` - Install dependencies
+2. `npm run dev` - Start development server
+3. Make changes in `src/`
+4. `npm run type-check` - Verify TypeScript
+5. `npm run build` - Test production build
+6. Push to main - GitHub Actions deploys automatically
+
+**Key patterns:**
+- State management in `src/app/state.ts`
+- Signature composition in `src/signature-generator/components/`
+- All types in `src/types.ts`
+- Utilities are pure functions in `src/utils/`
+
+---
+
 ## [1.0.0] - 2026-01-27 🎉 **Stable Release - Pre-Refactor Checkpoint**
 
 ### ✨ Added

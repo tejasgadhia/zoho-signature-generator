@@ -1,6 +1,6 @@
 {
   "name": "zoho-signature-generator",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "type": "module",
   "description": "Professional email signatures for Zoho employees",
   "scripts": {
