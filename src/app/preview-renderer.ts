@@ -52,6 +52,9 @@ export class PreviewRenderer {
     const fieldToggles = state.fieldToggles;
 
     // Use example data for empty fields in preview, but ONLY if the field is enabled
+    // EXCEPTION: URL fields (linkedin, twitter, bookings) should NOT show example data
+    // because showing fake usernames in preview URLs is confusing
+    const urlFields = ['linkedin', 'twitter', 'bookings'];
     const previewData = { ...formData };
     Object.keys(previewData).forEach(key => {
       const fieldKey = key as keyof typeof previewData;
@@ -60,8 +63,9 @@ export class PreviewRenderer {
       const hasToggle = fieldKey in fieldToggles;
       const isEnabled = hasToggle ? fieldToggles[fieldKey as keyof typeof fieldToggles] : true;
 
-      // Only fill example data if field is enabled AND empty
-      if (isEnabled && !previewData[fieldKey] && EXAMPLE_DATA[fieldKey]) {
+      // Only fill example data if field is enabled AND empty AND not a URL field
+      const isUrlField = urlFields.includes(fieldKey);
+      if (isEnabled && !previewData[fieldKey] && EXAMPLE_DATA[fieldKey] && !isUrlField) {
         previewData[fieldKey] = EXAMPLE_DATA[fieldKey];
       }
 

@@ -105,36 +105,50 @@ export function extractBookingsSlug(input: string): string {
   if (!input) return '';
 
   const trimmed = input.trim();
+  let slug = '';
 
   // Pattern 1: bookings.zohocorp.com/#/slug
   const hashPattern = /bookings\.zohocorp\.com\/#\/([^\/\?#]+)/i;
   const hashMatch = trimmed.match(hashPattern);
   if (hashMatch) {
-    return hashMatch[1];
+    slug = hashMatch[1];
   }
 
   // Pattern 2: zoho.com/bookings/slug
-  const pathPattern = /zoho\.com\/bookings\/([^\/\?#]+)/i;
-  const pathMatch = trimmed.match(pathPattern);
-  if (pathMatch) {
-    return pathMatch[1];
+  if (!slug) {
+    const pathPattern = /zoho\.com\/bookings\/([^\/\?#]+)/i;
+    const pathMatch = trimmed.match(pathPattern);
+    if (pathMatch) {
+      slug = pathMatch[1];
+    }
   }
 
   // Pattern 3: Just the URL without protocol
-  const noProtocolHashPattern = /^bookings\.zohocorp\.com\/#\/([^\/\?#]+)/i;
-  const noProtocolMatch = trimmed.match(noProtocolHashPattern);
-  if (noProtocolMatch) {
-    return noProtocolMatch[1];
+  if (!slug) {
+    const noProtocolHashPattern = /^bookings\.zohocorp\.com\/#\/([^\/\?#]+)/i;
+    const noProtocolMatch = trimmed.match(noProtocolHashPattern);
+    if (noProtocolMatch) {
+      slug = noProtocolMatch[1];
+    }
   }
 
-  // Not a URL - return as-is (likely just the slug)
-  // Remove any URL artifacts that might remain
-  return trimmed
-    .replace(/^https?:\/\//i, '')
-    .replace(/^www\./i, '')
-    .replace(/^bookings\.zohocorp\.com\/?#?\/?/i, '')
-    .replace(/^zoho\.com\/bookings\/?/i, '')
-    .replace(/[\/\?#].*/g, '')  // Remove anything after slug
+  // Not a URL - clean up raw input
+  if (!slug) {
+    slug = trimmed
+      .replace(/^https?:\/\//i, '')
+      .replace(/^www\./i, '')
+      .replace(/^bookings\.zohocorp\.com\/?#?\/?/i, '')
+      .replace(/^zoho\.com\/bookings\/?/i, '')
+      .replace(/[\/\?#].*/g, '');  // Remove anything after slug
+  }
+
+  // Sanitize the slug: lowercase, remove spaces, only allow letters/numbers/hyphens
+  return slug
+    .toLowerCase()
+    .replace(/\s+/g, '-')           // Convert spaces to hyphens
+    .replace(/[^a-z0-9-]/g, '')     // Remove invalid characters
+    .replace(/-+/g, '-')            // Collapse multiple hyphens
+    .replace(/^-|-$/g, '')          // Remove leading/trailing hyphens
     .trim();
 }
 
