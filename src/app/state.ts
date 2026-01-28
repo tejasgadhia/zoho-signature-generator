@@ -180,8 +180,16 @@ export class AppStateManager {
     if (savedOrder) {
       try {
         const channels = JSON.parse(savedOrder);
-        if (Array.isArray(channels)) {
+        // Validate: must be array, max 4 items, only valid channel names
+        const validChannels = ['linkedin', 'twitter', 'instagram', 'facebook'];
+        if (
+          Array.isArray(channels) &&
+          channels.length <= 4 &&
+          channels.every((ch: unknown) => typeof ch === 'string' && validChannels.includes(ch))
+        ) {
           this.state.socialOptions.channels = channels;
+        } else {
+          console.warn('Invalid social order format in localStorage, using defaults');
         }
       } catch (e) {
         console.warn('Failed to parse saved social order:', e);

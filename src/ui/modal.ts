@@ -16,6 +16,7 @@ export class ModalController {
   private static closeButton: HTMLElement | null = null;
   private static backdrop: HTMLElement | null = null;
   private static handleTabKey: ((e: KeyboardEvent) => void) | null = null;
+  private static handleEscapeKey: ((e: KeyboardEvent) => void) | null = null;
 
   /**
    * Initialize modal controller
@@ -58,12 +59,7 @@ export class ModalController {
       });
     }
 
-    // Escape key to close
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && this.isOpen()) {
-        this.close();
-      }
-    });
+    // Note: Escape key listener is added/removed in open()/close() to prevent memory leaks
 
     // Prevent modal content clicks from closing
     const modalContent = this.modal.querySelector('.modal-content');
@@ -88,6 +84,14 @@ export class ModalController {
 
     this.modal.classList.add('active');
     this.modal.setAttribute('aria-hidden', 'false');
+
+    // Add Escape key listener
+    this.handleEscapeKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        this.close();
+      }
+    };
+    document.addEventListener('keydown', this.handleEscapeKey);
 
     // Trap focus inside modal
     this.trapFocus();
@@ -505,6 +509,12 @@ export class ModalController {
 
     // Restore body scroll
     document.body.style.overflow = '';
+
+    // Clean up Escape key listener
+    if (this.handleEscapeKey) {
+      document.removeEventListener('keydown', this.handleEscapeKey);
+      this.handleEscapeKey = null;
+    }
 
     // Clean up focus trap event listener
     if (this.handleTabKey) {

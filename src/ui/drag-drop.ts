@@ -5,6 +5,13 @@
 
 import type { AppStateManager } from '../app/state';
 import type { PreviewRenderer } from '../app/preview-renderer';
+import type { SocialChannel } from '../types';
+
+const VALID_CHANNELS: SocialChannel[] = ['linkedin', 'twitter', 'instagram', 'facebook'];
+
+function isValidChannel(channel: string): channel is SocialChannel {
+  return VALID_CHANNELS.includes(channel as SocialChannel);
+}
 
 export class DragDropHandler {
   private stateManager: AppStateManager;
@@ -134,12 +141,12 @@ export class DragDropHandler {
    */
   private saveOrder(): void {
     const cards = document.querySelectorAll('.social-compact-card.active');
-    const order = Array.from(cards).map((card) => {
-      return (card as HTMLElement).dataset.channel || '';
-    }).filter(Boolean);
+    const order = Array.from(cards)
+      .map((card) => (card as HTMLElement).dataset.channel || '')
+      .filter((ch): ch is SocialChannel => isValidChannel(ch));
 
-    // Update state
-    this.stateManager.setSocialOptions({ channels: order as any });
+    // Update state with validated channels
+    this.stateManager.setSocialOptions({ channels: order });
     this.stateManager.saveSocialOrder();
 
     // Re-render preview
@@ -174,12 +181,12 @@ export class DragDropHandler {
    */
   private updateActiveChannels(): void {
     const activeCards = document.querySelectorAll('.social-compact-card.active');
-    const activeChannels = Array.from(activeCards).map((card) => {
-      return (card as HTMLElement).dataset.channel || '';
-    }).filter(Boolean);
+    const activeChannels = Array.from(activeCards)
+      .map((card) => (card as HTMLElement).dataset.channel || '')
+      .filter((ch): ch is SocialChannel => isValidChannel(ch));
 
-    // Update state with active channels
-    this.stateManager.setSocialOptions({ channels: activeChannels as any });
+    // Update state with validated active channels
+    this.stateManager.setSocialOptions({ channels: activeChannels });
 
     // Re-render preview
     this.previewRenderer.render();

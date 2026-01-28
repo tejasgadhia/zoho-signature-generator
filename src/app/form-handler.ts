@@ -413,7 +413,7 @@ export class FormHandler {
         const prefix = emailPrefixInput.value.trim();
         const trackedUrl = getTrackedWebsiteURL(prefix);
         this.stateManager.updateFormData('website', trackedUrl);
-        this.previewRenderer.render();
+        this.debouncedRender();
       });
     }
 

@@ -109,9 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Expose state for debugging (development only)
-  // Note: import.meta.env.DEV is available at runtime via Vite
-  const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-  if (isDevelopment) {
+  if (import.meta.env.DEV) {
     (window as any).AppState = state;
     (window as any).PreviewRenderer = previewRenderer;
     (window as any).ClipboardManager = clipboardManager;

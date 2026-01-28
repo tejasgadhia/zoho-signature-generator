@@ -86,14 +86,16 @@ export function cleanLinkedInUrl(url: string): string {
  * @returns Tracked URL with UTM parameters
  */
 export function getTrackedWebsiteURL(emailPrefix: string): string {
-  const cleanPrefix = emailPrefix.trim() || 'zoho-employee';
+  // Sanitize campaign name: only allow alphanumeric, dots, hyphens, underscores
+  // This prevents URL injection attacks
+  const sanitized = emailPrefix.trim().replace(/[^a-zA-Z0-9.\-_]/g, '') || 'zoho-employee';
   const baseURL = 'https://www.zoho.com';
 
   // Build UTM parameters
   const params = new URLSearchParams({
     utm_source: 'email-signature',
     utm_medium: 'signature',
-    utm_campaign: cleanPrefix
+    utm_campaign: sanitized
   });
 
   return `${baseURL}?${params.toString()}`;
