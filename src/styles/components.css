@@ -176,75 +176,49 @@
     margin-right: 8px;
 }
 
-/* Mini split buttons row (Gmail, Apple Mail, Outlook) */
+/* Text-only buttons row (Gmail, Apple Mail, Outlook) */
 .import-btn-row {
     display: flex;
     gap: 8px;
     margin-bottom: 8px;
 }
 
-.import-btn-mini-split {
+.import-btn-text-only {
     flex: 1;
-    height: 40px;
-    padding: 0;
-    overflow: hidden;
-    background: #F5F5F5;
-    border: 1px solid #E0E0E0;
-    border-radius: var(--radius-md);
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-    cursor: pointer;
-    transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.import-btn-mini-split .import-btn-logo-wrapper {
+    height: 36px;
+    padding: 0 12px;
     background: #FFFFFF;
-    padding: 0 8px;
-    border-right: 1px solid #E0E0E0;
-}
-
-.import-btn-mini-split .import-btn-logo {
-    height: 20px;
-}
-
-.import-btn-mini-split .import-btn-text {
-    flex: 1;
+    border: 1px solid #D1D5DB;
+    border-radius: var(--radius-md);
     color: #4B5563;
     font-size: 13px;
     font-weight: 500;
-    padding: 0 10px;
-    justify-content: center;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 
-.import-btn-mini-split:hover {
-    background: #EBEBEB;
-    border-color: #CCCCCC;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+.import-btn-text-only:hover {
+    background: #F3F4F6;
+    border-color: #9CA3AF;
+    color: #1F2937;
 }
 
-.import-btn-mini-split:focus-visible {
+.import-btn-text-only:focus-visible {
     outline: 2px solid #1976D2;
     outline-offset: 2px;
 }
 
-/* Dark mode mini split buttons */
-[data-theme="dark"] .import-btn-mini-split {
+/* Dark mode text-only buttons */
+[data-theme="dark"] .import-btn-text-only {
     background: #374151;
     border-color: #4B5563;
-}
-
-[data-theme="dark"] .import-btn-mini-split .import-btn-logo-wrapper {
-    background: #1F2937;
-    border-right-color: #4B5563;
-}
-
-[data-theme="dark"] .import-btn-mini-split .import-btn-text {
     color: #D1D5DB;
 }
 
-[data-theme="dark"] .import-btn-mini-split:hover {
+[data-theme="dark"] .import-btn-text-only:hover {
     background: #4B5563;
     border-color: #6B7280;
+    color: #F3F4F6;
 }
 
 /* Modal */
