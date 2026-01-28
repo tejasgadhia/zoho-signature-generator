@@ -155,6 +155,25 @@
 
                 <div class="form-section-divider"></div>
 
+                <!-- Zoho Bookings Link (Optional with toggle) -->
+                <div class="input-group">
+                    <label for="bookings-id">Zoho Bookings Link</label>
+                    <div class="input-wrapper">
+                        <div class="toggle-switch" data-field="bookings" role="switch" aria-checked="false" aria-label="Toggle Zoho Bookings link" tabindex="0"></div>
+                        <div class="url-prefix-input bookings-disabled">
+                            <span class="url-prefix">bookings.zohocorp.com/#/</span>
+                            <input type="text"
+                                   id="bookings-id"
+                                   name="bookings-id"
+                                   placeholder="calendar-id"
+                                   class="url-username-field"
+                                   disabled
+                                   data-preview-target="bookings">
+                        </div>
+                        <span class="validation-icon" aria-live="polite"></span>
+                    </div>
+                </div>
+
                 <!-- LinkedIn Profile (Optional with toggle) -->
                 <div class="input-group">
                     <label for="linkedin-username">LinkedIn Profile</label>
@@ -188,25 +207,6 @@
                                    class="url-username-field"
                                    disabled
                                    data-preview-target="twitter">
-                        </div>
-                        <span class="validation-icon" aria-live="polite"></span>
-                    </div>
-                </div>
-
-                <!-- Zoho Bookings Link (Optional with toggle) -->
-                <div class="input-group">
-                    <label for="bookings-id">Zoho Bookings Link</label>
-                    <div class="input-wrapper">
-                        <div class="toggle-switch" data-field="bookings" role="switch" aria-checked="false" aria-label="Toggle Zoho Bookings link" tabindex="0"></div>
-                        <div class="url-prefix-input bookings-disabled">
-                            <span class="url-prefix">bookings.zohocorp.com/#/</span>
-                            <input type="text"
-                                   id="bookings-id"
-                                   name="bookings-id"
-                                   placeholder="calendar-id"
-                                   class="url-username-field"
-                                   disabled
-                                   data-preview-target="bookings">
                         </div>
                         <span class="validation-icon" aria-live="polite"></span>
                     </div>
