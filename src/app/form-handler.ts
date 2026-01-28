@@ -7,14 +7,14 @@ import type { AppStateManager } from './state';
 import type { PreviewRenderer } from './preview-renderer';
 import type { FormData } from '../types';
 import {
-  isValidEmail,
-  isValidPhone,
   generateEmailPrefix,
   toSmartTitleCase,
   getTrackedWebsiteURL,
   sanitizeSocialUrl,
-  debounce
+  debounce,
+  inputValidator
 } from '../utils';
+import { eventBus } from '../events';
 
 export class FormHandler {
   private stateManager: AppStateManager;
@@ -165,11 +165,13 @@ export class FormHandler {
    */
   private handleFieldChange(field: keyof FormData, value: string): void {
     this.stateManager.updateFormData(field, value);
+    eventBus.emit('form:changed', { field, value });
     this.debouncedRender();
   }
 
   /**
    * Validate a field and show/hide error messages
+   * Uses centralized InputValidator for consistent validation
    */
   private validateField(field: keyof FormData, value: string): boolean {
     // Map field names to actual input IDs (handles special cases like email-prefix)
@@ -188,43 +190,30 @@ export class FormHandler {
 
     if (!validationIcon) return true;
 
-    let isValid = true;
-    let message = '';
+    // Use centralized validator
+    const result = inputValidator.validate(field, value);
     let iconContent = '';
 
-    switch (field) {
-      case 'email':
-        if (value && !isValidEmail(value)) {
-          isValid = false;
-          message = '✗ Must use @zohocorp.com domain. Example: john.doe@zohocorp.com';
-          iconContent = '✗';
-        } else if (value) {
-          iconContent = '✓';
-        }
-        break;
-
-      case 'phone':
-        if (value && !isValidPhone(value)) {
-          isValid = false;
-          message = '✗ Must contain at least 10 digits. Example: +1 (281) 330-8004';
-          iconContent = '✗';
-        } else if (value) {
-          iconContent = '✓';
-        }
-        break;
+    // Only show validation for fields that have visual feedback (email, phone)
+    if (field === 'email' || field === 'phone') {
+      if (value && !result.isValid) {
+        iconContent = '✗';
+      } else if (value) {
+        iconContent = '✓';
+      }
     }
 
     // Update validation icon
     if (iconContent) {
       validationIcon.textContent = iconContent;
-      validationIcon.className = isValid ? 'validation-icon valid' : 'validation-icon invalid';
+      validationIcon.className = result.isValid ? 'validation-icon valid' : 'validation-icon invalid';
       validationIcon.style.display = 'flex';
-      validationIcon.setAttribute('aria-label', message || 'Valid');
+      validationIcon.setAttribute('aria-label', result.message ? `✗ ${result.message}` : 'Valid');
     } else {
       validationIcon.style.display = 'none';
     }
 
-    return isValid;
+    return result.isValid;
   }
 
   /**
@@ -293,6 +282,7 @@ export class FormHandler {
         if (target.checked) {
           const style = target.value as any;
           this.stateManager.setSignatureStyle(style);
+          eventBus.emit('style:changed', { style });
           // Use immediate render for style changes (not debounced)
           this.previewRenderer.render();
         }
@@ -330,6 +320,7 @@ export class FormHandler {
 
         // Update state and preview
         this.stateManager.setAccentColor(color);
+        eventBus.emit('color:changed', { color });
         this.previewRenderer.render();
       });
     });

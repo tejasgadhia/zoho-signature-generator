@@ -1,19 +1,41 @@
 /**
  * Preview Renderer
  * Manages the live signature preview display
+ * Subscribes to event bus for decoupled render triggers
  */
 
 import type { AppStateManager } from './state';
 import { SignatureGenerator } from '../signature-generator/index';
 import { EXAMPLE_DATA } from '../constants';
+import { eventBus } from '../events';
+import { debounce } from '../utils';
 
 export class PreviewRenderer {
   private stateManager: AppStateManager;
   private previewContainer: HTMLElement | null;
+  private debouncedRender: () => void;
 
   constructor(stateManager: AppStateManager) {
     this.stateManager = stateManager;
     this.previewContainer = document.getElementById('signaturePreview');
+    this.debouncedRender = debounce(() => this.render(), 300);
+
+    // Subscribe to event bus for decoupled render triggers
+    this.setupEventSubscriptions();
+  }
+
+  /**
+   * Setup event bus subscriptions
+   */
+  private setupEventSubscriptions(): void {
+    // Listen for explicit render requests
+    eventBus.on('preview:render', (payload) => {
+      if (payload.immediate) {
+        this.render();
+      } else {
+        this.debouncedRender();
+      }
+    });
   }
 
   /**
@@ -66,7 +88,11 @@ export class PreviewRenderer {
           Unable to generate preview. ${errorMessage.includes('style') ? 'Please select a valid signature style.' : 'Please check your input fields.'}
         </p>
       `;
+      eventBus.emit('preview:rendered', { success: false });
+      return;
     }
+
+    eventBus.emit('preview:rendered', { success: true });
   }
 
   /**

@@ -41,3 +41,6 @@ export {
 
 // Performance utilities
 export { debounce } from './debounce';
+
+// Input validation layer
+export { InputValidator, inputValidator } from './input-validator';
