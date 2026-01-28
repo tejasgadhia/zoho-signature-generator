@@ -25,10 +25,10 @@
     align-items: center;
     justify-content: center;
     gap: 12px;
-    border-radius: 8px;
+    border-radius: var(--radius-md);
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all var(--duration-standard) ease;
     border: none;
     font-family: inherit;
 }
@@ -208,13 +208,13 @@
     position: relative;
     background: #FFFFFF; /* Force light mode */
     color: #1F2937; /* Force dark text */
-    border-radius: 12px;
-    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
     max-width: 700px;
     width: 100%;
     max-height: 90vh;
     overflow-y: auto;
-    animation: fadeUp 0.3s ease;
+    animation: fadeUp var(--duration-expand) ease;
 }
 
 /* Feedback modal - compact size */
@@ -653,11 +653,11 @@ kbd::before {
     color: white;
     padding: 0;
     border-radius: var(--radius-lg);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-xl);
     font-weight: 500;
     opacity: 0;
     transform: translateY(20px) scale(0.95);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all var(--duration-expand) cubic-bezier(0.4, 0, 0.2, 1);
     pointer-events: none;
     z-index: var(--z-toast);
     overflow: hidden;
@@ -787,13 +787,13 @@ kbd::before {
     margin-top: 16px;  /* Increased from 12px for breathing room (#82) */
     background: #FFFFFF;
     border: 1px solid #E0E0E0;
-    border-radius: 8px;
+    border-radius: var(--radius-md);
     font-family: 'Verdana', sans-serif;
     font-size: 14px;
     font-weight: 500;
     color: #333333;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all var(--duration-standard) ease;
 }
 
 .feedback-btn:hover {
@@ -831,11 +831,11 @@ kbd::before {
     background: transparent;
     border: 1px solid var(--color-neutral-200, #E5E7EB);
     border-left: 3px solid transparent;
-    border-radius: 8px;
+    border-radius: var(--radius-md);
     text-decoration: none;
     color: inherit;
     cursor: pointer;
-    transition: border-color 0.2s ease, background-color 0.2s ease;
+    transition: border-color var(--duration-standard) ease, background-color var(--duration-standard) ease;
 }
 
 /* Theme 7: Combined hover - left bar + icon pop + tinted bg */

@@ -274,7 +274,10 @@
             <div class="design-section">
                 <!-- Style Selector (3x2 Grid for 6 styles) -->
                 <div class="style-selector-container">
-                    <label class="style-selector-label">Step 1: Choose a Style</label>
+                    <label class="step-label">
+                        <span class="step-indicator completed" data-step="1">1</span>
+                        <span class="step-text">Choose a Style</span>
+                    </label>
                     <div class="style-selector">
                         <label class="style-option">
                             <input type="radio" name="signatureStyle" value="classic" checked aria-checked="true">
@@ -323,7 +326,10 @@
 
                 <!-- Color Switcher -->
                 <div class="color-switcher-container">
-                    <label class="color-switcher-label">Step 2: Choose Color</label>
+                    <label class="step-label">
+                        <span class="step-indicator completed" data-step="2">2</span>
+                        <span class="step-text">Choose Color</span>
+                    </label>
                     <div class="color-switcher">
                         <button type="button" class="color-btn selected" data-color="#E42527" data-name="red" aria-label="Select red accent color" aria-current="true">
                             Red

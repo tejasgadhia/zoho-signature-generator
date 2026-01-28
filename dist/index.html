@@ -6,8 +6,8 @@
     <title>Zoho Email Signature Generator</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <!-- CSS now loaded via Vite in src/main.ts -->
-  <script type="module" crossorigin src="/zoho-signature-generator/assets/index-gbuCr3lP.js"></script>
-  <link rel="stylesheet" crossorigin href="/zoho-signature-generator/assets/index-Duu9kSGp.css">
+  <script type="module" crossorigin src="/zoho-signature-generator/assets/index-C00Paur8.js"></script>
+  <link rel="stylesheet" crossorigin href="/zoho-signature-generator/assets/index-Be35KArE.css">
 </head>
 <body>
     <!-- Three-Column Layout -->
@@ -27,15 +27,17 @@
 
                 <hr class="sidebar-separator">
 
-                <!-- Import Instructions (Zoho products) -->
+                <!-- Setup Instructions (Zoho products) -->
                 <div class="import-instructions">
-                    <h3 class="import-section-title">Import Instructions</h3>
+                    <h3 class="import-section-title">After You Copy</h3>
+                    <p class="import-section-hint">Click your email app for setup steps</p>
 
                     <button class="import-btn import-btn-split import-btn-zoho-mail" data-client="zoho-mail">
                         <span class="import-btn-logo-wrapper">
                             <img src="assets/mail-full.svg" alt="" class="import-btn-logo">
                         </span>
                         <span class="import-btn-text">Zoho Mail</span>
+                        <span class="import-btn-arrow" aria-hidden="true"></span>
                     </button>
 
                     <button class="import-btn import-btn-split import-btn-zoho-desk" data-client="zoho-desk">
@@ -43,6 +45,7 @@
                             <img src="assets/desk-full.svg" alt="" class="import-btn-logo">
                         </span>
                         <span class="import-btn-text">Zoho Desk</span>
+                        <span class="import-btn-arrow" aria-hidden="true"></span>
                     </button>
                 </div>
             </div>
@@ -56,30 +59,30 @@
 
                 <button class="import-btn import-btn-secondary" data-client="gmail">
                     <img src="assets/gmail-logo.svg" alt="" class="import-btn-logo">
-                    Gmail
+                    <span class="import-btn-text">Gmail</span>
+                    <span class="import-btn-arrow" aria-hidden="true"></span>
                 </button>
 
                 <button class="import-btn import-btn-secondary" data-client="apple-mail">
                     <img src="assets/apple-mail-logo.svg" alt="" class="import-btn-logo">
-                    Apple Mail
+                    <span class="import-btn-text">Apple Mail</span>
+                    <span class="import-btn-arrow" aria-hidden="true"></span>
                 </button>
 
                 <button class="import-btn import-btn-secondary" data-client="outlook">
                     <img src="assets/outlook-logo.svg" alt="" class="import-btn-logo">
-                    Outlook
+                    <span class="import-btn-text">Outlook</span>
+                    <span class="import-btn-arrow" aria-hidden="true"></span>
                 </button>
-
-                <!-- Disclaimer Box -->
-                <div class="disclaimer-box">
-                    <span class="disclaimer-icon">⚠️</span>
-                    <p class="disclaimer-text">This is an unofficial community tool, not endorsed by Zoho Corporation.</p>
-                </div>
 
                 <!-- Feedback Button -->
                 <button class="feedback-btn" id="feedbackButton" aria-label="Share feedback or suggestions">
                     <span class="feedback-btn-icon">💬</span>
                     <span class="feedback-btn-text">Share Feedback</span>
                 </button>
+
+                <!-- Disclaimer (subtle footer text) -->
+                <p class="disclaimer-footer">Unofficial community tool, not endorsed by Zoho Corporation.</p>
             </div>
         </aside>
 
@@ -136,7 +139,10 @@
                                    class="email-prefix-field"
                                    autocomplete="email"
                                    data-preview-target="email">
-                            <span class="email-domain-suffix">@zohocorp.com</span>
+                            <span class="email-domain-suffix" aria-label="Fixed domain: zohocorp.com">
+                                <span class="domain-lock-icon" aria-hidden="true"></span>
+                                @zohocorp.com
+                            </span>
                         </div>
                         <span class="validation-icon" aria-live="polite"></span>
                     </div>
@@ -270,7 +276,10 @@
             <div class="design-section">
                 <!-- Style Selector (3x2 Grid for 6 styles) -->
                 <div class="style-selector-container">
-                    <label class="style-selector-label">Step 1: Choose a Style</label>
+                    <label class="step-label">
+                        <span class="step-indicator completed" data-step="1">1</span>
+                        <span class="step-text">Choose a Style</span>
+                    </label>
                     <div class="style-selector">
                         <label class="style-option">
                             <input type="radio" name="signatureStyle" value="classic" checked aria-checked="true">
@@ -319,7 +328,10 @@
 
                 <!-- Color Switcher -->
                 <div class="color-switcher-container">
-                    <label class="color-switcher-label">Step 2: Choose Color</label>
+                    <label class="step-label">
+                        <span class="step-indicator completed" data-step="2">2</span>
+                        <span class="step-text">Choose Color</span>
+                    </label>
                     <div class="color-switcher">
                         <button type="button" class="color-btn selected" data-color="#E42527" data-name="red" aria-label="Select red accent color" aria-current="true">
                             Red

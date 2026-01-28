@@ -56,7 +56,7 @@
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     background: white;
-    transition: all var(--transition-base);
+    transition: border-color 0.2s ease-out, box-shadow 0.2s ease-out, background 0.2s ease-out;
 }
 
 .input-wrapper input[type="text"],
@@ -81,13 +81,26 @@
     background: #6B7280;  /* WCAG AA: neutral-500 for visibility */
     border-radius: 100px;
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: background 0.2s ease-out, box-shadow 0.2s ease-out;
     flex-shrink: 0;
     margin-right: var(--spacing-xs);
 }
 
+.toggle-switch:hover {
+    background: #4B5563;  /* Darker on hover */
+}
+
+.toggle-switch:focus-visible {
+    outline: 2px solid var(--zoho-red);
+    outline-offset: 2px;
+}
+
 .toggle-switch.active {
     background: #16A34A;  /* Green when enabled */
+}
+
+.toggle-switch.active:hover {
+    background: #15803D;  /* Darker green on hover */
 }
 
 /* Disabled toggle switch (decorative only, for visual alignment) */
@@ -107,8 +120,12 @@
     height: 20px;
     background: var(--color-bg-elevated);
     border-radius: 50%;
-    transition: transform 0.3s ease, background 0.3s ease;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), background 0.2s ease;
     box-shadow: var(--shadow-sm);
+}
+
+.toggle-switch:hover::before {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
 .toggle-switch.active::before {
@@ -636,6 +653,13 @@
     font-size: 16px;  /* Slightly smaller to fit better */
     font-weight: bold;
     z-index: 5;
+    opacity: 0;
+    transition: opacity 0.2s ease-out;
+}
+
+.validation-icon.show {
+    display: flex;
+    opacity: 1;
 }
 
 .validation-icon.valid {
@@ -674,9 +698,9 @@
     font-size: 16px;
     font-weight: 600;
     border: none;
-    border-radius: 8px;
+    border-radius: var(--radius-md);
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all var(--duration-standard) cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -693,12 +717,13 @@
 
 .btn-primary:hover {
     background: #C81F21;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(228,37,39,0.3);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 6px 12px rgba(228,37,39,0.3);
 }
 
 .btn-primary:active {
-    transform: translateY(0);
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 2px 4px rgba(228,37,39,0.2);
 }
 
 .btn-icon {
@@ -708,10 +733,23 @@
 /* Copy Button Success State */
 .btn-primary.success {
     background: #089949;
+    animation: successPulse 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .btn-primary.success .btn-icon::before {
     content: '✓ ';
+}
+
+@keyframes successPulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
 
 /* =============================================================================

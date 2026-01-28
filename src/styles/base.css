@@ -11,15 +11,40 @@
 }
 
 /*
- * Component-specific overrides
- * The design system tokens are imported in main.css.
- * Add any project-specific overrides here.
+ * Design System Token Overrides
+ * Base tokens are imported from .ui-design/tokens/tokens.css in main.css.
+ * These overrides customize the system for this project.
  */
 :root {
-    /* Project-specific radius overrides (slightly larger than default) */
+    /* ==========================================================================
+       Border Radius Scale (Project Standard)
+
+       Usage guide:
+       - --radius-xs (4px): Small pills, badges, scrollbar thumbs
+       - --radius-sm (6px): Help panels, tips, small buttons
+       - --radius-md (8px): Cards, inputs, buttons, modals (most common)
+       - --radius-lg (12px): Large cards, modal content
+       - --radius-xl (16px): Hero sections, full-width cards
+       - --radius-full (100px): Toggle switches, round buttons
+       ========================================================================== */
+    --radius-xs: 4px;
     --radius-sm: 6px;
-    --radius-md: 10px;
-    --radius-lg: 16px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+    --radius-full: 100px;
+
+    /* ==========================================================================
+       Animation Timing (Project Standard)
+
+       Usage guide:
+       - 150ms: Micro-interactions (icon state, validation)
+       - 200ms: Standard interactions (hover, focus, toggle)
+       - 300ms: Larger state changes (modal, accordion)
+       ========================================================================== */
+    --duration-micro: 150ms;
+    --duration-standard: 200ms;
+    --duration-expand: 300ms;
 }
 
 body {
