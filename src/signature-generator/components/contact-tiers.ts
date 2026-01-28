@@ -47,8 +47,7 @@ export function buildTier2CTA(
     return '';
   }
 
-  // Calendar emoji for visual prominence (works in most email clients)
-  return `<a href="${escapeHtml(data.bookings)}" rel="noopener noreferrer" class="sig-link sig-cta" style="color: ${accentColor}; text-decoration: none; font-weight: 500;">📅 Schedule a Meeting</a>`;
+  return `<a href="${escapeHtml(data.bookings)}" rel="noopener noreferrer" class="sig-link sig-cta" style="color: ${accentColor}; text-decoration: none; font-weight: 500;">Schedule a Meeting</a>`;
 }
 
 /**
