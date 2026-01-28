@@ -137,3 +137,22 @@ export interface DOMElements {
   toast: HTMLElement | null;
   importButtons: NodeListOf<HTMLButtonElement>;
 }
+
+/**
+ * Validation result for a single field
+ */
+export interface ValidationResult {
+  isValid: boolean;
+  message: string | null;
+  field: keyof FormData;
+  value: string;
+}
+
+/**
+ * Validation rules configuration
+ */
+export interface ValidationRule {
+  validate: (value: string) => boolean;
+  message: string;
+  required?: boolean;
+}
