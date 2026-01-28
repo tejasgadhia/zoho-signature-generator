@@ -412,22 +412,22 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     background: transparent;
-    border: 1.5px solid #6B7280;  /* WCAG AA: neutral-500 for 4.6:1 contrast */
-    color: #6B7280;  /* WCAG AA: neutral-500 for 4.6:1 contrast */
-    font-size: 13px;
+    border: 1px solid #9CA3AF;  /* Lighter border for reduced visual weight */
+    color: #9CA3AF;  /* Lighter color: WCAG AA 3:1 for UI components */
+    font-size: 11px;
     font-weight: 600;
     cursor: help;
     transition: all 0.2s ease;
     flex-shrink: 0;
     margin-left: 8px;
     /* Touch target: 44x44px minimum via padding */
-    padding: 10px;
+    padding: 12px;
     box-sizing: content-box;
-    margin: -10px -10px -10px -2px;  /* Compensate for padding */
+    margin: -12px -12px -12px -4px;  /* Compensate for padding */
 }
 
 .help-icon:hover,
@@ -440,8 +440,8 @@
 
 /* Placeholder for fields without help icons - maintains grid alignment (fixes Pin 1) */
 .help-icon-placeholder {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     margin-left: 8px;
     flex-shrink: 0;
     visibility: hidden;  /* Invisible but takes up space */
