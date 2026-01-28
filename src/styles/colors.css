@@ -631,17 +631,19 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--color-text-muted, #9CA3AF);
+    color: #6B7280;
     cursor: grab;
-    padding: 0 4px;
-    opacity: 0.4;
-    transition: opacity 0.2s ease;
-    font-size: 10px;
+    padding: 0 6px;
+    opacity: 0.7;
+    transition: opacity 0.2s ease, color 0.2s ease;
+    font-size: 12px;
     flex-shrink: 0;
+    letter-spacing: 1px;
 }
 
 .social-drag-handle:hover {
     opacity: 1;
+    color: #374151;
 }
 
 .social-compact-card:active .social-drag-handle {

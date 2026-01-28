@@ -232,8 +232,8 @@
 }
 
 .input-wrapper:focus-within {
-    border-color: var(--zoho-red);
-    box-shadow: 0 0 0 3px var(--zoho-red-light);
+    border-color: #3B82F6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
 
 .input-wrapper input:focus {
@@ -350,8 +350,8 @@
 }
 
 .email-split-input:focus-within {
-    border-color: var(--zoho-red);
-    box-shadow: 0 0 0 3px var(--zoho-red-light);
+    border-color: #3B82F6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
 
 .email-prefix-field {
@@ -407,41 +407,40 @@
    Help Text System (Accordion-Style on Focus)
    ============================================================================= */
 
-/* Help Icon - Positioned outside input wrapper in grid */
+/* Help Icon - Clean info icon design */
 .help-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     border-radius: 50%;
-    background: transparent;
-    border: 1px solid #9CA3AF;  /* Lighter border for reduced visual weight */
-    color: #9CA3AF;  /* Lighter color: WCAG AA 3:1 for UI components */
-    font-size: 11px;
-    font-weight: 600;
+    background: #E5E7EB;
+    border: none;
+    color: #6B7280;
+    font-size: 12px;
+    font-weight: 700;
+    font-style: italic;
+    font-family: Georgia, serif;
     cursor: help;
     transition: all 0.2s ease;
     flex-shrink: 0;
-    margin-left: 8px;
     /* Touch target: 44x44px minimum via padding */
-    padding: 12px;
+    padding: 13px;
     box-sizing: content-box;
-    margin: -12px -12px -12px -4px;  /* Compensate for padding */
+    margin: -13px -13px -13px -5px;
 }
 
 .help-icon:hover,
 .help-icon:focus {
-    background: #1976D2;  /* Blue on hover (#80) */
-    border-color: #1976D2;
+    background: #3B82F6;
     color: white;
-    transform: scale(1.1);
 }
 
 /* Placeholder for fields without help icons - maintains grid alignment (fixes Pin 1) */
 .help-icon-placeholder {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     margin-left: 8px;
     flex-shrink: 0;
     visibility: hidden;  /* Invisible but takes up space */
@@ -554,8 +553,8 @@
 }
 
 .url-prefix-input:focus-within {
-    border-color: var(--zoho-red);
-    box-shadow: 0 0 0 3px var(--zoho-red-light);
+    border-color: #3B82F6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
 
 .url-prefix {
@@ -694,9 +693,6 @@
 
 .btn {
     width: 100%;
-    max-width: 320px;
-    margin-left: auto;
-    margin-right: auto;
     padding: 14px 24px;
     font-size: 16px;
     font-weight: 600;
