@@ -14,6 +14,7 @@ import {
   debounce,
   inputValidator
 } from '../utils';
+import { eventBus } from '../events';
 
 export class FormHandler {
   private stateManager: AppStateManager;
@@ -164,6 +165,7 @@ export class FormHandler {
    */
   private handleFieldChange(field: keyof FormData, value: string): void {
     this.stateManager.updateFormData(field, value);
+    eventBus.emit('form:changed', { field, value });
     this.debouncedRender();
   }
 
@@ -280,6 +282,7 @@ export class FormHandler {
         if (target.checked) {
           const style = target.value as any;
           this.stateManager.setSignatureStyle(style);
+          eventBus.emit('style:changed', { style });
           // Use immediate render for style changes (not debounced)
           this.previewRenderer.render();
         }
@@ -317,6 +320,7 @@ export class FormHandler {
 
         // Update state and preview
         this.stateManager.setAccentColor(color);
+        eventBus.emit('color:changed', { color });
         this.previewRenderer.render();
       });
     });

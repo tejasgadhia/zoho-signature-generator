@@ -6,6 +6,7 @@
 import type { AppStateManager } from '../app/state';
 import type { PreviewRenderer } from '../app/preview-renderer';
 import type { SocialChannel } from '../types';
+import { eventBus } from '../events';
 
 const VALID_CHANNELS: SocialChannel[] = ['linkedin', 'twitter', 'instagram', 'facebook'];
 
@@ -149,6 +150,9 @@ export class DragDropHandler {
     this.stateManager.setSocialOptions({ channels: order });
     this.stateManager.saveSocialOrder();
 
+    // Emit event for decoupled updates
+    eventBus.emit('social:changed', { channels: order });
+
     // Re-render preview
     this.previewRenderer.render();
   }
@@ -190,6 +194,9 @@ export class DragDropHandler {
 
     // Update state with validated active channels
     this.stateManager.setSocialOptions({ channels: activeChannels });
+
+    // Emit event for decoupled updates
+    eventBus.emit('social:changed', { channels: activeChannels });
 
     // Re-render preview
     this.previewRenderer.render();
