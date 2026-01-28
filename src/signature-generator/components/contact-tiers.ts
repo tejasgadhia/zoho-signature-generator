@@ -42,8 +42,9 @@ export function buildTier2Links(
   const tier2Links: string[] = [];
 
   if (data.linkedin) {
-    const linkedinPath = sanitizeSocialUrl(data.linkedin, 'linkedin.com');
-    const linkedinUrl = `https://www.linkedin.com/${linkedinPath}`;
+    // sanitizeSocialUrl extracts just the username (e.g., "johndoe" from full URL)
+    const linkedinUsername = sanitizeSocialUrl(data.linkedin, 'linkedin.com');
+    const linkedinUrl = `https://www.linkedin.com/in/${linkedinUsername}`;
     tier2Links.push(
       `<a href="${linkedinUrl}" rel="noopener noreferrer" class="sig-link" style="color: ${accentColor}; text-decoration: none;">LinkedIn</a>`
     );

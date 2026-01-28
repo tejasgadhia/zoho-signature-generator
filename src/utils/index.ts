@@ -24,7 +24,8 @@ export {
   normalizeUrl,
   sanitizeSocialUrl,
   cleanLinkedInUrl,
-  getTrackedWebsiteURL
+  getTrackedWebsiteURL,
+  extractBookingsSlug
 } from './url';
 
 // Storage utilities

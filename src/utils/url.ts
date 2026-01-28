@@ -21,7 +21,7 @@ export function normalizeUrl(url: string): string {
  *
  * Examples:
  * - "https://x.com/username" → "username"
- * - "https://www.linkedin.com/in/username/" → "in/username"
+ * - "https://www.linkedin.com/in/username/" → "username" (strips "in/" prefix)
  * - "username" → "username" (unchanged)
  * - "@username" → "username" (removes @)
  *
@@ -32,6 +32,8 @@ export function normalizeUrl(url: string): string {
 export function sanitizeSocialUrl(input: string, domain: string): string {
   if (!input) return '';
 
+  let result = '';
+
   try {
     // Try to parse as URL
     const urlObj = new URL(input.startsWith('http') ? input : 'https://' + input);
@@ -40,22 +42,32 @@ export function sanitizeSocialUrl(input: string, domain: string): string {
     const hostname = urlObj.hostname.replace(/^www\./, '');
     if (hostname === domain || hostname === 'www.' + domain) {
       // Extract the path (remove leading slash)
-      return urlObj.pathname.replace(/^\/+/, '').replace(/\/+$/, '');
+      result = urlObj.pathname.replace(/^\/+/, '').replace(/\/+$/, '');
     }
   } catch {
     // Not a valid URL, treat as username/handle
   }
 
-  // Remove any remaining URL artifacts (protocol, www., domain)
-  return input
-    .replace(/^https?:\/\//i, '')        // Remove protocol
-    .replace(/^www\./i, '')               // Remove www.
-    .replace(new RegExp(`^${domain}/?`, 'i'), '') // Remove domain
-    .replace(/^\/+/, '')                  // Remove leading slashes
-    .replace(/\/+$/, '')                  // Remove trailing slashes
-    .replace(/^@/, '')                    // Remove @ prefix
-    .replace(/\s+/g, '')                  // Remove all spaces
-    .toLowerCase();                       // Convert to lowercase for consistency
+  // If we didn't extract from URL, clean up the raw input
+  if (!result) {
+    result = input
+      .replace(/^https?:\/\//i, '')        // Remove protocol
+      .replace(/^www\./i, '')               // Remove www.
+      .replace(new RegExp(`^${domain}/?`, 'i'), '') // Remove domain
+      .replace(/^\/+/, '')                  // Remove leading slashes
+      .replace(/\/+$/, '')                  // Remove trailing slashes
+      .replace(/^@/, '')                    // Remove @ prefix
+      .replace(/\s+/g, '')                  // Remove all spaces
+      .toLowerCase();                       // Convert to lowercase for consistency
+  }
+
+  // For LinkedIn: strip "in/" prefix to prevent /in/in/username duplication
+  // The form-handler.ts will add the /in/ prefix when constructing the full URL
+  if (domain === 'linkedin.com') {
+    result = result.replace(/^in\//i, '');
+  }
+
+  return result;
 }
 
 /**
@@ -76,6 +88,54 @@ export function cleanLinkedInUrl(url: string): string {
   } catch {
     return url;
   }
+}
+
+/**
+ * Extract booking slug from Zoho Bookings URL
+ * Handles various URL formats users might paste:
+ * - "https://bookings.zohocorp.com/#/yourname" → "yourname"
+ * - "https://zoho.com/bookings/yourname" → "yourname"
+ * - "bookings.zohocorp.com/#/yourname" → "yourname"
+ * - "yourname" → "yourname" (unchanged)
+ *
+ * @param input - User input (slug or full URL)
+ * @returns Extracted booking slug
+ */
+export function extractBookingsSlug(input: string): string {
+  if (!input) return '';
+
+  const trimmed = input.trim();
+
+  // Pattern 1: bookings.zohocorp.com/#/slug
+  const hashPattern = /bookings\.zohocorp\.com\/#\/([^\/\?#]+)/i;
+  const hashMatch = trimmed.match(hashPattern);
+  if (hashMatch) {
+    return hashMatch[1];
+  }
+
+  // Pattern 2: zoho.com/bookings/slug
+  const pathPattern = /zoho\.com\/bookings\/([^\/\?#]+)/i;
+  const pathMatch = trimmed.match(pathPattern);
+  if (pathMatch) {
+    return pathMatch[1];
+  }
+
+  // Pattern 3: Just the URL without protocol
+  const noProtocolHashPattern = /^bookings\.zohocorp\.com\/#\/([^\/\?#]+)/i;
+  const noProtocolMatch = trimmed.match(noProtocolHashPattern);
+  if (noProtocolMatch) {
+    return noProtocolMatch[1];
+  }
+
+  // Not a URL - return as-is (likely just the slug)
+  // Remove any URL artifacts that might remain
+  return trimmed
+    .replace(/^https?:\/\//i, '')
+    .replace(/^www\./i, '')
+    .replace(/^bookings\.zohocorp\.com\/?#?\/?/i, '')
+    .replace(/^zoho\.com\/bookings\/?/i, '')
+    .replace(/[\/\?#].*/g, '')  // Remove anything after slug
+    .trim();
 }
 
 /**

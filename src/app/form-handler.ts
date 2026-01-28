@@ -11,6 +11,7 @@ import {
   toSmartTitleCase,
   getTrackedWebsiteURL,
   sanitizeSocialUrl,
+  extractBookingsSlug,
   debounce,
   inputValidator
 } from '../utils';
@@ -65,12 +66,18 @@ export class FormHandler {
       });
     }
 
-    // Email prefix input (with validation)
+    // Email prefix input (with validation and character filtering)
     const emailPrefixInput = document.getElementById('email-prefix') as HTMLInputElement;
     if (emailPrefixInput) {
       emailPrefixInput.addEventListener('input', (e) => {
-        const value = (e.target as HTMLInputElement).value.toLowerCase();
-        (e.target as HTMLInputElement).value = value;  // Force lowercase
+        const input = e.target as HTMLInputElement;
+        // Filter to only allowed characters: lowercase letters, numbers, dots
+        // Strip @zohocorp.com if user pastes full email
+        let value = input.value
+          .toLowerCase()
+          .replace(/@zohocorp\.com$/i, '')  // Strip domain if pasted
+          .replace(/[^a-z0-9.]/g, '');       // Only allow letters, numbers, dots
+        input.value = value;
         this.userEditedEmailPrefix = true; // Mark as manually edited
         this.handleEmailPrefixChange(value);
       });
@@ -123,13 +130,24 @@ export class FormHandler {
       });
     }
 
-    // Bookings ID input
+    // Bookings ID input (handles full URL paste)
     const bookingsIdInput = document.getElementById('bookings-id') as HTMLInputElement;
     if (bookingsIdInput) {
       bookingsIdInput.addEventListener('input', (e) => {
-        const value = (e.target as HTMLInputElement).value;
-        const fullUrl = value ? `https://bookings.zohocorp.com/#/${value}` : '';
+        const input = e.target as HTMLInputElement;
+        // Extract slug from pasted URL or use as-is
+        const slug = extractBookingsSlug(input.value);
+        const fullUrl = slug ? `https://bookings.zohocorp.com/#/${slug}` : '';
         this.handleFieldChange('bookings', fullUrl);
+      });
+
+      bookingsIdInput.addEventListener('blur', (e) => {
+        const input = e.target as HTMLInputElement;
+        if (input.value) {
+          // Clean up any accidentally pasted full URLs and update input
+          const slug = extractBookingsSlug(input.value);
+          input.value = slug;
+        }
       });
     }
 
