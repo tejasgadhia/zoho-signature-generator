@@ -245,6 +245,6 @@ body {
 
 /* Focus visible for keyboard navigation */
 *:focus-visible {
-    outline: 2px solid var(--zoho-red);
+    outline: 2px solid var(--zoho-blue, #226DB4);  /* Neutral blue - doesn't clash with colored UI elements */
     outline-offset: 2px;
 }

@@ -70,7 +70,7 @@
 }
 
 .theme-toggle:focus-within .toggle-slider {
-    outline: 2px solid var(--zoho-red);
+    outline: 2px solid var(--zoho-blue, #226DB4);  /* Neutral blue - consistent with form toggles */
     outline-offset: 2px;
 }
 
