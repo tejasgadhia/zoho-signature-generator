@@ -65,8 +65,8 @@ export class ClipboardManager {
   }
 
   /**
-   * Check if form data contains example/placeholder values
-   * Returns array of field names that contain example data
+   * Check if form data would show example/placeholder values in the signature
+   * Returns array of field names that would use example data
    */
   private getExampleDataFields(formData: FormData, fieldToggles: FieldToggles): string[] {
     const exampleFields: string[] = [];
@@ -82,8 +82,12 @@ export class ClipboardManager {
       const hasToggle = field in fieldToggles;
       const isEnabled = hasToggle ? fieldToggles[field as keyof FieldToggles] : true;
 
-      // Only flag if field is enabled and matches example data
-      if (isEnabled && value && exampleValue && value === exampleValue) {
+      // Flag if field is enabled AND (empty OR matches example data)
+      // Empty enabled fields will show example data in the preview/signature
+      const isEmpty = !value || value.trim() === '';
+      const matchesExample = value === exampleValue;
+
+      if (isEnabled && exampleValue && (isEmpty || matchesExample)) {
         exampleFields.push(field);
       }
     }
