@@ -1,0 +1,29 @@
+{
+  "name": "zoho-signature-generator",
+  "version": "1.0.0",
+  "description": "Professional email signatures for Zoho employees",
+  "scripts": {
+    "serve": "npx serve -l 3003",
+    "test": "npm run test:e2e && npm run test:visual",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:report": "playwright show-report",
+    "test:a11y": "playwright test tests/e2e/accessibility.spec.js",
+    "test:a11y:report": "playwright test tests/e2e/accessibility.spec.js --reporter=list",
+    "test:visual": "backstop test",
+    "test:visual:reference": "backstop reference",
+    "test:visual:approve": "backstop approve",
+    "test:visual:report": "backstop openReport"
+  },
+  "keywords": [
+    "email-signature",
+    "zoho"
+  ],
+  "author": "Tejas Gadhia",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "devDependencies": {
+    "@axe-core/playwright": "^4.11.0",
+    "@playwright/test": "^1.58.0",
+    "backstopjs": "^6.3.25"
+  }
+}
