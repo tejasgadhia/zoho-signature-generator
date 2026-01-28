@@ -11,6 +11,7 @@ import { FormHandler } from './app/form-handler';
 import { PreviewRenderer } from './app/preview-renderer';
 import { ClipboardManager } from './app/clipboard';
 import { ModalController } from './ui/modal';
+import { HelpPanelController } from './ui/help-panel';
 import { DragDropHandler } from './ui/drag-drop';
 
 // Initialize application when DOM is ready
@@ -42,6 +43,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Initialize modal controller
   ModalController.init();
+
+  // Initialize help panel controller
+  HelpPanelController.init();
 
   // Render initial preview
   previewRenderer.render();

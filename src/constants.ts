@@ -130,6 +130,38 @@ export const ZOHO_SOCIAL_URLS = {
 } as const;
 
 /**
+ * Help content for form fields
+ * Used by HelpPanelController to show expandable help panels
+ */
+export const HELP_CONTENT: Record<string, { title: string; content: string }> = {
+  'email-prefix': {
+    title: 'Email Format',
+    content:
+      'Enter your email prefix only (e.g., "jasmine.frank"). The @zohocorp.com domain is automatically added.',
+  },
+  phone: {
+    title: 'Phone Format',
+    content:
+      'Enter your phone number with country code. Examples: +1 (281) 330-8004 or +91 44 2344 9876',
+  },
+  'linkedin-username': {
+    title: 'LinkedIn Username',
+    content:
+      'Enter just your LinkedIn username, not the full URL. Find it in your profile URL: linkedin.com/in/YOUR-USERNAME',
+  },
+  'twitter-username': {
+    title: 'X Handle',
+    content:
+      'Enter your X handle without the @ symbol. This will link to your X profile.',
+  },
+  'bookings-id': {
+    title: 'Zoho Bookings ID',
+    content:
+      'Enter your Zoho Bookings calendar ID. Find this in Zoho Bookings under Settings > Share > Embed Code.',
+  },
+};
+
+/**
  * Social media channel display data
  */
 export const SOCIAL_CHANNEL_DATA = {
