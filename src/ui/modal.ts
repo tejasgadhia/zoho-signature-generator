@@ -205,27 +205,289 @@ export class ModalController {
           </div>
         `
       },
-      // NOTE: In the actual implementation, add all other client types
-      // (zoho-desk, gmail, apple-mail, outlook) with their full HTML
       'zoho-desk': {
         title: 'Zoho Desk',
-        header: `<h2>Zoho Desk</h2>`,
-        body: `<p>Zoho Desk instructions...</p>`
+        header: `
+          <div class="modal-header-with-logo">
+            <img src="assets/desk-full.svg" alt="Zoho Desk logo" class="modal-logo-badge">
+            <div class="modal-header-title-group">
+              <h2 id="modalTitle">Zoho Desk</h2>
+              <div class="modal-time-estimate" aria-label="Estimated time 2 minutes, 6 steps total">
+                ~2 minutes • 6 steps
+              </div>
+            </div>
+          </div>
+        `,
+        body: `
+          <ol class="instruction-steps" aria-label="Import instructions" style="--step-color: #E42527;">
+            <li class="instruction-step">
+              <div class="step-number" aria-hidden="true">1</div>
+              <div class="step-content">
+                <div class="step-title">
+                  <button class="inline-copy-btn" onclick="copySignatureFromModal(event)" aria-label="Copy signature to clipboard">
+                    <svg viewBox="0 0 16 16" fill="currentColor">
+                      <path d="M5.5 1a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-.5.5h-2a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5h-8z"/>
+                    </svg>
+                    Copy Signature
+                  </button>
+                </div>
+              </div>
+            </li>
+            <li class="instruction-step">
+              <div class="step-number" aria-hidden="true">2</div>
+              <div class="step-content">
+                <div class="step-title">
+                  Open <a href="https://desk.zoho.com" target="_blank" rel="noopener noreferrer" class="external-link">Zoho Desk</a> → <strong>Settings</strong> (gear icon) → <strong>Preferences</strong> → <strong>Signature</strong> and select your department from the dropdown at the top
+                </div>
+              </div>
+            </li>
+            <li class="instruction-step">
+              <div class="step-number" aria-hidden="true">3</div>
+              <div class="step-content">
+                <div class="step-title">
+                  Click the <strong>Insert</strong> button on the right side of the interface
+                </div>
+              </div>
+            </li>
+            <li class="instruction-step">
+              <div class="step-number" aria-hidden="true">4</div>
+              <div class="step-content">
+                <div class="step-title">
+                  In the dialog box that appears, paste the HTML using <kbd data-key="⌘V"></kbd> or <kbd data-key="Ctrl+V"></kbd>
+                </div>
+              </div>
+            </li>
+            <li class="instruction-step">
+              <div class="step-number" aria-hidden="true">5</div>
+              <div class="step-content">
+                <div class="step-title">
+                  Click <strong>Insert</strong> in the dialog — you'll see a preview of your signature in the editor
+                </div>
+              </div>
+            </li>
+            <li class="instruction-step">
+              <div class="step-number" aria-hidden="true">6</div>
+              <div class="step-content">
+                <div class="step-title">
+                  Click the blue <strong>Save</strong> button at the bottom of the screen
+                </div>
+              </div>
+            </li>
+          </ol>
+          <div class="tip-box-new pro-tip" role="note">
+            <span class="tip-icon" aria-label="Tip">💡</span>
+            <div class="tip-content">
+              <strong>Tip:</strong> You can create different signatures for different departments.
+            </div>
+          </div>
+        `
       },
       'gmail': {
         title: 'Gmail',
-        header: `<h2>Gmail</h2>`,
-        body: `<p>Gmail instructions...</p>`
+        header: `
+          <div class="modal-header-with-logo">
+            <img src="assets/gmail-logo.svg" alt="Gmail logo" class="modal-logo-badge">
+            <div class="modal-header-title-group">
+              <h2 id="modalTitle">Gmail</h2>
+              <div class="modal-time-estimate" aria-label="Estimated time 1 minute, 5 steps total">
+                ~1 minute • 5 steps
+              </div>
+            </div>
+          </div>
+        `,
+        body: `
+          <ol class="instruction-steps" aria-label="Import instructions" style="--step-color: #EA4335;">
+            <li class="instruction-step">
+              <div class="step-number" aria-hidden="true">1</div>
+              <div class="step-content">
+                <div class="step-title">
+                  <button class="inline-copy-btn" onclick="copySignatureFromModal(event)" aria-label="Copy signature to clipboard">
+                    <svg viewBox="0 0 16 16" fill="currentColor">
+                      <path d="M5.5 1a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-.5.5h-2a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5h-8z"/>
+                    </svg>
+                    Copy Signature
+                  </button>
+                </div>
+              </div>
+            </li>
+            <li class="instruction-step">
+              <div class="step-number" aria-hidden="true">2</div>
+              <div class="step-content">
+                <div class="step-title">
+                  Open <a href="https://mail.google.com" target="_blank" rel="noopener noreferrer" class="external-link">Gmail</a> → Click ⚙️ <strong>Settings</strong> → <strong>See all settings</strong>
+                </div>
+              </div>
+            </li>
+            <li class="instruction-step">
+              <div class="step-number" aria-hidden="true">3</div>
+              <div class="step-content">
+                <div class="step-title">
+                  Scroll down to <strong>Signature</strong> section and click <strong>Create new</strong>
+                </div>
+              </div>
+            </li>
+            <li class="instruction-step">
+              <div class="step-number" aria-hidden="true">4</div>
+              <div class="step-content">
+                <div class="step-title">
+                  Give it a name, then paste using <kbd data-key="⌘V"></kbd> or <kbd data-key="Ctrl+V"></kbd> directly into the signature box
+                </div>
+              </div>
+            </li>
+            <li class="instruction-step">
+              <div class="step-number" aria-hidden="true">5</div>
+              <div class="step-content">
+                <div class="step-title">
+                  Scroll to bottom and click <strong>Save Changes</strong>
+                </div>
+              </div>
+            </li>
+          </ol>
+          <div class="tip-box-new warning" role="note">
+            <span class="tip-icon" aria-label="Note">⚠️</span>
+            <div class="tip-content">
+              <strong>Note:</strong> Gmail may modify some formatting. Test by sending an email to yourself.
+            </div>
+          </div>
+        `
       },
       'apple-mail': {
         title: 'Apple Mail',
-        header: `<h2>Apple Mail</h2>`,
-        body: `<p>Apple Mail instructions...</p>`
+        header: `
+          <div class="modal-header-with-logo">
+            <img src="assets/apple-mail-logo.svg" alt="Apple Mail logo" class="modal-logo-badge">
+            <div class="modal-header-title-group">
+              <h2 id="modalTitle">Apple Mail</h2>
+              <div class="modal-time-estimate" aria-label="Estimated time 1 minute, 5 steps total">
+                ~1 minute • 5 steps
+              </div>
+            </div>
+          </div>
+        `,
+        body: `
+          <ol class="instruction-steps" aria-label="Import instructions" style="--step-color: #007AFF;">
+            <li class="instruction-step">
+              <div class="step-number" aria-hidden="true">1</div>
+              <div class="step-content">
+                <div class="step-title">
+                  <button class="inline-copy-btn" onclick="copySignatureFromModal(event)" aria-label="Copy signature to clipboard">
+                    <svg viewBox="0 0 16 16" fill="currentColor">
+                      <path d="M5.5 1a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-.5.5h-2a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5h-8z"/>
+                    </svg>
+                    Copy Signature
+                  </button>
+                </div>
+              </div>
+            </li>
+            <li class="instruction-step">
+              <div class="step-number" aria-hidden="true">2</div>
+              <div class="step-content">
+                <div class="step-title">
+                  Open Mail app → <strong>Mail</strong> menu (top left) → <strong>Settings</strong>
+                </div>
+              </div>
+            </li>
+            <li class="instruction-step">
+              <div class="step-number" aria-hidden="true">3</div>
+              <div class="step-content">
+                <div class="step-title">
+                  Click <strong>Signatures</strong> tab → Select your email account → Click <strong>+</strong> button
+                </div>
+              </div>
+            </li>
+            <li class="instruction-step">
+              <div class="step-number" aria-hidden="true">4</div>
+              <div class="step-content">
+                <div class="step-title">
+                  <strong>Uncheck "Always match my default message font"</strong> (important!), then paste using <kbd data-key="⌘V"></kbd>
+                </div>
+              </div>
+            </li>
+            <li class="instruction-step">
+              <div class="step-number" aria-hidden="true">5</div>
+              <div class="step-content">
+                <div class="step-title">
+                  Close Settings window to save automatically
+                </div>
+              </div>
+            </li>
+          </ol>
+          <div class="tip-box-new success" role="note">
+            <span class="tip-icon" aria-label="Success">✅</span>
+            <div class="tip-content">
+              <strong>Great choice!</strong> Apple Mail has excellent support for HTML signatures.
+            </div>
+          </div>
+        `
       },
       'outlook': {
         title: 'Outlook',
-        header: `<h2>Outlook</h2>`,
-        body: `<p>Outlook instructions...</p>`
+        header: `
+          <div class="modal-header-with-logo">
+            <img src="assets/outlook-logo.svg" alt="Outlook logo" class="modal-logo-badge">
+            <div class="modal-header-title-group">
+              <h2 id="modalTitle">Outlook</h2>
+              <div class="modal-time-estimate" aria-label="Estimated time 1 minute, 5 steps total">
+                ~1 minute • 5 steps
+              </div>
+            </div>
+          </div>
+        `,
+        body: `
+          <ol class="instruction-steps" aria-label="Import instructions" style="--step-color: #0078D4;">
+            <li class="instruction-step">
+              <div class="step-number" aria-hidden="true">1</div>
+              <div class="step-content">
+                <div class="step-title">
+                  <button class="inline-copy-btn" onclick="copySignatureFromModal(event)" aria-label="Copy signature to clipboard">
+                    <svg viewBox="0 0 16 16" fill="currentColor">
+                      <path d="M5.5 1a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-.5.5h-2a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5h-8z"/>
+                    </svg>
+                    Copy Signature
+                  </button>
+                </div>
+              </div>
+            </li>
+            <li class="instruction-step">
+              <div class="step-number" aria-hidden="true">2</div>
+              <div class="step-content">
+                <div class="step-title">
+                  Open Outlook → <strong>File</strong> → <strong>Options</strong> → <strong>Mail</strong>
+                </div>
+              </div>
+            </li>
+            <li class="instruction-step">
+              <div class="step-number" aria-hidden="true">3</div>
+              <div class="step-content">
+                <div class="step-title">
+                  Click <strong>Signatures...</strong> button in the "Compose messages" section
+                </div>
+              </div>
+            </li>
+            <li class="instruction-step">
+              <div class="step-number" aria-hidden="true">4</div>
+              <div class="step-content">
+                <div class="step-title">
+                  Click <strong>New</strong>, give it a name, then paste using <kbd data-key="Ctrl+V"></kbd> into the editor box
+                </div>
+              </div>
+            </li>
+            <li class="instruction-step">
+              <div class="step-number" aria-hidden="true">5</div>
+              <div class="step-content">
+                <div class="step-title">
+                  Click <strong>OK</strong> to save your signature
+                </div>
+              </div>
+            </li>
+          </ol>
+          <div class="tip-box-new warning" role="note">
+            <span class="tip-icon" aria-label="Warning">⚠️</span>
+            <div class="tip-content">
+              <strong>Note:</strong> Outlook may display signatures differently. Test in a draft email to verify.
+            </div>
+          </div>
+        `
       }
     };
 
