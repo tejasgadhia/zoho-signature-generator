@@ -171,12 +171,46 @@ export class InputValidator {
       return this.createResult('bookings', value, true, null);
     }
 
-    // Must be a valid URL or bookings ID
-    if (value.includes('bookings.zohocorp.com') && !isValidUrl(value)) {
-      return this.createResult('bookings', value, false, 'Invalid Bookings URL format');
+    // If it's a full URL, validate URL format
+    if (value.includes('bookings.zohocorp.com')) {
+      if (!isValidUrl(value)) {
+        return this.createResult('bookings', value, false, 'Invalid Bookings URL format');
+      }
+      // Extract the calendar ID from the URL for slug validation
+      const match = value.match(/bookings\.zohocorp\.com\/#\/([^\/\?#]+)/i);
+      if (match) {
+        const slug = match[1];
+        return this.validateBookingsSlug(slug);
+      }
+      return this.createResult('bookings', value, true, null);
     }
 
-    return this.createResult('bookings', value, true, null);
+    // Validate as calendar ID/slug directly
+    return this.validateBookingsSlug(value);
+  }
+
+  /**
+   * Validate bookings calendar ID format
+   * Must be URL-safe: letters, numbers, hyphens only
+   */
+  private validateBookingsSlug(slug: string): ValidationResult {
+    // Must be at least 2 characters
+    if (slug.length < 2) {
+      return this.createResult('bookings', slug, false, 'Calendar ID must be at least 2 characters');
+    }
+
+    // Must be URL-safe: letters, numbers, hyphens only (no underscores per Zoho Bookings format)
+    const slugRegex = /^[a-zA-Z0-9-]+$/;
+    if (!slugRegex.test(slug)) {
+      return this.createResult('bookings', slug, false, 'Use only letters, numbers, and hyphens (e.g., john-doe)');
+    }
+
+    // Cannot start or end with hyphen
+    if (slug.startsWith('-') || slug.endsWith('-')) {
+      return this.createResult('bookings', slug, false, 'Cannot start or end with a hyphen');
+    }
+
+    return this.createResult('bookings', slug, true, null);
   }
 
   private validateWebsite(value: string): ValidationResult {

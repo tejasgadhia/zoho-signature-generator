@@ -148,6 +148,11 @@ export class FormHandler {
           // Clean up any accidentally pasted full URLs and update input
           const slug = extractBookingsSlug(input.value);
           input.value = slug;
+          // Validate the calendar ID format
+          this.validateField('bookings', slug);
+        } else {
+          // Clear validation when empty
+          this.validateField('bookings', '');
         }
       });
     }
@@ -238,8 +243,8 @@ export class FormHandler {
     const result = inputValidator.validate(field, value);
     let iconContent = '';
 
-    // Only show validation for fields that have visual feedback (email, phone)
-    if (field === 'email' || field === 'phone') {
+    // Only show validation for fields that have visual feedback (email, phone, bookings)
+    if (field === 'email' || field === 'phone' || field === 'bookings') {
       if (value && !result.isValid) {
         iconContent = '✗';
       } else if (value) {

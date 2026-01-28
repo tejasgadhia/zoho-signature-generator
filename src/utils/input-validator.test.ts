@@ -93,13 +93,53 @@ describe('InputValidator', () => {
       expect(validator.validate('twitter', '@johndoe').isValid).toBe(true);
     });
 
-    it('should accept valid bookings URLs', () => {
+    it('should accept valid bookings calendar IDs', () => {
       expect(validator.validate('bookings', 'my-booking-id').isValid).toBe(true);
+      expect(validator.validate('bookings', 'johndoe').isValid).toBe(true);
+      expect(validator.validate('bookings', 'john-doe-123').isValid).toBe(true);
+    });
+
+    it('should accept valid full bookings URLs', () => {
+      expect(validator.validate('bookings', 'https://bookings.zohocorp.com/#/my-id').isValid).toBe(true);
     });
 
     it('should accept valid website URLs', () => {
       expect(validator.validate('website', 'https://zoho.com').isValid).toBe(true);
       expect(validator.validate('website', 'zoho.com').isValid).toBe(true);
+    });
+  });
+
+  describe('validate bookings calendar ID', () => {
+    it('should accept valid calendar IDs', () => {
+      expect(validator.validate('bookings', 'johndoe').isValid).toBe(true);
+      expect(validator.validate('bookings', 'john-doe').isValid).toBe(true);
+      expect(validator.validate('bookings', 'john123').isValid).toBe(true);
+      expect(validator.validate('bookings', 'JohnDoe').isValid).toBe(true);
+    });
+
+    it('should reject calendar IDs that are too short', () => {
+      const result = validator.validate('bookings', 'j');
+      expect(result.isValid).toBe(false);
+      expect(result.message).toContain('2 characters');
+    });
+
+    it('should reject calendar IDs with invalid characters', () => {
+      const result = validator.validate('bookings', 'john_doe');
+      expect(result.isValid).toBe(false);
+      expect(result.message).toContain('letters, numbers, and hyphens');
+    });
+
+    it('should reject calendar IDs with spaces', () => {
+      expect(validator.validate('bookings', 'john doe').isValid).toBe(false);
+    });
+
+    it('should reject calendar IDs starting or ending with hyphen', () => {
+      expect(validator.validate('bookings', '-johndoe').isValid).toBe(false);
+      expect(validator.validate('bookings', 'johndoe-').isValid).toBe(false);
+    });
+
+    it('should accept empty bookings (optional field)', () => {
+      expect(validator.validate('bookings', '').isValid).toBe(true);
     });
   });
 
