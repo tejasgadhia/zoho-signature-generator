@@ -271,7 +271,8 @@ export class FormHandler {
       const field = toggle.dataset.field;
       if (!field) return;
 
-      toggle.addEventListener('click', () => {
+      // Handler for toggling field state
+      const handleToggle = () => {
         // Toggle active state
         const isActive = toggle.classList.contains('active');
         const enabled = !isActive;
@@ -307,6 +308,17 @@ export class FormHandler {
           }
 
           this.previewRenderer.render();
+        }
+      };
+
+      // Click handler
+      toggle.addEventListener('click', handleToggle);
+
+      // Keyboard handler (Space/Enter for role="switch" accessibility)
+      toggle.addEventListener('keydown', (e) => {
+        if (e.key === ' ' || e.key === 'Enter') {
+          e.preventDefault();
+          handleToggle();
         }
       });
     });

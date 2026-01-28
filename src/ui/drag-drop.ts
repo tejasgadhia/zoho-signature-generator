@@ -169,7 +169,8 @@ export class DragDropHandler {
       // Set initial aria-checked based on active class
       htmlCard.setAttribute('aria-checked', String(htmlCard.classList.contains('active')));
 
-      htmlCard.addEventListener('click', () => {
+      // Handler for toggling social card
+      const handleCardToggle = () => {
         // Prevent toggle during drag
         if (this.draggedElement) return;
 
@@ -179,6 +180,17 @@ export class DragDropHandler {
 
         // Update state with active channels and re-render preview
         this.updateActiveChannels();
+      };
+
+      // Click handler
+      htmlCard.addEventListener('click', handleCardToggle);
+
+      // Keyboard handler (Space/Enter for accessibility)
+      htmlCard.addEventListener('keydown', (e) => {
+        if (e.key === ' ' || e.key === 'Enter') {
+          e.preventDefault();
+          handleCardToggle();
+        }
       });
     });
   }
@@ -209,7 +221,8 @@ export class DragDropHandler {
     const masterToggle = document.getElementById('master-social-toggle');
     if (!masterToggle) return;
 
-    masterToggle.addEventListener('click', () => {
+    // Handler for toggling all social channels
+    const handleMasterToggle = () => {
       const isActive = masterToggle.classList.contains('active');
       const newState = !isActive;
 
@@ -231,6 +244,17 @@ export class DragDropHandler {
 
       // Update state and re-render preview
       this.updateActiveChannels();
+    };
+
+    // Click handler
+    masterToggle.addEventListener('click', handleMasterToggle);
+
+    // Keyboard handler (Space/Enter for role="switch" accessibility)
+    masterToggle.addEventListener('keydown', (e) => {
+      if (e.key === ' ' || e.key === 'Enter') {
+        e.preventDefault();
+        handleMasterToggle();
+      }
     });
   }
 }
