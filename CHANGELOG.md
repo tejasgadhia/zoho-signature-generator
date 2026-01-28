@@ -7,6 +7,65 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [3.1.0] - 2026-01-28 ✨ **UX Polish & Visual Refinements**
+
+### 🎯 Overview
+
+Comprehensive UX improvements across 6 phases, completing the post-refactor polish cycle. All planned issues (#65-#92) resolved.
+
+### ✨ Added
+
+#### Phase 8: Visual Polish & Micro-interactions (#87, #88, #89, #90)
+- **Toggle switch animations**: 200ms ease-out transitions, enhanced hover/focus states, improved knob shadows
+- **Step progress indicators**: Green checkmark circles for completed sections ("Choose a Style", "Choose Color")
+- **Micro-interactions**: Button scale on hover/active (1.02x), card selection animations, success pulse effects
+- **Design system tokens**: Documented border radius (4-16px) and timing tokens (150-300ms)
+
+#### Phase 7: Form Clarity (#85, #91, #92)
+- **Sidebar improvements**: Better visual hierarchy and spacing
+- **Email field lock indicator**: Clear visual feedback for locked email domain
+- **Enhanced form labels**: Improved label clarity and accessibility
+
+#### Phase 6: UX Polish (#83, #84, #86)
+- **Accessibility improvements**: Enhanced ARIA labels, focus management, screen reader announcements
+- **Toast notifications**: Non-intrusive success/error feedback system
+- **Social button polish**: Improved Zoho social media toggle cards
+
+#### Phase 5: Architecture Improvements (#75)
+- **Code organization**: Cleaner module boundaries
+- **Performance optimizations**: Reduced re-renders, better state management
+
+#### Earlier Phases (3-4)
+- **Security hardening**: Input sanitization, XSS prevention improvements
+- **Code quality**: Consistent patterns, better error handling
+- **Post-refactor fixes**: Resolved edge cases from TypeScript migration
+
+### 🔧 Changed
+
+- **Feedback modal**: Redesigned with compact layout and hover effects (#74, #77)
+- **Help icons**: Clickable 44x44px buttons with expandable panels (#65)
+- **Sidebar visual polish**: Improved styling for help icons (#80, #82)
+- **README**: Streamlined documentation, removed duplicate sections
+
+### 📊 Issues Resolved
+
+| Phase | Issues | Focus |
+|-------|--------|-------|
+| Phase 3 | Security | Input validation, XSS prevention |
+| Phase 4 | Maintenance | Code quality, edge cases |
+| Phase 5 | Architecture | #75 - Module organization |
+| Phase 6 | UX | #83, #84, #86 - Accessibility, toast, social |
+| Phase 7 | Forms | #85, #91, #92 - Sidebar, email lock, labels |
+| Phase 8 | Visual | #87, #88, #89, #90 - Animations, indicators |
+
+### 🎯 What's Next
+
+Future enhancements (logged as issues):
+- #93: Email client preview simulation (Gmail/Outlook/Apple Mail)
+- #94: Usage analytics with Supabase
+
+---
+
 ## [3.0.0] - 2026-01-27 🚀 **TypeScript + Vite Refactor**
 
 ### 🏗️ Architecture
