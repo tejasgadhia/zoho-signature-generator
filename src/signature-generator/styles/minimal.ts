@@ -7,7 +7,7 @@
 import type { FormData } from '../../types';
 import { escapeHtml } from '../../utils';
 import { getDarkModeStyles } from '../components/dark-mode';
-import { buildTier1Links, buildTier2Links } from '../components/contact-tiers';
+import { buildTier1Links, buildTier2CTA, buildTier2Social } from '../components/contact-tiers';
 
 export function generate(
   data: FormData,
@@ -25,8 +25,11 @@ export function generate(
   // Tier 1: Primary Contact (Phone + Email)
   const tier1Html = buildTier1Links(data, accentColor);
 
-  // Tier 2: Personal Connections (LinkedIn + X + Bookings)
-  const tier2Html = buildTier2Links(data, accentColor);
+  // Tier 2a: CTA (Book a Meeting) - prominent, standalone
+  const ctaHtml = buildTier2CTA(data, accentColor);
+
+  // Tier 2b: Personal Social (LinkedIn + X)
+  const socialHtml = buildTier2Social(data, accentColor);
 
   return (
     getDarkModeStyles(isPreview) +
@@ -56,10 +59,19 @@ export function generate(
                 : ''
             }
             ${
-              tier2Html
+              ctaHtml
+                ? `
+            <div style="font-size: 12px; margin-bottom: 4px;">
+                ${ctaHtml}
+            </div>
+            `
+                : ''
+            }
+            ${
+              socialHtml
                 ? `
             <div style="font-size: 12px; margin-bottom: 2px;">
-                ${tier2Html}
+                ${socialHtml}
             </div>
             `
                 : ''

@@ -47,10 +47,11 @@ export function generateSocialLinks(
     displayType === 'icons' ? '' : ` <span class="sig-separator" style="color: ${accentColor};">•</span> `;
   const linksHtml = displayType === 'icons' ? links.join('') : links.join(separator);
 
+  // Minimized styling - smaller font, lighter colors, less visual weight
   return `
-            <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #E0E0E0;">
-                <div style="font-size: 11px; color: #888888; margin-bottom: 4px;">Follow Zoho:</div>
-                <div style="font-size: 11px;">
+            <div style="margin-top: 8px; padding-top: 6px; border-top: 1px solid #EBEBEB;">
+                <div style="font-size: 10px; color: #999999; margin-bottom: 2px;">Follow Zoho:</div>
+                <div style="font-size: 10px;">
                     ${linksHtml}
                 </div>
             </div>

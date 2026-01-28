@@ -1,6 +1,9 @@
 /**
  * Contact Tiers Component
- * Builds tiered contact information (Tier 1: Primary, Tier 2: Personal)
+ * Builds tiered contact information with clear hierarchy:
+ * - Tier 1: Primary Contact (Phone + Email)
+ * - Tier 2a: CTA (Book a Meeting) - prominent, standalone
+ * - Tier 2b: Social Profiles (LinkedIn + X) - secondary
  */
 
 import type { FormData } from '../../types';
@@ -33,37 +36,62 @@ export function buildTier1Links(
 }
 
 /**
- * Build Tier 2 links: Personal Connections (LinkedIn + X + Bookings)
+ * Build Tier 2 CTA: Book a Meeting (prominent, standalone)
+ * Styled as a clear call-to-action with calendar icon
  */
-export function buildTier2Links(
+export function buildTier2CTA(
   data: FormData,
   accentColor: string
 ): string {
-  const tier2Links: string[] = [];
+  if (!data.bookings) {
+    return '';
+  }
+
+  // Calendar emoji for visual prominence (works in most email clients)
+  return `<a href="${escapeHtml(data.bookings)}" rel="noopener noreferrer" class="sig-link sig-cta" style="color: ${accentColor}; text-decoration: none; font-weight: 500;">📅 Schedule a Meeting</a>`;
+}
+
+/**
+ * Build Tier 2 Social: Personal profiles (LinkedIn + X)
+ * Secondary to the CTA, shown as simple text links
+ */
+export function buildTier2Social(
+  data: FormData,
+  accentColor: string
+): string {
+  const socialLinks: string[] = [];
 
   if (data.linkedin) {
-    // sanitizeSocialUrl extracts just the username (e.g., "johndoe" from full URL)
     const linkedinUsername = sanitizeSocialUrl(data.linkedin, 'linkedin.com');
     const linkedinUrl = `https://www.linkedin.com/in/${linkedinUsername}`;
-    tier2Links.push(
+    socialLinks.push(
       `<a href="${linkedinUrl}" rel="noopener noreferrer" class="sig-link" style="color: ${accentColor}; text-decoration: none;">LinkedIn</a>`
     );
   }
 
   if (data.twitter) {
     const xHandle = sanitizeSocialUrl(data.twitter, 'x.com').replace('@', '');
-    tier2Links.push(
+    socialLinks.push(
       `<a href="https://x.com/${xHandle}" rel="noopener noreferrer" class="sig-link" style="color: ${accentColor}; text-decoration: none;">X</a>`
     );
   }
 
-  if (data.bookings) {
-    tier2Links.push(
-      `<a href="${escapeHtml(data.bookings)}" rel="noopener noreferrer" class="sig-link" style="color: ${accentColor}; text-decoration: none;">Book a Meeting</a>`
-    );
-  }
-
-  return tier2Links.length > 0
-    ? tier2Links.join(` <span class="sig-separator" style="color: ${accentColor};">•</span> `)
+  return socialLinks.length > 0
+    ? socialLinks.join(` <span class="sig-separator" style="color: ${accentColor};">•</span> `)
     : '';
+}
+
+/**
+ * @deprecated Use buildTier2CTA and buildTier2Social instead
+ * Kept for backward compatibility - combines CTA and social links
+ */
+export function buildTier2Links(
+  data: FormData,
+  accentColor: string
+): string {
+  const ctaHtml = buildTier2CTA(data, accentColor);
+  const socialHtml = buildTier2Social(data, accentColor);
+
+  const parts = [ctaHtml, socialHtml].filter(Boolean);
+  return parts.join(` <span class="sig-separator" style="color: ${accentColor};">•</span> `);
 }
