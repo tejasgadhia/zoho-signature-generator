@@ -108,7 +108,7 @@
                     <div class="input-wrapper">
                         <div class="toggle-switch active disabled" aria-disabled="true" aria-label="Full name (always required)"></div>
                         <input type="text" id="name" name="name" placeholder="Jasmine Frank" required autofocus autocomplete="name" data-preview-target="name">
-                        <button type="button" class="format-lock-icon locked" data-field="name" aria-label="Toggle auto-formatting" title="Auto-format enabled (click to disable)"></button>
+                        <button type="button" class="format-lock-icon locked" data-field="name" aria-label="Toggle auto-formatting for full name" title="Auto-format enabled (click to disable)"></button>
                         <span class="validation-icon" style="display: none;"></span>
                     </div>
                 </div>
@@ -119,7 +119,7 @@
                     <div class="input-wrapper">
                         <div class="toggle-switch active" data-field="title" role="switch" aria-checked="true" aria-label="Toggle job title" tabindex="0"></div>
                         <input type="text" id="title" name="title" placeholder="Director of Marketing" autocomplete="organization-title" data-preview-target="title">
-                        <button type="button" class="format-lock-icon locked" data-field="title" aria-label="Toggle auto-formatting" title="Auto-format enabled (click to disable)"></button>
+                        <button type="button" class="format-lock-icon locked" data-field="title" aria-label="Toggle auto-formatting for job title" title="Auto-format enabled (click to disable)"></button>
                         <span class="validation-icon" style="display: none;"></span>
                     </div>
                 </div>
@@ -130,7 +130,7 @@
                     <div class="input-wrapper">
                         <div class="toggle-switch active" data-field="department" role="switch" aria-checked="true" aria-label="Toggle department" tabindex="0"></div>
                         <input type="text" id="department" name="department" placeholder="Zoho One" autocomplete="organization" data-preview-target="department">
-                        <button type="button" class="format-lock-icon locked" data-field="department" aria-label="Toggle auto-formatting" title="Auto-format enabled (click to disable)"></button>
+                        <button type="button" class="format-lock-icon locked" data-field="department" aria-label="Toggle auto-formatting for department" title="Auto-format enabled (click to disable)"></button>
                     </div>
                 </div>
 
@@ -273,42 +273,42 @@
                     </label>
                     <div class="style-selector">
                         <label class="style-option">
-                            <input type="radio" name="signatureStyle" value="classic" checked aria-checked="true">
+                            <input type="radio" name="signatureStyle" value="classic" checked aria-checked="true" aria-label="Classic style - Best for everyone, universal polished format">
                             <div class="style-content">
                                 <span class="style-label">Classic</span>
                                 <span class="style-desc">Best for everyone - Universal, polished format</span>
                             </div>
                         </label>
                         <label class="style-option">
-                            <input type="radio" name="signatureStyle" value="professional">
+                            <input type="radio" name="signatureStyle" value="professional" aria-label="Professional style - Best for Sales, Customer Success, two columns">
                             <div class="style-content">
                                 <span class="style-label">Professional</span>
                                 <span class="style-desc">Best for Sales, Customer Success - Two columns</span>
                             </div>
                         </label>
                         <label class="style-option">
-                            <input type="radio" name="signatureStyle" value="minimal">
+                            <input type="radio" name="signatureStyle" value="minimal" aria-label="Minimalist style - Best for Engineering, Technical Support, text-only, no logo">
                             <div class="style-content">
                                 <span class="style-label">Minimalist</span>
                                 <span class="style-desc">Best for Engineering, Technical Support - Text-only, no logo</span>
                             </div>
                         </label>
                         <label class="style-option">
-                            <input type="radio" name="signatureStyle" value="compact">
+                            <input type="radio" name="signatureStyle" value="compact" aria-label="Compact style - Best for mobile-heavy users, space-efficient layout">
                             <div class="style-content">
                                 <span class="style-label">Compact</span>
                                 <span class="style-desc">Best for mobile-heavy users - Space-efficient layout</span>
                             </div>
                         </label>
                         <label class="style-option">
-                            <input type="radio" name="signatureStyle" value="modern">
+                            <input type="radio" name="signatureStyle" value="modern" aria-label="Modern style - Best for Product, Engineering Leadership, accent bar design">
                             <div class="style-content">
                                 <span class="style-label">Modern</span>
                                 <span class="style-desc">Best for Product, Engineering Leadership - Accent bar design</span>
                             </div>
                         </label>
                         <label class="style-option">
-                            <input type="radio" name="signatureStyle" value="creative">
+                            <input type="radio" name="signatureStyle" value="creative" aria-label="Creative style - Best for Marketing, Design, Events, bold left accent bar">
                             <div class="style-content">
                                 <span class="style-label">Creative</span>
                                 <span class="style-desc">Best for Marketing, Design, Events - Bold left accent bar</span>
