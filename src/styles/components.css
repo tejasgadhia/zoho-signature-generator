@@ -5,14 +5,14 @@
 
 /* Import Instructions Section */
 .import-section-title {
-    font-size: 16px;
+    font-size: var(--font-size-base);
     font-weight: 600;
     color: #333333;
     margin-bottom: 4px;
 }
 
 .import-section-hint {
-    font-size: 13px;
+    font-size: var(--font-size-sm);
     color: #6B7280;
     margin-bottom: 16px;
     line-height: 1.4;
@@ -58,7 +58,7 @@
     align-items: center;
     justify-content: flex-start;
     color: #FFFFFF;
-    font-size: 16px;
+    font-size: var(--font-size-base);
     font-weight: 600;
     padding: 0 16px;
 }
@@ -121,7 +121,7 @@
 
 .import-section-divider {
     text-align: center;
-    font-size: 12px;
+    font-size: var(--font-size-xs);
     color: #999999;
     margin: 24px 0 16px 0;
     position: relative;
@@ -150,7 +150,7 @@
     background: #FFFFFF;
     border: 1px solid #CCCCCC;
     color: #666666;
-    font-size: 14px;
+    font-size: var(--font-size-sm);
     margin-bottom: 8px;
 }
 
@@ -161,7 +161,7 @@
 }
 
 .import-btn-icon {
-    font-size: 20px;
+    font-size: var(--font-size-xl);
 }
 
 .import-btn-logo {
@@ -190,7 +190,7 @@
     background: #F9FAFB;
     border: 1px solid #E5E7EB;
     border-radius: var(--radius-md);
-    font-size: 13px;
+    font-size: var(--font-size-sm);
     font-weight: 500;
     color: #6B7280;
     cursor: pointer;
@@ -254,7 +254,7 @@
 
 .import-btn-secondary-split .import-btn-text {
     color: #4B5563;
-    font-size: 14px;
+    font-size: var(--font-size-sm);
     font-weight: 500;
 }
 
@@ -492,7 +492,7 @@
 }
 
 .modal-time-estimate {
-    font-size: 13px;
+    font-size: var(--font-size-sm);
     color: #6B7280; /* Darker for better readability */
     font-weight: 400;
     margin: 0;
@@ -533,7 +533,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 17px;
+    font-size: var(--font-size-base);
     font-weight: 700;
     box-shadow: 0 2px 5px rgba(228, 37, 39, 0.25), inset 0 -1px 2px rgba(0,0,0,0.12);
 }
@@ -544,7 +544,7 @@
 }
 
 .step-title {
-    font-size: 15px;
+    font-size: var(--font-size-base);
     font-weight: 500;
     color: #1F2937;
     line-height: 1.6;
@@ -552,7 +552,7 @@
 }
 
 .step-detail {
-    font-size: 14px;
+    font-size: var(--font-size-sm);
     color: #6B7280; /* Light mode gray */
     line-height: 1.5;
 }
@@ -584,14 +584,14 @@
 }
 
 .tip-icon {
-    font-size: 20px;
+    font-size: var(--font-size-xl);
     line-height: 1;
     flex-shrink: 0;
 }
 
 .tip-content {
     flex: 1;
-    font-size: 14px;
+    font-size: var(--font-size-sm);
     color: #1F2937; /* Light mode dark text */
     line-height: 1.5;
 }
@@ -606,12 +606,12 @@
     align-items: center;
     gap: 6px;
     padding: 8px 16px;
-    font-size: 14px;
+    font-size: var(--font-size-sm);
     font-weight: 600;
     color: white;
     background: #E42527;
     border: none;
-    border-radius: 8px;
+    border-radius: var(--radius-md);
     cursor: pointer;
     transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 1px 3px rgba(228, 37, 39, 0.4), 0 1px 2px rgba(228, 37, 39, 0.24);
@@ -658,7 +658,7 @@
 
 /* Step Icons */
 .step-icon {
-    font-size: 16px;
+    font-size: var(--font-size-base);
     margin-right: 4px;
     opacity: 0.8;
 }
@@ -670,11 +670,11 @@ kbd {
     gap: 2px;
     padding: 3px 8px;
     font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', system-ui, sans-serif;
-    font-size: 13px;
+    font-size: var(--font-size-sm);
     background: linear-gradient(180deg, #FFFFFF 0%, #F9FAFB 100%);
     border: 1px solid #D1D5DB;
     border-bottom-width: 2px;
-    border-radius: 6px;
+    border-radius: var(--radius-sm);
     box-shadow: 0 1px 2px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.9);
     color: #374151;
     font-weight: 500;
@@ -746,15 +746,15 @@ kbd::before {
     .step-number {
         width: 28px;
         height: 28px;
-        font-size: 16px;
+        font-size: var(--font-size-base);
     }
 
     .step-title {
-        font-size: 14px;
+        font-size: var(--font-size-sm);
     }
 
     .step-detail {
-        font-size: 13px;
+        font-size: var(--font-size-sm);
     }
 
     .tip-box-new {
@@ -763,11 +763,11 @@ kbd::before {
     }
 
     .tip-icon {
-        font-size: 18px;
+        font-size: var(--font-size-xl);
     }
 
     .tip-content {
-        font-size: 13px;
+        font-size: var(--font-size-sm);
     }
 
     .inline-copy-btn {
@@ -785,7 +785,7 @@ kbd::before {
     background: #1F2937;  /* Dark neutral for prominence */
     color: white;
     padding: 0;
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-md);
     box-shadow: var(--shadow-xl);
     font-weight: 500;
     opacity: 0;
@@ -820,13 +820,13 @@ kbd::before {
 
 .toast-icon {
     flex-shrink: 0;
-    font-size: 20px;
+    font-size: var(--font-size-xl);
     line-height: 1;
 }
 
 .toast-message {
     flex: 1;
-    font-size: 14px;
+    font-size: var(--font-size-sm);
     line-height: 1.5;
 }
 
@@ -835,7 +835,7 @@ kbd::before {
     background: none;
     border: none;
     color: rgba(255, 255, 255, 0.6);
-    font-size: 20px;
+    font-size: var(--font-size-xl);
     cursor: pointer;
     padding: 0;
     width: 24px;
@@ -843,7 +843,7 @@ kbd::before {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
     transition: all 0.15s ease;
 }
 
@@ -860,14 +860,14 @@ kbd::before {
 }
 
 .toast-action {
-    font-size: 13px;
+    font-size: var(--font-size-sm);
     font-weight: 500;
     color: #60A5FA;  /* Light blue for actions */
     background: none;
     border: none;
     padding: 4px 8px;
     cursor: pointer;
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
     transition: all 0.15s ease;
 }
 
@@ -922,7 +922,7 @@ kbd::before {
     border: 1px solid #E0E0E0;
     border-radius: var(--radius-md);
     font-family: 'Verdana', sans-serif;
-    font-size: 14px;
+    font-size: var(--font-size-sm);
     font-weight: 500;
     color: #333333;
     cursor: pointer;
@@ -1005,7 +1005,7 @@ kbd::before {
     min-width: 36px;
     min-height: 36px;
     background: var(--color-neutral-100, #F3F4F6);
-    border-radius: 8px;
+    border-radius: var(--radius-md);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1058,7 +1058,7 @@ kbd::before {
 }
 
 .feedback-option-title {
-    font-size: 14px;
+    font-size: var(--font-size-sm);
     font-weight: 500;
     color: var(--color-neutral-900, #111827);
     margin: 0;

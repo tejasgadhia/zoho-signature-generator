@@ -19,20 +19,16 @@
     /* ==========================================================================
        Border Radius Scale (Project Standard)
 
-       Usage guide:
-       - --radius-xs (4px): Small pills, badges, scrollbar thumbs
-       - --radius-sm (6px): Help panels, tips, small buttons
-       - --radius-md (8px): Cards, inputs, buttons, modals (most common)
-       - --radius-lg (12px): Large cards, modal content
-       - --radius-xl (16px): Hero sections, full-width cards
-       - --radius-full (100px): Toggle switches, round buttons
+       Simplified 4-value scale for consistency:
+       - --radius-sm (4px): Small elements - chips, badges, buttons, tooltips
+       - --radius-md (8px): Medium elements - cards, inputs, modals (most common)
+       - --radius-lg (16px): Large elements - panels, hero sections
+       - --radius-full (9999px): Circles and pills - toggles, avatars
        ========================================================================== */
-    --radius-xs: 4px;
-    --radius-sm: 6px;
+    --radius-sm: 4px;
     --radius-md: 8px;
-    --radius-lg: 12px;
-    --radius-xl: 16px;
-    --radius-full: 100px;
+    --radius-lg: 16px;
+    --radius-full: 9999px;
 
     /* ==========================================================================
        Animation Timing (Project Standard)
@@ -91,7 +87,7 @@ body {
 
 .sidebar-scrollable::-webkit-scrollbar-thumb {
     background: rgba(0, 0, 0, 0.15);
-    border-radius: 3px;
+    border-radius: var(--radius-sm);
 }
 
 .sidebar-scrollable::-webkit-scrollbar-thumb:hover {
@@ -105,7 +101,7 @@ body {
 }
 
 .sidebar-title {
-    font-size: 24px;
+    font-size: var(--font-size-2xl);
     font-weight: 700;
     color: #E42527;
     margin-bottom: 8px;
@@ -113,7 +109,7 @@ body {
 }
 
 .sidebar-subtitle {
-    font-size: 14px;
+    font-size: var(--font-size-sm);
     color: #666666;
     margin-bottom: 24px;
     text-align: center;
@@ -121,7 +117,7 @@ body {
 }
 
 .sidebar-education {
-    font-size: 14px;
+    font-size: var(--font-size-sm);
     color: #333333;
     font-weight: 500;
     line-height: 1.6;
@@ -138,7 +134,7 @@ body {
 
 /* Disclaimer Footer (subtle, non-alarming) */
 .disclaimer-footer {
-    font-size: 11px;
+    font-size: var(--font-size-xs);
     color: #9CA3AF;
     text-align: center;
     margin-top: 16px;
@@ -152,20 +148,20 @@ body {
     background: #F9B21D;
     padding: 16px;
     margin-top: 24px;
-    border-radius: 8px;
+    border-radius: var(--radius-md);
     display: flex;
     gap: 12px;
     align-items: flex-start;
 }
 
 .disclaimer-icon {
-    font-size: 16px;
+    font-size: var(--font-size-base);
     flex-shrink: 0;
     line-height: 1.5;
 }
 
 .disclaimer-text {
-    font-size: 12px;
+    font-size: var(--font-size-xs);
     color: #333333;
     line-height: 1.5;
 }
@@ -176,7 +172,7 @@ body {
 }
 
 .quick-start-title {
-    font-size: 14px;
+    font-size: var(--font-size-sm);
     font-weight: 600;
     color: #333333;
     margin-bottom: 12px;
@@ -189,7 +185,7 @@ body {
 }
 
 .quick-start li {
-    font-size: 13px;
+    font-size: var(--font-size-sm);
     color: #333333;
     line-height: 1.6;
     margin-bottom: 8px;
@@ -226,7 +222,7 @@ body {
         color: #333333;
         padding: 12px;
         text-align: center;
-        font-size: 14px;
+        font-size: var(--font-size-sm);
         font-weight: 600;
         z-index: 10000;
     }

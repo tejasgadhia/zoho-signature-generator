@@ -12,14 +12,14 @@
 }
 
 .form-section h2 {
-    font-size: 20px;
+    font-size: var(--font-size-xl);
     font-weight: 700;
     margin-bottom: 12px;
     color: #333333;
 }
 
 .form-helper-text {
-    font-size: 14px;
+    font-size: var(--font-size-sm);
     color: #6B7280;
     margin-bottom: 24px;
     margin-top: 0;
@@ -79,7 +79,7 @@
     width: 48px;
     height: 26px;
     background: #6B7280;  /* WCAG AA: neutral-500 for visibility */
-    border-radius: 100px;
+    border-radius: var(--radius-full);
     cursor: pointer;
     transition: background 0.2s ease-out, box-shadow 0.2s ease-out;
     flex-shrink: 0;
@@ -178,8 +178,8 @@
     transform: translateY(-50%);
     background: #E5E7EB;  /* Gray when disabled */
     border: none;
-    border-radius: 4px;
-    font-size: 11px;
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-xs);
     font-weight: 600;
     cursor: pointer;
     padding: 4px 6px;
@@ -215,8 +215,8 @@
     background: #374151;
     color: #F3F4F6;
     padding: 8px 12px;
-    border-radius: 6px;
-    font-size: 12px;
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-xs);
     font-weight: 400;
     line-height: 1.4;
     white-space: nowrap;
@@ -433,7 +433,7 @@
 
 .url-prefix {
     padding: 0.625rem 0.5rem 0.625rem 0.875rem;
-    font-size: 13px;
+    font-size: var(--font-size-sm);
     color: #6B7280;  /* WCAG AA: neutral-500 for 4.6:1 contrast */
     background: #FAFAFA;  /* Lighter background for reduced visual weight */
     border-right: 1px solid #E5E7EB;
@@ -466,12 +466,12 @@
     border-radius: 50%;
     background: #E0E0E0;
     color: #666;
-    font-size: 11px;
+    font-size: var(--font-size-xs);
     cursor: help;
 }
 
 .field-tooltip-icon {
-    font-size: 11px;
+    font-size: var(--font-size-xs);
     line-height: 1;
 }
 
@@ -492,7 +492,7 @@
 .validation-icon {
     position: absolute;
     right: 12px;
-    font-size: 18px;
+    font-size: var(--font-size-xl);
     pointer-events: auto; /* Allow hover for tooltip */
     cursor: help;
     color: #DC2626; /* Red warning color */
@@ -523,7 +523,7 @@
     display: none; /* Hidden by default, shown by JS */
     align-items: center;
     justify-content: center;
-    font-size: 16px;  /* Slightly smaller to fit better */
+    font-size: var(--font-size-base);  /* Slightly smaller to fit better */
     font-weight: bold;
     z-index: 5;
     opacity: 0;
@@ -579,7 +579,7 @@
 .btn {
     width: 100%;
     padding: 14px 24px;
-    font-size: 16px;
+    font-size: var(--font-size-base);
     font-weight: 600;
     border: none;
     border-radius: var(--radius-md);
@@ -611,7 +611,7 @@
 }
 
 .btn-icon {
-    font-size: 18px;
+    font-size: var(--font-size-xl);
 }
 
 /* Copy Button Success State */
@@ -643,7 +643,7 @@
 .error-message {
     display: none;
     color: #DC2626;
-    font-size: 14px;
+    font-size: var(--font-size-sm);
     font-weight: 500;
     margin-top: 6px;
     line-height: 1.4;
@@ -657,7 +657,7 @@
 }
 
 .error-icon {
-    font-size: 16px;
+    font-size: var(--font-size-base);
     font-weight: bold;
     flex-shrink: 0;
     margin-top: 1px;
