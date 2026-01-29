@@ -883,14 +883,14 @@ kbd::before {
 
 /* Progress bar for auto-dismiss */
 .toast-progress {
-    height: 3px;
-    background: rgba(255, 255, 255, 0.2);
+    height: 4px;
+    background: rgba(255, 255, 255, 0.3);
     overflow: hidden;
 }
 
 .toast-progress-bar {
     height: 100%;
-    background: rgba(255, 255, 255, 0.6);
+    background: #60A5FA; /* Light blue - more visible */
     width: 100%;
     animation: toast-countdown 4s linear forwards;
 }
