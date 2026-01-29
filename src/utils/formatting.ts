@@ -137,3 +137,81 @@ export function formatPhoneNumber(phone: string): string {
   // Unknown format: preserve as-is
   return trimmed;
 }
+
+/**
+ * Result of live phone formatting with cursor position
+ */
+export interface LivePhoneFormatResult {
+  formatted: string;
+  cursorPosition: number;
+}
+
+/**
+ * Live format phone number as user types
+ * Auto-adds +1 prefix and formats to: +1 XXX XXX XXXX
+ *
+ * Examples:
+ * - "5" → "+1 5"
+ * - "555" → "+1 555"
+ * - "5551234567" → "+1 555 123 4567"
+ * - "+15551234567" → "+1 555 123 4567"
+ * - "abc123" → "+1 123" (strips non-digits)
+ *
+ * @param input - Raw input value
+ * @param cursorPos - Current cursor position in input
+ * @returns Formatted string and new cursor position
+ */
+export function liveFormatPhone(input: string, cursorPos: number): LivePhoneFormatResult {
+  // Extract only digits from input
+  let digits = input.replace(/\D/g, '');
+
+  // If starts with country code 1 and has > 10 digits, strip the leading 1
+  if (digits.length > 10 && digits.startsWith('1')) {
+    digits = digits.slice(1);
+  }
+
+  // Limit to 10 digits (US phone number)
+  digits = digits.slice(0, 10);
+
+  // If no digits, return empty
+  if (digits.length === 0) {
+    return { formatted: '', cursorPosition: 0 };
+  }
+
+  // Build formatted string: +1 XXX XXX XXXX
+  let formatted = '+1 ';
+
+  // Area code (first 3 digits)
+  formatted += digits.slice(0, 3);
+
+  // Exchange (next 3 digits)
+  if (digits.length > 3) {
+    formatted += ' ' + digits.slice(3, 6);
+  }
+
+  // Subscriber (last 4 digits)
+  if (digits.length > 6) {
+    formatted += ' ' + digits.slice(6, 10);
+  }
+
+  // Calculate new cursor position
+  // Count digits before cursor in original input
+  const digitsBeforeCursor = input.slice(0, cursorPos).replace(/\D/g, '').length;
+
+  // Map digit position to formatted position
+  let newCursorPos: number;
+  if (digitsBeforeCursor === 0) {
+    newCursorPos = 3; // After "+1 "
+  } else if (digitsBeforeCursor <= 3) {
+    newCursorPos = 3 + digitsBeforeCursor; // In area code
+  } else if (digitsBeforeCursor <= 6) {
+    newCursorPos = 3 + 3 + 1 + (digitsBeforeCursor - 3); // After area code + space
+  } else {
+    newCursorPos = 3 + 3 + 1 + 3 + 1 + (digitsBeforeCursor - 6); // After exchange + space
+  }
+
+  // Clamp cursor to formatted length
+  newCursorPos = Math.min(newCursorPos, formatted.length);
+
+  return { formatted, cursorPosition: newCursorPos };
+}

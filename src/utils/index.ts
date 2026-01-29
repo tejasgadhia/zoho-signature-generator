@@ -17,8 +17,10 @@ export {
   escapeHtml,
   sanitizePhone,
   generateEmailPrefix,
-  formatPhoneNumber
+  formatPhoneNumber,
+  liveFormatPhone
 } from './formatting';
+export type { LivePhoneFormatResult } from './formatting';
 
 // URL utilities
 export {

@@ -12,7 +12,7 @@ import {
   getTrackedWebsiteURL,
   sanitizeSocialUrl,
   extractBookingsSlug,
-  formatPhoneNumber,
+  liveFormatPhone,
   debounce,
   inputValidator
 } from '../utils';
@@ -161,32 +161,34 @@ export class FormHandler {
       });
     }
 
-    // Phone input (with character filtering: digits, +, spaces, dashes, parentheses only)
+    // Phone input (live formatting with +1 prefix, numbers only)
     const phoneInput = document.getElementById('phone') as HTMLInputElement;
     if (phoneInput) {
       phoneInput.addEventListener('input', (e) => {
         const input = e.target as HTMLInputElement;
-        // Filter to only allowed characters: digits, +, spaces, dashes, parentheses
-        const value = input.value.replace(/[^0-9+\s()-]/g, '');
-        input.value = value;
-        this.handleFieldChange('phone', value);
+        const cursorPos = input.selectionStart || 0;
+
+        // Live format as user types: auto +1 prefix, digits only, spaced format
+        const { formatted, cursorPosition } = liveFormatPhone(input.value, cursorPos);
+
+        input.value = formatted;
+        this.handleFieldChange('phone', formatted);
+
+        // Restore cursor position
+        input.setSelectionRange(cursorPosition, cursorPosition);
+
         // Real-time validation for immediate feedback
-        if (value) {
-          this.validateField('phone', value);
+        if (formatted) {
+          this.validateField('phone', formatted);
+        } else {
+          // Clear validation when empty
+          this.validateField('phone', '');
         }
       });
 
-      phoneInput.addEventListener('blur', (e) => {
-        const input = e.target as HTMLInputElement;
-        const value = input.value;
-
-        if (value.trim()) {
-          const formatted = formatPhoneNumber(value);
-          input.value = formatted;
-          this.handleFieldChange('phone', formatted);
-        }
-
-        this.validateField('phone', input.value);
+      phoneInput.addEventListener('blur', () => {
+        // Validation on blur (formatting already done live)
+        this.validateField('phone', phoneInput.value);
       });
     }
 
