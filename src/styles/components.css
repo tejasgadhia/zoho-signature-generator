@@ -941,8 +941,15 @@ kbd::before {
 }
 
 .feedback-btn-icon {
-    font-size: 18px;
+    width: 18px;
+    height: 18px;
     flex-shrink: 0;
+    stroke: var(--color-text-secondary, #666666);
+    transition: stroke var(--duration-standard) ease;
+}
+
+.feedback-btn:hover .feedback-btn-icon {
+    stroke: var(--color-text-primary, #333333);
 }
 
 .feedback-btn-text {
