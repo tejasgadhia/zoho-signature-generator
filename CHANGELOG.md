@@ -7,6 +7,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [3.2.0] - 2026-01-29 🎨 **Social Links Drag-Drop Redesign**
+
+### ✨ Added
+
+#### YouTube Channel (#111)
+- **5th social channel**: YouTube added to Zoho social links (position 2, after LinkedIn)
+- **Brand color**: Red (#FF0000) left border when active
+- **Signature output**: YouTube link included in "Follow Zoho:" section
+
+#### SortableJS Integration (#111)
+- **iOS-style drag animations**: Smooth 200ms animations with spring easing
+- **Drag from anywhere**: No longer need to grab a specific handle - entire card is draggable
+- **Visual feedback**: Cards lift with shadow when grabbed, ghost placeholder shows drop position
+- **Reset button**: Click "↺ Reset" to restore default channel order
+
+### 🔧 Changed
+
+#### Social Cards Redesign
+- **Removed icons**: Cards now show text-only labels (LinkedIn, YouTube, X, Instagram, Facebook)
+- **Colored left borders**: Active cards show 3px brand-colored left border
+- **Compact layout**: Cards are smaller (32px height) with better alignment
+- **Improved instructions**: "Click card = on/off · Hold & drag = reorder"
+
+#### Technical
+- **SortableJS dependency**: Added `sortablejs` (~2KB) for reliable drag-drop
+- **CSS Grid → Flexbox**: Switched layout for better SortableJS compatibility
+- **Removed native drag**: Eliminated `draggable="true"` HTML attribute conflicts
+
+### 🗑️ Removed
+- Social card icons (in, ▶, 𝕏, IG, f) - replaced with text labels
+- Drag handle element (⋮⋮) - now drag from anywhere
+- Native HTML5 drag-drop code - replaced with SortableJS
+
+---
+
 ## [3.1.1] - 2026-01-28 🧹 **Cleanup & Simplification**
 
 ### 🗑️ Removed

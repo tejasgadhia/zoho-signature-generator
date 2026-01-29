@@ -1,6 +1,6 @@
 {
   "name": "zoho-signature-generator",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "type": "module",
   "description": "Professional email signatures for Zoho employees",
   "scripts": {
@@ -20,9 +20,13 @@
   "license": "SEE LICENSE IN LICENSE.md",
   "devDependencies": {
     "@types/node": "^20.11.5",
+    "@types/sortablejs": "^1.15.9",
     "terser": "^5.46.0",
     "typescript": "^5.3.3",
     "vite": "^5.0.11",
     "vitest": "^4.0.18"
+  },
+  "dependencies": {
+    "sortablejs": "^1.15.6"
   }
 }

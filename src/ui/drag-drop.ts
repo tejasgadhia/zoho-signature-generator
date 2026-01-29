@@ -1,14 +1,15 @@
 /**
  * Drag & Drop Handler
- * Manages drag-and-drop reordering for social media channels
+ * Manages drag-and-drop reordering for social media channels using SortableJS
  */
 
+import Sortable from 'sortablejs';
 import type { AppStateManager } from '../app/state';
 import type { PreviewRenderer } from '../app/preview-renderer';
 import type { SocialChannel } from '../types';
 import { eventBus } from '../events';
 
-const VALID_CHANNELS: SocialChannel[] = ['linkedin', 'twitter', 'instagram', 'facebook'];
+const VALID_CHANNELS: SocialChannel[] = ['linkedin', 'youtube', 'twitter', 'instagram', 'facebook'];
 
 function isValidChannel(channel: string): channel is SocialChannel {
   return VALID_CHANNELS.includes(channel as SocialChannel);
@@ -17,124 +18,43 @@ function isValidChannel(channel: string): channel is SocialChannel {
 export class DragDropHandler {
   private stateManager: AppStateManager;
   private previewRenderer: PreviewRenderer;
-  private draggedElement: HTMLElement | null = null;
+  private sortable: Sortable | null = null;
 
   constructor(stateManager: AppStateManager, previewRenderer: PreviewRenderer) {
     this.stateManager = stateManager;
     this.previewRenderer = previewRenderer;
   }
 
+  private static readonly DEFAULT_ORDER: SocialChannel[] = ['linkedin', 'youtube', 'twitter', 'instagram', 'facebook'];
+
   /**
    * Initialize drag-drop functionality
    */
   initialize(): void {
-    this.setupDragListeners();
+    this.setupSortable();
     this.setupCardClickHandlers();
     this.setupMasterToggle();
+    this.setupResetButton();
   }
 
   /**
-   * Setup drag-and-drop event listeners
+   * Setup SortableJS for smooth drag animations
    */
-  private setupDragListeners(): void {
-    const socialCards = document.querySelectorAll('.social-compact-card');
+  private setupSortable(): void {
+    const grid = document.getElementById('socialCompactGrid');
+    if (!grid) return;
 
-    socialCards.forEach((card) => {
-      const htmlCard = card as HTMLElement;
+    this.sortable = Sortable.create(grid, {
+      animation: 200,
+      easing: 'cubic-bezier(0.25, 1, 0.5, 1)', // iOS-like spring easing
+      ghostClass: 'sortable-ghost',
+      chosenClass: 'sortable-chosen',
+      dragClass: 'sortable-drag',
 
-      // Make draggable
-      htmlCard.setAttribute('draggable', 'true');
-
-      // Drag start
-      htmlCard.addEventListener('dragstart', (e) => {
-        this.handleDragStart(e as DragEvent);
-      });
-
-      // Drag over
-      htmlCard.addEventListener('dragover', (e) => {
-        e.preventDefault();  // Allow drop
-        this.handleDragOver(e as DragEvent);
-      });
-
-      // Drop
-      htmlCard.addEventListener('drop', (e) => {
-        e.preventDefault();
-        this.handleDrop(e as DragEvent);
-      });
-
-      // Drag end
-      htmlCard.addEventListener('dragend', () => {
-        this.handleDragEnd();
-      });
-    });
-  }
-
-  /**
-   * Handle drag start
-   */
-  private handleDragStart(event: DragEvent): void {
-    this.draggedElement = event.target as HTMLElement;
-    this.draggedElement.classList.add('dragging');
-
-    if (event.dataTransfer) {
-      event.dataTransfer.effectAllowed = 'move';
-      event.dataTransfer.setData('text/html', this.draggedElement.innerHTML);
-    }
-  }
-
-  /**
-   * Handle drag over
-   */
-  private handleDragOver(event: DragEvent): void {
-    const target = event.target as HTMLElement;
-    const card = target.closest('.social-compact-card') as HTMLElement;
-
-    if (card && card !== this.draggedElement) {
-      // Visual feedback
-      card.classList.add('drag-over');
-    }
-  }
-
-  /**
-   * Handle drop
-   */
-  private handleDrop(event: DragEvent): void {
-    if (!this.draggedElement) return;
-
-    const target = event.target as HTMLElement;
-    const dropTarget = target.closest('.social-compact-card') as HTMLElement;
-
-    if (dropTarget && dropTarget !== this.draggedElement) {
-      const container = dropTarget.parentElement;
-      if (!container) return;
-
-      // Determine drop position
-      const rect = dropTarget.getBoundingClientRect();
-      const midpoint = (rect.left + rect.right) / 2;
-      const insertBefore = event.clientX < midpoint;
-
-      // Reorder DOM elements
-      if (insertBefore) {
-        container.insertBefore(this.draggedElement, dropTarget);
-      } else {
-        container.insertBefore(this.draggedElement, dropTarget.nextSibling);
+      onEnd: () => {
+        this.saveOrder();
       }
-
-      // Save new order
-      this.saveOrder();
-    }
-  }
-
-  /**
-   * Handle drag end (cleanup)
-   */
-  private handleDragEnd(): void {
-    // Remove visual feedback
-    document.querySelectorAll('.social-compact-card').forEach((card) => {
-      card.classList.remove('dragging', 'drag-over');
     });
-
-    this.draggedElement = null;
   }
 
   /**
@@ -171,9 +91,6 @@ export class DragDropHandler {
 
       // Handler for toggling social card
       const handleCardToggle = () => {
-        // Prevent toggle during drag
-        if (this.draggedElement) return;
-
         // Toggle active state
         htmlCard.classList.toggle('active');
         htmlCard.setAttribute('aria-checked', String(htmlCard.classList.contains('active')));
@@ -256,5 +173,56 @@ export class DragDropHandler {
         handleMasterToggle();
       }
     });
+  }
+
+  /**
+   * Setup reset button to restore default order
+   */
+  private setupResetButton(): void {
+    const resetBtn = document.getElementById('socialResetBtn');
+    if (!resetBtn) return;
+
+    resetBtn.addEventListener('click', () => {
+      this.resetToDefaultOrder();
+    });
+  }
+
+  /**
+   * Reset social channels to default order
+   */
+  private resetToDefaultOrder(): void {
+    const grid = document.getElementById('socialCompactGrid');
+    if (!grid) return;
+
+    // Reorder DOM elements to match default order
+    DragDropHandler.DEFAULT_ORDER.forEach(channel => {
+      const card = grid.querySelector(`[data-channel="${channel}"]`);
+      if (card) {
+        // Also ensure it's active
+        card.classList.add('active');
+        card.setAttribute('aria-checked', 'true');
+        grid.appendChild(card);
+      }
+    });
+
+    // Update master toggle to active
+    const masterToggle = document.getElementById('master-social-toggle');
+    if (masterToggle) {
+      masterToggle.classList.add('active');
+      masterToggle.setAttribute('aria-checked', 'true');
+    }
+
+    // Save the new order
+    this.saveOrder();
+  }
+
+  /**
+   * Destroy sortable instance (cleanup)
+   */
+  destroy(): void {
+    if (this.sortable) {
+      this.sortable.destroy();
+      this.sortable = null;
+    }
   }
 }

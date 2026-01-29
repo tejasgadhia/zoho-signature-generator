@@ -232,32 +232,20 @@
                     <label for="master-social-toggle">Zoho Social Links</label>
                     <div class="input-wrapper social-master-wrapper">
                         <div class="toggle-switch social-toggle active" id="master-social-toggle" role="switch" aria-checked="true" aria-label="Toggle Zoho social links" tabindex="0"></div>
-                        <span class="social-hint">Click cards to toggle on/off, drag to reorder</span>
+                        <span class="social-hint">Click card = on/off · Hold & drag = reorder</span>
+                        <button type="button" class="social-reset-btn" id="socialResetBtn" aria-label="Reset to default order">
+                            <span class="reset-icon">↺</span> Reset
+                        </button>
                     </div>
                 </div>
 
                 <!-- Social Channels Grid -->
                 <div class="social-compact-grid" id="socialCompactGrid">
-                        <div class="social-compact-card active" draggable="true" data-channel="linkedin" role="button" tabindex="0" aria-label="LinkedIn - Click to toggle, drag to reorder">
-                            <span class="social-drag-handle">⋮⋮</span>
-                            <span class="social-compact-icon">in</span>
-                            <span class="social-compact-label">LinkedIn</span>
-                        </div>
-                        <div class="social-compact-card active" draggable="true" data-channel="twitter" role="button" tabindex="0" aria-label="X - Click to toggle, drag to reorder">
-                            <span class="social-drag-handle">⋮⋮</span>
-                            <span class="social-compact-icon">𝕏</span>
-                            <span class="social-compact-label">X</span>
-                        </div>
-                        <div class="social-compact-card active" draggable="true" data-channel="instagram" role="button" tabindex="0" aria-label="Instagram - Click to toggle, drag to reorder">
-                            <span class="social-drag-handle">⋮⋮</span>
-                            <span class="social-compact-icon">IG</span>
-                            <span class="social-compact-label">Instagram</span>
-                        </div>
-                        <div class="social-compact-card active" draggable="true" data-channel="facebook" role="button" tabindex="0" aria-label="Facebook - Click to toggle, drag to reorder">
-                            <span class="social-drag-handle">⋮⋮</span>
-                            <span class="social-compact-icon">f</span>
-                            <span class="social-compact-label">Facebook</span>
-                        </div>
+                        <div class="social-compact-card active" data-channel="linkedin" role="button" tabindex="0" aria-label="LinkedIn - Click to toggle, drag to reorder">LinkedIn</div>
+                        <div class="social-compact-card active" data-channel="youtube" role="button" tabindex="0" aria-label="YouTube - Click to toggle, drag to reorder">YouTube</div>
+                        <div class="social-compact-card active" data-channel="twitter" role="button" tabindex="0" aria-label="X - Click to toggle, drag to reorder">X</div>
+                        <div class="social-compact-card active" data-channel="instagram" role="button" tabindex="0" aria-label="Instagram - Click to toggle, drag to reorder">Instagram</div>
+                        <div class="social-compact-card active" data-channel="facebook" role="button" tabindex="0" aria-label="Facebook - Click to toggle, drag to reorder">Facebook</div>
                     </div>
             </form>
         </section>

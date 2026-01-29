@@ -561,7 +561,7 @@
     margin-bottom: var(--spacing-2);
 }
 
-/* Social Media Master Toggle - follows input-group pattern */
+/* Social Media Master Toggle - custom layout (no border) */
 .social-master-toggle-group {
     margin-bottom: 4px;
 }
@@ -569,39 +569,84 @@
 .social-master-wrapper {
     justify-content: flex-start;
     align-items: center;
+    border: none !important;
+    background: transparent !important;
+    padding: 0;
+    gap: 12px;
+}
+
+/* Reset button for social order */
+.social-reset-btn {
+    margin-left: auto;
+    padding: 4px 10px;
+    font-size: 11px;
+    color: #9CA3AF;
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.social-reset-btn:hover {
+    color: #6B7280;
+    background: #F3F4F6;
+}
+
+.social-reset-btn:active {
+    transform: scale(0.98);
+}
+
+.reset-icon {
+    font-size: 13px;
 }
 
 .social-hint {
-    font-size: 13px;
-    color: var(--color-text-tertiary);
-    margin-left: 12px;
+    font-size: 11px;
+    color: #9CA3AF;
+    margin-left: 8px;
 }
 
 /* Social Media Compact Grid - Subtle, quieter design (#86) */
 .social-compact-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 6px;
     margin-bottom: 8px;
+    /* Align with form fields above - match input-group grid (140px label + 8px gap) */
+    margin-left: 148px;
+    margin-right: 40px; /* Align with input field right edge */
+}
+
+/* Equal width cards in flex container */
+.social-compact-grid .social-compact-card {
+    flex: 1 1 0;
+    min-width: 0;
 }
 
 /* Quieter card design: neutral base with subtle brand hints */
 .social-compact-card {
     width: 100%;
-    height: 36px;
+    height: 32px;
     display: flex;
-    flex-direction: row;
-    align-items: stretch;
-    padding: 0;
-    border: 1px solid #E5E7EB;  /* Subtle border instead of heavy shadow */
+    align-items: center;
+    justify-content: center;
+    padding: 0 8px;
+    border: 1px solid #E5E7EB;
     border-radius: 6px;
-    overflow: hidden;
     cursor: pointer;
-    position: relative;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     user-select: none;
-    background: #F9FAFB;  /* Light neutral background */
+    background: #F9FAFB;
     opacity: 0.5;
+    font-size: 12px;
+    font-weight: 500;
+    color: #6B7280;
+    white-space: nowrap;
 }
 
 .social-compact-card:hover {
@@ -613,6 +658,29 @@
     opacity: 1;
     border-color: #D1D5DB;
     background: #FFFFFF;
+    color: #374151;
+    border-left-width: 3px;
+}
+
+/* Active state: colored left border matching brand */
+.social-compact-card.active[data-channel="linkedin"] {
+    border-left-color: #0A66C2;
+}
+
+.social-compact-card.active[data-channel="youtube"] {
+    border-left-color: #FF0000;
+}
+
+.social-compact-card.active[data-channel="twitter"] {
+    border-left-color: #000000;
+}
+
+.social-compact-card.active[data-channel="instagram"] {
+    border-left-color: #E1306C;
+}
+
+.social-compact-card.active[data-channel="facebook"] {
+    border-left-color: #1877F2;
 }
 
 /* Show brand accent on hover when active */
@@ -621,100 +689,54 @@
     box-shadow: 0 2px 4px rgba(0,0,0,0.08);
 }
 
-.social-compact-card.dragging {
-    opacity: 0.3;
-    transform: scale(0.95);
+/* Drag handle removed - now drag from anywhere on card */
+
+/* =============================================================================
+   SortableJS Drag States - iOS-style reorder animations (#111)
+   ============================================================================= */
+
+/* Ensure smooth transitions on all cards for the shifting effect */
+.social-compact-card {
+    transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1),
+                box-shadow 0.2s cubic-bezier(0.25, 1, 0.5, 1),
+                opacity 0.2s ease;
 }
 
-/* Drag handle - visible on social cards for discoverability */
-.social-drag-handle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #6B7280;
-    cursor: grab;
-    padding: 0 6px;
-    opacity: 0.7;
-    transition: opacity 0.2s ease, color 0.2s ease;
-    font-size: 12px;
-    flex-shrink: 0;
-    letter-spacing: 1px;
+/* Chosen state: card being picked up - iOS-style lift */
+.social-compact-card.sortable-chosen {
+    transform: scale(1.05);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+    z-index: 100;
+    opacity: 1 !important;
 }
 
-.social-drag-handle:hover {
+/* Ghost state: empty slot where dragged card came from */
+.social-compact-card.sortable-ghost {
+    opacity: 0 !important;
+    background: transparent !important;
+    border: 2px dashed #D1D5DB !important;
+    box-shadow: none !important;
+}
+
+/* Hide ghost content */
+.social-compact-card.sortable-ghost * {
+    visibility: hidden;
+}
+
+/* Drag state: the card following the cursor */
+.social-compact-card.sortable-drag {
+    transform: scale(1.05) rotate(2deg);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
     opacity: 1;
-    color: #374151;
-}
-
-.social-compact-card:active .social-drag-handle {
     cursor: grabbing;
 }
 
-/* Icon area - subtle brand color hint */
-.social-compact-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 100%;
-    background: transparent;
-    font-size: 13px;
-    font-weight: 600;
-    flex-shrink: 0;
-    color: #6B7280;  /* Neutral gray by default */
-    transition: color 0.2s ease;
+/* Cursor states for draggable cards */
+.social-compact-card {
+    cursor: grab;
 }
 
-/* Label area - neutral text */
-.social-compact-label {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 11px;
-    color: #6B7280;  /* Neutral gray text */
-    font-weight: 500;
-    padding: 0 6px;
-    background: transparent;
-    white-space: nowrap;
-    transition: color 0.2s ease;
-}
-
-/* Active state: show brand colors subtly in icon only */
-.social-compact-card.active[data-channel="twitter"] .social-compact-icon {
-    color: #000000;
-}
-
-.social-compact-card.active[data-channel="linkedin"] .social-compact-icon {
-    color: #0A66C2;
-}
-
-.social-compact-card.active[data-channel="facebook"] .social-compact-icon {
-    color: #1877F2;
-}
-
-.social-compact-card.active[data-channel="instagram"] .social-compact-icon {
-    color: #E1306C;
-}
-
-/* Active + hover: slightly bolder brand presence */
-.social-compact-card.active:hover[data-channel="twitter"] {
-    border-color: rgba(0, 0, 0, 0.3);
-}
-
-.social-compact-card.active:hover[data-channel="linkedin"] {
-    border-color: rgba(10, 102, 194, 0.4);
-}
-
-.social-compact-card.active:hover[data-channel="facebook"] {
-    border-color: rgba(24, 119, 242, 0.4);
-}
-
-.social-compact-card.active:hover[data-channel="instagram"] {
-    border-color: rgba(225, 48, 108, 0.4);
-}
-
-/* Active state: darken label text */
-.social-compact-card.active .social-compact-label {
-    color: #374151;
+.social-compact-card.sortable-chosen,
+.social-compact-card.sortable-drag {
+    cursor: grabbing;
 }

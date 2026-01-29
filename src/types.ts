@@ -54,7 +54,7 @@ export type SocialDisplayType = 'text' | 'icons';
 /**
  * Social media channel names
  */
-export type SocialChannel = 'linkedin' | 'twitter' | 'instagram' | 'facebook';
+export type SocialChannel = 'linkedin' | 'youtube' | 'twitter' | 'instagram' | 'facebook';
 
 /**
  * Social media options configuration

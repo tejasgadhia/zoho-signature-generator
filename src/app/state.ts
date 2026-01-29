@@ -49,7 +49,7 @@ function createDefaultState(): AppState {
     signatureStyle: 'classic',
     socialOptions: {
       enabled: true,
-      channels: ['linkedin', 'twitter', 'instagram', 'facebook'],
+      channels: ['linkedin', 'youtube', 'twitter', 'instagram', 'facebook'],
       displayType: 'text'
     },
     isDarkModePreview: false,
@@ -248,11 +248,11 @@ export class AppStateManager {
     if (savedOrder) {
       try {
         const channels = JSON.parse(savedOrder);
-        // Validate: must be array, max 4 items, only valid channel names
-        const validChannels: SocialChannel[] = ['linkedin', 'twitter', 'instagram', 'facebook'];
+        // Validate: must be array, max 5 items, only valid channel names
+        const validChannels: SocialChannel[] = ['linkedin', 'youtube', 'twitter', 'instagram', 'facebook'];
         if (
           Array.isArray(channels) &&
-          channels.length <= 4 &&
+          channels.length <= 5 &&
           channels.every((ch: unknown) => typeof ch === 'string' && validChannels.includes(ch as SocialChannel))
         ) {
           updates.socialOptions = {

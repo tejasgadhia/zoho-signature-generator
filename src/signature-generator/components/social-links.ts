@@ -19,6 +19,11 @@ export function generateSocialLinks(
       text: 'LinkedIn',
       icon: 'in',
     },
+    youtube: {
+      url: 'https://www.youtube.com/@zoho',
+      text: 'YouTube',
+      icon: '▶',
+    },
     facebook: { url: 'https://www.facebook.com/zoho', text: 'Facebook', icon: 'f' },
     instagram: {
       url: 'https://www.instagram.com/zoho/',
