@@ -113,6 +113,59 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Say Thanks button (Easter egg)
+  const thanksButton = document.getElementById('thanksButton');
+  const thanksModal = document.getElementById('thanks-modal');
+  const thanksCountBadge = document.getElementById('thanksCount');
+  const thanksCountNumber = document.getElementById('thanksCountNumber');
+  const thanksVideo = document.getElementById('thanksVideo') as HTMLVideoElement;
+
+  if (thanksButton && thanksModal && thanksCountBadge && thanksCountNumber && thanksVideo) {
+    // Load saved count or default to 27
+    let count = parseInt(localStorage.getItem('thanks-count') || '27', 10);
+    thanksCountNumber.textContent = count.toString();
+
+    thanksButton.addEventListener('click', () => {
+      // Increment and animate count
+      count++;
+      localStorage.setItem('thanks-count', count.toString());
+      thanksCountNumber.textContent = count.toString();
+      thanksCountBadge.classList.add('bumped');
+      setTimeout(() => thanksCountBadge.classList.remove('bumped'), 300);
+
+      // Open modal and autoplay
+      thanksModal.classList.add('active');
+      thanksModal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+
+      // Small delay for modal animation, then play
+      setTimeout(() => {
+        thanksVideo.currentTime = 0;
+        thanksVideo.play().catch(() => {
+          // Autoplay blocked - user can click play manually
+        });
+      }, 100);
+    });
+
+    // Close handlers
+    const closeThanksModal = () => {
+      thanksModal.classList.remove('active');
+      thanksModal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      thanksVideo.pause();
+    };
+
+    thanksModal.querySelector('.modal-backdrop')?.addEventListener('click', closeThanksModal);
+    thanksModal.querySelector('.video-modal-close')?.addEventListener('click', closeThanksModal);
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && thanksModal.classList.contains('active')) {
+        closeThanksModal();
+      }
+    });
+  }
+
   // Expose state for debugging (development only)
   if (import.meta.env.DEV) {
     (window as any).AppState = state;

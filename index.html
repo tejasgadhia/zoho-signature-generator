@@ -117,6 +117,20 @@
                     <span class="feedback-btn-text">Share Feedback</span>
                 </button>
 
+                <!-- Say Thanks Button (Easter egg) -->
+                <button class="thanks-btn" id="thanksButton" aria-label="Say thanks to the team">
+                    <svg class="thanks-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
+                    </svg>
+                    <span class="thanks-btn-text">Say Thanks</span>
+                    <span class="thanks-btn-count" id="thanksCount">
+                        <svg class="thanks-heart-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
+                        <span id="thanksCountNumber">27</span>
+                    </span>
+                </button>
+
                 <!-- Disclaimer (subtle footer text) -->
                 <p class="disclaimer-footer">Unofficial community tool, not endorsed by Zoho Corporation.</p>
             </div>
@@ -398,6 +412,18 @@
             <div class="modal-body" id="modal-body-content">
                 <!-- Content will be dynamically inserted by JavaScript -->
             </div>
+        </div>
+    </div>
+
+    <!-- Thanks Video Modal (Easter egg) -->
+    <div id="thanks-modal" class="modal video-modal" role="dialog" aria-label="Video" aria-hidden="true">
+        <div class="modal-backdrop"></div>
+        <div class="video-modal-content">
+            <button type="button" class="video-modal-close" aria-label="Close video">&times;</button>
+            <video id="thanksVideo" class="video-player" controls>
+                <source src="threads.mp4" type="video/mp4">
+                Your browser does not support video playback.
+            </video>
         </div>
     </div>
 
