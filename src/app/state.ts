@@ -4,7 +4,7 @@
  */
 
 import type { AppState, FormData, FieldToggles, SocialOptions, SignatureStyle, SocialChannel } from '../types';
-import { STORAGE_KEYS } from '../constants';
+import { STORAGE_KEYS, SCHEMA_VERSION } from '../constants';
 
 /**
  * Create a deep frozen copy of an object (immutable)
@@ -316,5 +316,132 @@ export class AppStateManager {
   private saveFormatLock(field: 'name' | 'title' | 'department', enabled: boolean): void {
     const key = `${STORAGE_KEYS.FORMAT_LOCK_PREFIX}${field}`;
     localStorage.setItem(key, String(enabled));
+  }
+
+  // ===== DATA EXPORT/IMPORT =====
+
+  /**
+   * Export all app data as JSON
+   * Includes version for migration support
+   * @returns JSON string of complete app state
+   */
+  exportData(): string {
+    const exportData = {
+      version: SCHEMA_VERSION,
+      timestamp: new Date().toISOString(),
+      data: {
+        formData: this.state.formData,
+        fieldToggles: this.state.fieldToggles,
+        signatureStyle: this.state.signatureStyle,
+        socialOptions: this.state.socialOptions,
+        accentColor: this.state.accentColor,
+        formatLockState: this.state.formatLockState,
+      }
+    };
+
+    return JSON.stringify(exportData, null, 2);
+  }
+
+  /**
+   * Import app data from JSON
+   * Validates structure and applies to state
+   * @param jsonString - JSON export string
+   * @returns Error message if invalid, null if successful
+   */
+  importData(jsonString: string): string | null {
+    try {
+      const imported = JSON.parse(jsonString);
+
+      // Validate structure
+      if (!imported.version || !imported.data) {
+        return 'Invalid export file: missing version or data';
+      }
+
+      // Check version compatibility
+      if (imported.version > SCHEMA_VERSION) {
+        return `Export was created with a newer version (v${imported.version}). Please update the app.`;
+      }
+
+      // Validate data fields
+      const { data } = imported;
+      if (!data.formData || !data.fieldToggles || !data.socialOptions) {
+        return 'Invalid export file: missing required data fields';
+      }
+
+      // Apply data to state (immutable update)
+      this.state = {
+        ...this.state,
+        formData: data.formData || this.state.formData,
+        fieldToggles: data.fieldToggles || this.state.fieldToggles,
+        signatureStyle: data.signatureStyle || this.state.signatureStyle,
+        socialOptions: data.socialOptions || this.state.socialOptions,
+        accentColor: data.accentColor || this.state.accentColor,
+        formatLockState: data.formatLockState || this.state.formatLockState,
+      };
+
+      // Save to localStorage
+      this.saveAccentColor(this.state.accentColor);
+      this.saveSocialOrder();
+      Object.entries(this.state.formatLockState).forEach(([field, enabled]) => {
+        this.saveFormatLock(field as 'name' | 'title' | 'department', enabled);
+      });
+
+      return null; // Success
+    } catch (error) {
+      if (error instanceof SyntaxError) {
+        return 'Invalid JSON format';
+      }
+      return `Import failed: ${error instanceof Error ? error.message : 'Unknown error'}`;
+    }
+  }
+
+  /**
+   * Check and migrate schema if needed
+   * Called on app initialization
+   */
+  migrateSchema(): void {
+    const storedVersion = localStorage.getItem(STORAGE_KEYS.SCHEMA_VERSION);
+    const currentVersion = SCHEMA_VERSION;
+
+    if (!storedVersion) {
+      // First time user or legacy data - set current version
+      localStorage.setItem(STORAGE_KEYS.SCHEMA_VERSION, String(currentVersion));
+      return;
+    }
+
+    const storedNum = parseInt(storedVersion, 10);
+    if (storedNum < currentVersion) {
+      // Migration needed - add migration logic here when schema changes
+      console.log(`Migrating schema from v${storedNum} to v${currentVersion}`);
+
+      // Example migration logic (add when needed):
+      // if (storedNum === 1 && currentVersion === 2) {
+      //   // Migrate v1 -> v2
+      // }
+
+      // Update version
+      localStorage.setItem(STORAGE_KEYS.SCHEMA_VERSION, String(currentVersion));
+    }
+  }
+
+  /**
+   * Clear all app data from localStorage
+   * WARNING: This cannot be undone
+   */
+  clearAllData(): void {
+    // Clear all app-specific keys
+    Object.values(STORAGE_KEYS).forEach(key => {
+      if (typeof key === 'string') {
+        localStorage.removeItem(key);
+      }
+    });
+
+    // Clear format lock keys
+    ['name', 'title', 'department'].forEach(field => {
+      localStorage.removeItem(`${STORAGE_KEYS.FORMAT_LOCK_PREFIX}${field}`);
+    });
+
+    // Reset to default state
+    this.state = createDefaultState();
   }
 }

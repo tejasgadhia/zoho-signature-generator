@@ -160,7 +160,14 @@ export const STORAGE_KEYS = {
   FORMAT_LOCK_NAME: 'format-lock-name',
   FORMAT_LOCK_TITLE: 'format-lock-title',
   FORMAT_LOCK_DEPARTMENT: 'format-lock-department',
+  SCHEMA_VERSION: 'app-schema-version',
 } as const;
+
+/**
+ * Current schema version for localStorage data
+ * Increment when making breaking changes to state structure
+ */
+export const SCHEMA_VERSION = 1;
 
 /**
  * Logo asset URLs (production)

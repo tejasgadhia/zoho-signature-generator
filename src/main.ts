@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Initialize state manager
   const state = new AppStateManager();
+  state.migrateSchema(); // Run schema migration if needed
   state.loadFromStorage();
 
   // Initialize preview renderer
