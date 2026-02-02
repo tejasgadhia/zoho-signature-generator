@@ -155,9 +155,24 @@ export class InputValidator {
       return this.createResult('linkedin', value, true, null);
     }
 
-    // Accept username or full URL
-    if (value.includes('linkedin.com') && !isValidUrl(value)) {
-      return this.createResult('linkedin', value, false, 'Invalid LinkedIn URL format');
+    // Enforce LinkedIn domain for security (prevent phishing)
+    if (value.includes('/') || value.includes('.')) {
+      // Looks like a URL, validate domain
+      try {
+        const normalized = value.match(/^https?:\/\//) ? value : 'https://' + value.replace(/^\/+/, '');
+        const urlObj = new URL(normalized);
+        const hostname = urlObj.hostname.toLowerCase();
+
+        if (hostname !== 'linkedin.com' && !hostname.endsWith('.linkedin.com')) {
+          return this.createResult('linkedin', value, false, 'Must be a LinkedIn URL (e.g., linkedin.com/in/yourname)');
+        }
+
+        if (!isValidUrl(value)) {
+          return this.createResult('linkedin', value, false, 'Invalid LinkedIn URL format');
+        }
+      } catch {
+        return this.createResult('linkedin', value, false, 'Invalid URL format (e.g., linkedin.com/in/yourname)');
+      }
     }
 
     return this.createResult('linkedin', value, true, null);
@@ -181,18 +196,33 @@ export class InputValidator {
       return this.createResult('bookings', value, true, null);
     }
 
-    // If it's a full URL, validate URL format
-    if (value.includes('bookings.zohocorp.com')) {
-      if (!isValidUrl(value)) {
-        return this.createResult('bookings', value, false, 'Invalid Bookings URL format');
+    // If it's a full URL, enforce Zoho domain for security
+    if (value.includes('/') || value.includes('.')) {
+      try {
+        const normalized = value.match(/^https?:\/\//) ? value : 'https://' + value.replace(/^\/+/, '');
+        const urlObj = new URL(normalized);
+        const hostname = urlObj.hostname.toLowerCase();
+
+        // Only allow zoho.com and subdomains
+        if (hostname !== 'zoho.com' && !hostname.endsWith('.zoho.com')) {
+          return this.createResult('bookings', value, false, 'Must be a Zoho Bookings URL (e.g., bookings.zoho.com/yourname)');
+        }
+
+        if (!isValidUrl(value)) {
+          return this.createResult('bookings', value, false, 'Invalid Bookings URL format');
+        }
+
+        // Extract the calendar ID from the URL for slug validation
+        const match = value.match(/bookings\.zohocorp\.com\/#\/([^\/\?#]+)/i);
+        if (match) {
+          const slug = match[1];
+          return this.validateBookingsSlug(slug);
+        }
+
+        return this.createResult('bookings', value, true, null);
+      } catch {
+        return this.createResult('bookings', value, false, 'Invalid URL format (e.g., bookings.zoho.com/yourname)');
       }
-      // Extract the calendar ID from the URL for slug validation
-      const match = value.match(/bookings\.zohocorp\.com\/#\/([^\/\?#]+)/i);
-      if (match) {
-        const slug = match[1];
-        return this.validateBookingsSlug(slug);
-      }
-      return this.createResult('bookings', value, true, null);
     }
 
     // Validate as calendar ID/slug directly

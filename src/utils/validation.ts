@@ -68,3 +68,59 @@ export function validateEmailPrefix(prefix: string): string | null {
 
   return null;
 }
+
+/**
+ * Validate LinkedIn URL domain
+ * Only allows linkedin.com URLs to prevent phishing attacks
+ * @param url - LinkedIn URL to validate
+ * @returns Error message if invalid, null if valid
+ */
+export function validateLinkedInUrl(url: string): string | null {
+  if (!url || url.trim() === '') {
+    return null; // Empty is valid (optional field)
+  }
+
+  try {
+    // Normalize URL (add https:// if missing)
+    const normalized = url.match(/^https?:\/\//) ? url : 'https://' + url.replace(/^\/+/, '');
+    const urlObj = new URL(normalized);
+
+    // Check if hostname is linkedin.com or subdomain of linkedin.com
+    const hostname = urlObj.hostname.toLowerCase();
+    if (hostname !== 'linkedin.com' && !hostname.endsWith('.linkedin.com')) {
+      return 'Must be a LinkedIn URL (e.g., linkedin.com/in/yourname)';
+    }
+
+    return null;
+  } catch {
+    return 'Invalid URL format (e.g., linkedin.com/in/yourname)';
+  }
+}
+
+/**
+ * Validate Zoho Bookings URL
+ * Only allows Zoho subdomain URLs for security
+ * @param url - Bookings URL to validate
+ * @returns Error message if invalid, null if valid
+ */
+export function validateBookingsUrl(url: string): string | null {
+  if (!url || url.trim() === '') {
+    return null; // Empty is valid (optional field)
+  }
+
+  try {
+    // Normalize URL (add https:// if missing)
+    const normalized = url.match(/^https?:\/\//) ? url : 'https://' + url.replace(/^\/+/, '');
+    const urlObj = new URL(normalized);
+
+    // Check if hostname is zoho.com or subdomain of zoho.com
+    const hostname = urlObj.hostname.toLowerCase();
+    if (hostname !== 'zoho.com' && !hostname.endsWith('.zoho.com')) {
+      return 'Must be a Zoho Bookings URL (e.g., bookings.zoho.com/yourname)';
+    }
+
+    return null;
+  } catch {
+    return 'Invalid URL format (e.g., bookings.zoho.com/yourname)';
+  }
+}
