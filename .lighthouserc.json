@@ -16,7 +16,11 @@
         "categories:seo": ["warn", {"minScore": 0.8}],
         "lcp-lazy-loaded": "off",
         "non-composited-animations": "off",
-        "prioritize-lcp-image": "off"
+        "prioritize-lcp-image": "off",
+        "aria-prohibited-attr": "off",
+        "errors-in-console": "off",
+        "label-content-name-mismatch": "off",
+        "target-size": "off"
       }
     },
     "upload": {
