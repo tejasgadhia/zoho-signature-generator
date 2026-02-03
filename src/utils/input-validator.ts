@@ -203,9 +203,12 @@ export class InputValidator {
         const urlObj = new URL(normalized);
         const hostname = urlObj.hostname.toLowerCase();
 
-        // Only allow zoho.com and subdomains
-        if (hostname !== 'zoho.com' && !hostname.endsWith('.zoho.com')) {
-          return this.createResult('bookings', value, false, 'Must be a Zoho Bookings URL (e.g., bookings.zoho.com/yourname)');
+        // Only allow zoho.com and zohocorp.com domains (and subdomains)
+        const isZohoDomain = hostname === 'zoho.com' || hostname.endsWith('.zoho.com');
+        const isZohoCorpDomain = hostname === 'zohocorp.com' || hostname.endsWith('.zohocorp.com');
+
+        if (!isZohoDomain && !isZohoCorpDomain) {
+          return this.createResult('bookings', value, false, 'Must be a Zoho Bookings URL (e.g., bookings.zohocorp.com/#/yourname)');
         }
 
         if (!isValidUrl(value)) {

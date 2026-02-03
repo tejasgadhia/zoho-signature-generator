@@ -7,6 +7,7 @@
 import type { FormData, SignatureStyle, SocialOptions } from '../types';
 import { generateSocialLinks } from './components/social-links';
 import { escapeHtml } from '../utils/formatting';
+import { sanitizeUrl } from '../utils/url';
 
 // Import all style generators
 import * as ClassicStyle from './styles/classic';
@@ -94,7 +95,9 @@ export class SignatureGenerator {
     accentColor: string = '#E42527',
     isPreview: boolean = false
   ): string {
-    const websiteUrl = data.website || 'https://www.zoho.com';
+    // Sanitize website URL to block dangerous protocols
+    const rawWebsiteUrl = data.website || 'https://www.zoho.com';
+    const websiteUrl = sanitizeUrl(rawWebsiteUrl) || 'https://www.zoho.com';
 
     // Build Zoho social handles if requested (with error boundary)
     let zohoSocialHtml = '';

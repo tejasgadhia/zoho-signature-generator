@@ -7,7 +7,7 @@
  */
 
 import type { FormData } from '../../types';
-import { escapeHtml, sanitizePhone, sanitizeSocialUrl } from '../../utils';
+import { escapeHtml, sanitizePhone, sanitizeSocialUrl, sanitizeUrl } from '../../utils';
 
 /**
  * Build Tier 1 links: Primary Contact (Phone + Email)
@@ -47,7 +47,13 @@ export function buildTier2CTA(
     return '';
   }
 
-  return `<a href="${escapeHtml(data.bookings)}" rel="noopener noreferrer" class="sig-link sig-cta" style="color: ${accentColor}; text-decoration: none; font-weight: bold;">Schedule a Meeting</a>`;
+  // Sanitize URL to block dangerous protocols (javascript:, data:, etc.)
+  const safeBookingsUrl = sanitizeUrl(data.bookings);
+  if (!safeBookingsUrl) {
+    return ''; // Block dangerous URLs
+  }
+
+  return `<a href="${escapeHtml(safeBookingsUrl)}" rel="noopener noreferrer" class="sig-link sig-cta" style="color: ${accentColor}; text-decoration: none; font-weight: bold;">Schedule a Meeting</a>`;
 }
 
 /**

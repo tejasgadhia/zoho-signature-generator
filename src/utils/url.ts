@@ -174,3 +174,31 @@ export function getTrackedWebsiteURL(emailPrefix: string): string {
 
   return `${baseURL}?${params.toString()}`;
 }
+
+/**
+ * Sanitize URL to prevent XSS attacks
+ * Blocks dangerous protocols (javascript:, data:, vbscript:, file:, etc.)
+ *
+ * @param url - URL to sanitize
+ * @returns Sanitized URL, or empty string if dangerous
+ */
+export function sanitizeUrl(url: string): string {
+  if (!url || typeof url !== 'string') {
+    return '';
+  }
+
+  const trimmed = url.trim();
+
+  // Block dangerous protocols
+  const dangerousProtocols = /^(javascript|data|vbscript|file|about):/i;
+  if (dangerousProtocols.test(trimmed)) {
+    return '';
+  }
+
+  // Check for protocol-less dangerous URLs (e.g., "javascript:alert(1)" without colon)
+  if (/^(javascript|data|vbscript|file|about)\s/i.test(trimmed)) {
+    return '';
+  }
+
+  return trimmed;
+}
