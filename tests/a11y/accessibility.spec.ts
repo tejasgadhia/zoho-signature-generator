@@ -16,11 +16,11 @@ test.describe('Accessibility Tests - WCAG 2.2 AA Compliance', () => {
     expect(results.violations).toEqual([]);
   });
 
-  test('Light mode passes axe scan', async ({ page }) => {
-    // Ensure light mode is active
-    const themeToggle = page.locator('.theme-toggle');
-    const isDark = await page.evaluate(() => document.body.classList.contains('dark-mode'));
-    if (isDark) {
+  test('Preview light mode passes axe scan', async ({ page }) => {
+    // Ensure preview light mode is active
+    const themeToggle = page.locator('#themeToggle');
+    const isChecked = await themeToggle.isChecked();
+    if (isChecked) {
       await themeToggle.click();
       await page.waitForTimeout(100); // Wait for theme transition
     }
@@ -32,11 +32,11 @@ test.describe('Accessibility Tests - WCAG 2.2 AA Compliance', () => {
     expect(results.violations).toEqual([]);
   });
 
-  test('Dark mode passes axe scan', async ({ page }) => {
-    // Ensure dark mode is active
-    const themeToggle = page.locator('.theme-toggle');
-    const isDark = await page.evaluate(() => document.body.classList.contains('dark-mode'));
-    if (!isDark) {
+  test('Preview dark mode passes axe scan', async ({ page }) => {
+    // Ensure preview dark mode is active
+    const themeToggle = page.locator('#themeToggle');
+    const isChecked = await themeToggle.isChecked();
+    if (!isChecked) {
       await themeToggle.click();
       await page.waitForTimeout(100); // Wait for theme transition
     }
@@ -52,13 +52,13 @@ test.describe('Accessibility Tests - WCAG 2.2 AA Compliance', () => {
 
   for (const style of signatureStyles) {
     test(`${style} signature style passes axe scan`, async ({ page }) => {
-      // Select signature style
-      await page.selectOption('#style-select', style);
+      // Select signature style (radio button)
+      await page.check(`input[name="signatureStyle"][value="${style}"]`);
       await page.waitForTimeout(200); // Wait for preview update
 
       // Scan only the preview area
       const results = await new AxeBuilder({ page })
-        .include('#signature-preview')
+        .include('#signaturePreview')
         .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
         .analyze();
 
@@ -77,7 +77,7 @@ test.describe('Accessibility Tests - WCAG 2.2 AA Compliance', () => {
 
   test('Modal dialogs pass axe scan', async ({ page }) => {
     // Open Gmail instructions modal
-    const gmailButton = page.locator('[data-modal="gmail"]');
+    const gmailButton = page.locator('[data-client="gmail"]');
     await gmailButton.click();
     await page.waitForSelector('.modal-backdrop', { state: 'visible' });
 

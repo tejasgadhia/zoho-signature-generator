@@ -10,10 +10,10 @@ const testData = {
   name: 'Jasmine Frank',
   title: 'Director of Marketing',
   department: 'Zoho One',
-  email: 'jasmine.frank@zohocorp.com',
+  emailPrefix: 'jasmine.frank',
   phone: '+1 (281) 330-8004',
-  linkedin: 'https://linkedin.com/in/jasminefrank',
-  twitter: 'https://x.com/jasminefrank',
+  linkedin: 'jasminefrank',
+  twitter: 'jasminefrank',
 };
 
 const styles = ['classic', 'modern', 'compact', 'minimal', 'professional', 'creative'];
@@ -25,16 +25,16 @@ async function fillForm(page: any, data: typeof testData) {
   await page.fill('input[name="name"]', data.name);
   await page.fill('input[name="title"]', data.title);
   await page.fill('input[name="department"]', data.department);
-  await page.fill('input[name="email"]', data.email);
+  await page.fill('input[name="email-prefix"]', data.emailPrefix);
   await page.fill('input[name="phone"]', data.phone);
 
   // Enable and fill LinkedIn
-  await page.click('input[data-field="linkedin"]');
-  await page.fill('input[name="linkedin"]', data.linkedin);
+  await page.click('[data-field="linkedin"]');
+  await page.fill('input[name="linkedin-username"]', data.linkedin);
 
   // Enable and fill Twitter
-  await page.click('input[data-field="twitter"]');
-  await page.fill('input[name="twitter"]', data.twitter);
+  await page.click('[data-field="twitter"]');
+  await page.fill('input[name="twitter-username"]', data.twitter);
 }
 
 /**
@@ -65,7 +65,7 @@ test.describe('Signature Visual Regression', () => {
     await page.goto('/');
 
     // Wait for app to be ready
-    await page.waitForSelector('#preview', { state: 'visible' });
+    await page.waitForSelector('#previewContainer', { state: 'visible' });
 
     // Fill form with test data
     await fillForm(page, testData);
@@ -78,7 +78,7 @@ test.describe('Signature Visual Regression', () => {
       await toggleDarkMode(page, false);
 
       // Take screenshot of preview area
-      const preview = page.locator('#preview');
+      const preview = page.locator('#previewContainer');
       await expect(preview).toHaveScreenshot(`${style}-light.png`, {
         maxDiffPixels: 100, // Allow small anti-aliasing differences
       });
@@ -92,7 +92,7 @@ test.describe('Signature Visual Regression', () => {
       await toggleDarkMode(page, true);
 
       // Take screenshot of preview area
-      const preview = page.locator('#preview');
+      const preview = page.locator('#previewContainer');
       await expect(preview).toHaveScreenshot(`${style}-dark.png`, {
         maxDiffPixels: 100,
       });
@@ -105,7 +105,7 @@ test.describe('Signature Visual Regression', () => {
     await page.fill('input[name="title"]', 'Senior Vice President of Strategic Product Development');
     await selectStyle(page, 'classic');
 
-    const preview = page.locator('#preview');
+    const preview = page.locator('#previewContainer');
     await expect(preview).toHaveScreenshot('classic-long-name.png', {
       maxDiffPixels: 100,
     });
@@ -125,7 +125,7 @@ test.describe('Signature Visual Regression', () => {
 
     await selectStyle(page, 'classic');
 
-    const preview = page.locator('#preview');
+    const preview = page.locator('#previewContainer');
     await expect(preview).toHaveScreenshot('classic-minimal.png', {
       maxDiffPixels: 100,
     });
@@ -140,7 +140,7 @@ test.describe('Signature Visual Regression', () => {
       await page.click(`button[data-color="${colors[i]}"]`);
       await page.waitForTimeout(300);
 
-      const preview = page.locator('#preview');
+      const preview = page.locator('#previewContainer');
       await expect(preview).toHaveScreenshot(`classic-color-${colorNames[i]}.png`, {
         maxDiffPixels: 100,
       });
@@ -171,7 +171,7 @@ test.describe('Signature Interaction Tests', () => {
       await selectStyle(page, style);
 
       // Verify preview updated (has content)
-      const preview = page.locator('#preview');
+      const preview = page.locator('#previewContainer');
       const content = await preview.textContent();
       expect(content).toContain(testData.name);
     }

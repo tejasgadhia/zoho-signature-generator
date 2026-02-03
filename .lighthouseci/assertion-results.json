@@ -1,0 +1,70 @@
+[
+  {
+    "name": "minScore",
+    "expected": 0.9,
+    "actual": 0,
+    "values": [
+      0,
+      0,
+      0
+    ],
+    "operator": ">=",
+    "passed": false,
+    "auditId": "aria-prohibited-attr",
+    "level": "error",
+    "url": "http://localhost:58282/index.html",
+    "auditTitle": "Elements use prohibited ARIA attributes",
+    "auditDocumentationLink": "https://dequeuniversity.com/rules/axe/4.9/aria-prohibited-attr"
+  },
+  {
+    "name": "minScore",
+    "expected": 0.9,
+    "actual": 0,
+    "values": [
+      0,
+      0,
+      0
+    ],
+    "operator": ">=",
+    "passed": false,
+    "auditId": "errors-in-console",
+    "level": "error",
+    "url": "http://localhost:58282/index.html",
+    "auditTitle": "Browser errors were logged to the console",
+    "auditDocumentationLink": "https://developer.chrome.com/docs/lighthouse/best-practices/errors-in-console/"
+  },
+  {
+    "name": "minScore",
+    "expected": 0.9,
+    "actual": 0,
+    "values": [
+      0,
+      0,
+      0
+    ],
+    "operator": ">=",
+    "passed": false,
+    "auditId": "label-content-name-mismatch",
+    "level": "error",
+    "url": "http://localhost:58282/index.html",
+    "auditTitle": "Elements with visible text labels do not have matching accessible names.",
+    "auditDocumentationLink": "https://dequeuniversity.com/rules/axe/4.9/label-content-name-mismatch"
+  },
+  {
+    "name": "minScore",
+    "expected": 0.9,
+    "actual": 0,
+    "values": [
+      0,
+      0,
+      0
+    ],
+    "operator": ">=",
+    "passed": false,
+    "auditId": "target-size",
+    "level": "error",
+    "url": "http://localhost:58282/index.html",
+    "auditTitle": "Touch targets do not have sufficient size or spacing.",
+    "auditDocumentationLink": "https://dequeuniversity.com/rules/axe/4.9/target-size"
+  }
+]

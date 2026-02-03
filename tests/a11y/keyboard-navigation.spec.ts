@@ -12,35 +12,35 @@ test.describe('Keyboard Navigation Tests', () => {
 
     // First focusable element should be the name input
     let focused = await page.evaluate(() => document.activeElement?.id);
-    expect(focused).toBe('name-input');
+    expect(focused).toBe('name');
 
     // Continue tabbing through form fields
     await page.keyboard.press('Tab');
     focused = await page.evaluate(() => document.activeElement?.id);
-    expect(focused).toBe('title-input');
+    expect(focused).toBe('title');
 
     await page.keyboard.press('Tab');
     focused = await page.evaluate(() => document.activeElement?.id);
-    expect(focused).toBe('department-input');
+    expect(focused).toBe('department');
 
     await page.keyboard.press('Tab');
     focused = await page.evaluate(() => document.activeElement?.id);
-    expect(focused).toBe('email-input');
+    expect(focused).toBe('email');
 
     await page.keyboard.press('Tab');
     focused = await page.evaluate(() => document.activeElement?.id);
-    expect(focused).toBe('phone-input');
+    expect(focused).toBe('phone');
   });
 
   test('Focus indicators are visible on all interactive elements', async ({ page }) => {
     // Tab through elements and check focus outline
     const elements = [
-      '#name-input',
-      '#title-input',
-      '#email-input',
-      '#style-select',
-      '.theme-toggle',
-      '.copy-button'
+      '#name',
+      '#title',
+      'email-prefix',
+      'input[name="signatureStyle"]',
+      '#themeToggle',
+      '#copyButton'
     ];
 
     for (const selector of elements) {
@@ -74,7 +74,7 @@ test.describe('Keyboard Navigation Tests', () => {
 
   test('Escape closes modal', async ({ page }) => {
     // Open Gmail instructions modal
-    await page.click('[data-modal="gmail"]');
+    await page.click('[data-client="gmail"]');
     await page.waitForSelector('.modal-backdrop', { state: 'visible' });
 
     // Verify modal is visible
@@ -92,11 +92,11 @@ test.describe('Keyboard Navigation Tests', () => {
 
   test('Enter activates buttons', async ({ page }) => {
     // Fill in form data first
-    await page.fill('#name-input', 'Test User');
-    await page.fill('#email-input', 'test@zohocorp.com');
+    await page.fill('#name', 'Test User');
+    await page.fill('email-prefix', 'test.user');
 
     // Focus copy button
-    await page.focus('.copy-button');
+    await page.focus('#copyButton');
 
     // Press Enter
     await page.keyboard.press('Enter');
@@ -126,7 +126,7 @@ test.describe('Keyboard Navigation Tests', () => {
 
   test('Modal traps focus within dialog', async ({ page }) => {
     // Open modal
-    await page.click('[data-modal="gmail"]');
+    await page.click('[data-client="gmail"]');
     await page.waitForSelector('.modal-backdrop', { state: 'visible' });
 
     // Get all focusable elements in modal
@@ -159,16 +159,16 @@ test.describe('Keyboard Navigation Tests', () => {
 
   test('Shift+Tab navigates backwards', async ({ page }) => {
     // Tab to second element
-    await page.keyboard.press('Tab'); // name-input
-    await page.keyboard.press('Tab'); // title-input
+    await page.keyboard.press('Tab'); // name
+    await page.keyboard.press('Tab'); // title
 
     let focused = await page.evaluate(() => document.activeElement?.id);
-    expect(focused).toBe('title-input');
+    expect(focused).toBe('title');
 
     // Shift+Tab back
     await page.keyboard.press('Shift+Tab');
     focused = await page.evaluate(() => document.activeElement?.id);
-    expect(focused).toBe('name-input');
+    expect(focused).toBe('name');
   });
 
   test('Skip to main content link works', async ({ page }) => {
@@ -202,7 +202,7 @@ test.describe('Keyboard Navigation Tests', () => {
     await page.keyboard.type('Engineering');
 
     await page.keyboard.press('Tab'); // email
-    await page.keyboard.type('test@zohocorp.com');
+    await page.keyboard.type('test.user');
 
     await page.keyboard.press('Tab'); // phone
     await page.keyboard.type('+1234567890');
