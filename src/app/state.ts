@@ -263,7 +263,7 @@ export class AppStateManager {
       return;
     }
 
-    console.log('Starting localStorage encryption migration...');
+    // Migration happens silently in production
 
     let migratedCount = 0;
     const keysToMigrate = [
@@ -283,14 +283,14 @@ export class AppStateManager {
 
         // Check if already encrypted (signed data contains pipe separator)
         if (plaintext.includes('|')) {
-          console.log(`Key ${key} already encrypted, skipping`);
+          // Key already encrypted, skip
           continue;
         }
 
         // Encrypt and sign the plaintext value
         await setEncryptedSigned(key, plaintext);
         migratedCount++;
-        console.log(`Migrated key: ${key}`);
+        // Migrated key silently
       } catch (error) {
         console.error(`Failed to migrate key ${key}:`, error);
         // Continue with other keys even if one fails
@@ -301,7 +301,7 @@ export class AppStateManager {
     localStorage.setItem(migrationKey, 'complete');
     this.migrationComplete = true;
 
-    console.log(`Migration complete. Encrypted ${migratedCount} keys.`);
+    // Migration complete (${migratedCount} keys encrypted)
   }
 
   /**
@@ -486,7 +486,7 @@ export class AppStateManager {
     const storedNum = parseInt(storedVersion, 10);
     if (storedNum < currentVersion) {
       // Migration needed - add migration logic here when schema changes
-      console.log(`Migrating schema from v${storedNum} to v${currentVersion}`);
+      // Schema migration from v${storedNum} to v${currentVersion}
 
       // Example migration logic (add when needed):
       // if (storedNum === 1 && currentVersion === 2) {
