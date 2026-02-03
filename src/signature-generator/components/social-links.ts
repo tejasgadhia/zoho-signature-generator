@@ -36,13 +36,17 @@ export function generateSocialLinks(
   channels.forEach((channel) => {
     if (socialData[channel]) {
       const social = socialData[channel];
+      // Defense-in-depth: Encode URLs even though they're currently static
+      // Protects against future changes where URLs might become dynamic
+      const encodedUrl = encodeURI(social.url);
+
       if (displayType === 'icons') {
         links.push(
-          `<a href="${social.url}" rel="noopener noreferrer" class="sig-link" style="color: ${accentColor}; text-decoration: none; font-size: 14px; margin-right: 8px;" title="${social.text}">${social.icon}</a>`
+          `<a href="${encodedUrl}" rel="noopener noreferrer" class="sig-link" style="color: ${accentColor}; text-decoration: none; font-size: 14px; margin-right: 8px;" title="${social.text}">${social.icon}</a>`
         );
       } else {
         links.push(
-          `<a href="${social.url}" rel="noopener noreferrer" class="sig-link" style="color: ${accentColor}; text-decoration: none;">${social.text}</a>`
+          `<a href="${encodedUrl}" rel="noopener noreferrer" class="sig-link" style="color: ${accentColor}; text-decoration: none;">${social.text}</a>`
         );
       }
     }

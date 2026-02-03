@@ -5,6 +5,7 @@
  */
 
 import type { FormData, ValidationResult } from '../types';
+import { EMAIL_REGEX } from '../constants';
 
 /**
  * Email validation regex - must be @zohocorp.com domain
@@ -12,11 +13,6 @@ import type { FormData, ValidationResult } from '../types';
  * Rejects: dots at start/end, consecutive dots
  */
 const ZOHOCORP_EMAIL_REGEX = /^[a-z0-9]+(?:\.[a-z0-9]+)*@zohocorp\.com$/i;
-
-/**
- * General email format regex
- */
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 /**
  * Phone validation - minimum 10 digits

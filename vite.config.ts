@@ -12,7 +12,19 @@ export default defineConfig({
     outDir: 'dist',
     assetsDir: 'assets',
     sourcemap: true,
-    minify: 'terser'
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        // Remove console statements in production (keep error/warn for debugging)
+        drop_console: ['log', 'info', 'debug'],
+        drop_debugger: true,
+        pure_funcs: ['console.log', 'console.info', 'console.debug']
+      },
+      format: {
+        // Remove comments in production build
+        comments: false
+      }
+    }
   },
   server: {
     port: 5173,

@@ -3,13 +3,15 @@
  * Pure validation functions for form inputs
  */
 
+import { EMAIL_REGEX, PHONE_REGEX, EMAIL_PREFIX_REGEX } from '../constants';
+
 /**
  * Validate email format
  * @param email - Email address to validate
  * @returns true if email format is valid
  */
 export function isValidEmail(email: string): boolean {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  return EMAIL_REGEX.test(email);
 }
 
 /**
@@ -23,7 +25,7 @@ export function isValidPhone(phone: string): boolean {
   // Remove all non-digit characters except + at the start
   const cleaned = phone.replace(/[^\d+]/g, '');
   // Check if we have at least 10 digits (US number) or starts with + and has 10+ digits
-  return /^\+?\d{10,}$/.test(cleaned);
+  return PHONE_REGEX.test(cleaned);
 }
 
 /**
@@ -56,8 +58,7 @@ export function validateEmailPrefix(prefix: string): string | null {
   }
 
   // Strict email prefix validation: ONLY lowercase letters, numbers, and dots
-  const prefixRegex = /^[a-z0-9.]+$/;
-  if (!prefixRegex.test(prefix)) {
+  if (!EMAIL_PREFIX_REGEX.test(prefix)) {
     return 'Use only letters, numbers, and dots (e.g., john.smith or jsmith2)';
   }
 
