@@ -185,7 +185,12 @@
     font-size: var(--font-size-xs);
     font-weight: 600;
     cursor: pointer;
-    padding: 4px 6px;
+    padding: 12px 14px;  /* Increased for 44px touch target */
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     line-height: 1;
     color: #6B7280;
     transition: all 0.2s ease;
