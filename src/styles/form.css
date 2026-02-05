@@ -584,7 +584,7 @@
 
 /* Validation States */
 .input-valid {
-    border-color: #089949 !important;
+    border-color: #067D3C !important;
 }
 
 .input-invalid {
@@ -607,7 +607,7 @@
 }
 
 .validation-icon.valid {
-    color: #089949;
+    color: #067D3C;
 }
 
 .validation-icon.invalid {
@@ -638,7 +638,7 @@
 }
 
 .validation-icon.valid {
-    color: #089949; /* Zoho green */
+    color: #067D3C;
 }
 
 .validation-icon.invalid {
@@ -718,7 +718,7 @@
 
 /* Copy Button Success State */
 .btn-primary.success {
-    background: #089949;
+    background: #067D3C;
     animation: successPulse 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 

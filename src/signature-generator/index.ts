@@ -186,7 +186,7 @@ export class SignatureGenerator {
   ): string {
     if (!data.name) {
       return `
-        <div style="text-align: center; padding: 40px 20px; color: #999999;">
+        <div style="text-align: center; padding: 40px 20px; color: #767676;">
           <p style="font-size: 16px; margin: 0;">Fill in your name to preview the signature</p>
         </div>
       `;

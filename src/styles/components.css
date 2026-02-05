@@ -110,7 +110,7 @@
 }
 
 .import-btn-zoho-desk {
-    background: #089949;
+    background: #067D3C;
 }
 
 .import-btn-zoho-desk:hover {
@@ -122,7 +122,7 @@
 .import-section-divider {
     text-align: center;
     font-size: var(--font-size-xs);
-    color: #999999;
+    color: #767676;
     margin: 24px 0 16px 0;
     position: relative;
 }
@@ -156,7 +156,7 @@
 
 .import-btn-secondary:hover {
     background: #F5F5F5;
-    border-color: #999999;
+    border-color: #767676;
     transform: translateY(-1px);
 }
 

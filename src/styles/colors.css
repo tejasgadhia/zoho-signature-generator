@@ -97,7 +97,7 @@
     border-radius: 6px;
     font-size: 14px;
     font-weight: 500;
-    color: #64748b; /* Muted text for inactive */
+    color: #5F6B7A; /* Muted text for inactive */
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     white-space: nowrap;
@@ -209,7 +209,7 @@ body.dark .style-option:has(input[type="radio"]:checked) {
 }
 
 .color-btn[data-color="#089949"] {
-    background: #089949;
+    background: #067D3C;
 }
 
 .color-btn[data-color="#226DB4"] {
