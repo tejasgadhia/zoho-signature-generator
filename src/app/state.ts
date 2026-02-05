@@ -64,6 +64,23 @@ function isLegacyEncryptedValue(value: string): boolean {
 }
 
 /**
+ * Filter an object to only include explicitly allowed keys.
+ * Prevents prototype pollution by using hasOwnProperty check.
+ */
+function sanitizeKeys<T>(
+  obj: Partial<T>,
+  allowedKeys: readonly string[]
+): Partial<T> {
+  const result: Partial<T> = {};
+  for (const key of allowedKeys) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      (result as Record<string, unknown>)[key] = (obj as Record<string, unknown>)[key];
+    }
+  }
+  return result;
+}
+
+/**
  * Create a deep frozen copy of an object (immutable)
  */
 function deepFreeze<T extends object>(obj: T): Readonly<T> {
@@ -211,13 +228,16 @@ export class AppStateManager {
 
   /**
    * Update social media options (immutable)
+   * Sanitizes keys to prevent prototype pollution
    */
   setSocialOptions(options: Partial<SocialOptions>): void {
+    const SAFE_KEYS = ['enabled', 'channels', 'displayType'] as const;
+    const sanitized = sanitizeKeys<SocialOptions>(options, SAFE_KEYS);
     this.state = {
       ...this.state,
       socialOptions: {
         ...this.state.socialOptions,
-        ...options
+        ...sanitized
       }
     };
   }
@@ -453,14 +473,20 @@ export class AppStateManager {
       }
 
       // Apply data to state (immutable update)
+      // Sanitize each sub-object to prevent prototype pollution
+      const FORM_KEYS = ['name', 'title', 'department', 'email', 'phone', 'linkedin', 'twitter', 'bookings', 'website'] as const;
+      const TOGGLE_KEYS = ['title', 'department', 'email', 'phone', 'linkedin', 'twitter', 'bookings', 'website'] as const;
+      const SOCIAL_KEYS = ['enabled', 'channels', 'displayType'] as const;
+      const LOCK_KEYS = ['name', 'title', 'department'] as const;
+
       this.state = {
         ...this.state,
-        formData: data.formData || this.state.formData,
-        fieldToggles: data.fieldToggles || this.state.fieldToggles,
+        formData: data.formData ? { ...this.state.formData, ...sanitizeKeys<FormData>(data.formData, FORM_KEYS) } : this.state.formData,
+        fieldToggles: data.fieldToggles ? { ...this.state.fieldToggles, ...sanitizeKeys<FieldToggles>(data.fieldToggles, TOGGLE_KEYS) } : this.state.fieldToggles,
         signatureStyle: data.signatureStyle || this.state.signatureStyle,
-        socialOptions: data.socialOptions || this.state.socialOptions,
+        socialOptions: data.socialOptions ? { ...this.state.socialOptions, ...sanitizeKeys<SocialOptions>(data.socialOptions, SOCIAL_KEYS) } : this.state.socialOptions,
         accentColor: data.accentColor || this.state.accentColor,
-        formatLockState: data.formatLockState || this.state.formatLockState,
+        formatLockState: data.formatLockState ? { ...this.state.formatLockState, ...sanitizeKeys(data.formatLockState, LOCK_KEYS) } : this.state.formatLockState,
       };
 
       // Save to localStorage
