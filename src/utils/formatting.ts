@@ -121,8 +121,8 @@ export function formatPhoneNumber(phone: string): string {
   // Extract digits only
   const digits = mainNumber.replace(/\D/g, '');
 
-  // < 10 digits: don't format (validation handles error)
-  if (digits.length < 10) return trimmed;
+  // < 7 digits: don't format (validation handles error)
+  if (digits.length < 7) return trimmed;
 
   // US: 10 digits
   if (digits.length === 10) {
@@ -143,19 +143,11 @@ export function formatPhoneNumber(phone: string): string {
  * Strips all non-digit characters for clean input
  *
  * @param input - Raw input value
- * @returns Digits only (max 10 for US numbers)
+ * @returns Digits only (max 15 per E.164 standard)
  */
 export function filterPhoneDigits(input: string): string {
-  // Extract only digits
-  let digits = input.replace(/\D/g, '');
-
-  // If starts with country code 1 and has > 10 digits, strip the leading 1
-  if (digits.length > 10 && digits.startsWith('1')) {
-    digits = digits.slice(1);
-  }
-
-  // Limit to 10 digits (US phone number)
-  return digits.slice(0, 10);
+  const digits = input.replace(/\D/g, '');
+  return digits.slice(0, 15);
 }
 
 /**

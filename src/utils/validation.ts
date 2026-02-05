@@ -16,10 +16,10 @@ export function isValidEmail(email: string): boolean {
 
 /**
  * Validate phone number format
- * Accepts formats like: +1 (512) 555-1234, +1-512-555-1234, 512-555-1234, etc.
- * Minimum 10 digits required (excluding country code +)
+ * Accepts formats like: +1 (512) 555-1234, +1-512-555-1234, 512-555-1234, +91 98765 43210, etc.
+ * Minimum 7 digits required (international support per ITU-T E.164)
  * @param phone - Phone number to validate
- * @returns true if phone has at least 10 digits
+ * @returns true if phone has at least 7 digits
  */
 export function isValidPhone(phone: string): boolean {
   // Remove all non-digit characters except + at the start

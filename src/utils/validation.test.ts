@@ -18,7 +18,7 @@ describe('isValidEmail', () => {
 });
 
 describe('isValidPhone', () => {
-  it('should return true for valid phone numbers with 10+ digits', () => {
+  it('should return true for valid phone numbers with 7+ digits', () => {
     expect(isValidPhone('1234567890')).toBe(true);
     expect(isValidPhone('+1 (512) 555-1234')).toBe(true);
     expect(isValidPhone('+1-512-555-1234')).toBe(true);
@@ -26,10 +26,19 @@ describe('isValidPhone', () => {
     expect(isValidPhone('+44 20 7946 0958')).toBe(true);
   });
 
-  it('should return false for phone numbers with fewer than 10 digits', () => {
+  it('should return true for short international numbers (7+ digits)', () => {
+    expect(isValidPhone('1234567')).toBe(true);      // 7 digits - minimum valid
+    expect(isValidPhone('123456789')).toBe(true);     // 9 digits - valid international
+  });
+
+  it('should return false for phone numbers with fewer than 7 digits', () => {
     expect(isValidPhone('')).toBe(false);
-    expect(isValidPhone('123456789')).toBe(false);
-    expect(isValidPhone('555-1234')).toBe(false);
+    expect(isValidPhone('123456')).toBe(false);       // 6 digits - too short
+    expect(isValidPhone('555-12')).toBe(false);       // 5 digits
+  });
+
+  it('should return false for numbers exceeding E.164 max (15 digits)', () => {
+    expect(isValidPhone('1234567890123456')).toBe(false);  // 16 digits
   });
 });
 
