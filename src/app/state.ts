@@ -4,21 +4,64 @@
  */
 
 import type { AppState, FormData, FieldToggles, SocialOptions, SignatureStyle, SocialChannel } from '../types';
-import { STORAGE_KEYS, SCHEMA_VERSION } from '../constants';
-import { setEncryptedSigned, getEncryptedVerified } from '../utils/encrypted-storage';
+import { STORAGE_KEYS, SCHEMA_VERSION, VALID_ACCENT_COLORS } from '../constants';
 
 /**
- * SECURITY NOTE - localStorage Encryption:
- * Currently only non-sensitive data is persisted to localStorage:
- * - Accent color, social order, format locks (preferences, not PII)
- * - FormData (name, email, phone) is transient and NOT persisted
- *
- * Encryption utilities available in:
- * - utils/crypto.ts - Low-level AES-GCM encryption
- * - utils/encrypted-storage.ts - High-level encrypted localStorage wrapper
- *
- * Export/Import uses JSON format (can be encrypted if saved to disk)
+ * SECURITY NOTE - localStorage:
+ * Only non-sensitive preferences are persisted (accent color, social order, format locks).
+ * FormData (name, email, phone) is transient and NOT persisted.
+ * All stored values are validated on read (whitelist for colors, schema for JSON, strict boolean).
  */
+
+// ===== VALIDATION HELPERS =====
+
+const VALID_SOCIAL_CHANNELS: SocialChannel[] = ['linkedin', 'youtube', 'twitter', 'instagram', 'facebook'];
+
+/**
+ * Check if a value is a valid Zoho accent color
+ */
+function isValidAccentColor(value: string): boolean {
+  return VALID_ACCENT_COLORS.has(value);
+}
+
+/**
+ * Parse and validate a social channel order JSON string.
+ * Returns the validated array or null if invalid.
+ */
+function parseValidSocialOrder(value: string): SocialChannel[] | null {
+  try {
+    const channels = JSON.parse(value);
+    if (
+      Array.isArray(channels) &&
+      channels.length <= 5 &&
+      channels.every((ch: unknown) => typeof ch === 'string' && VALID_SOCIAL_CHANNELS.includes(ch as SocialChannel))
+    ) {
+      return channels as SocialChannel[];
+    }
+  } catch {
+    // Invalid JSON
+  }
+  return null;
+}
+
+/**
+ * Check if a string is a valid boolean representation
+ */
+function isValidBooleanString(value: string): boolean {
+  return value === 'true' || value === 'false';
+}
+
+/**
+ * Detect legacy encrypted values (base64 blobs or pipe-separated signed data).
+ * Valid plaintext values like "#E42527", "true", or '["linkedin"]' won't match.
+ */
+function isLegacyEncryptedValue(value: string): boolean {
+  // Pipe separator indicates signed+encrypted format: "signature|encryptedData"
+  if (value.includes('|')) return true;
+  // Long base64-like strings (20+ chars of base64 alphabet) indicate raw encrypted data
+  if (/^[A-Za-z0-9+/]{20,}={0,2}$/.test(value)) return true;
+  return false;
+}
 
 /**
  * Create a deep frozen copy of an object (immutable)
@@ -78,7 +121,6 @@ function createDefaultState(): AppState {
 
 export class AppStateManager {
   private state: AppState;
-  private migrationComplete: boolean = false;
 
   constructor() {
     this.state = createDefaultState();
@@ -247,114 +289,82 @@ export class AppStateManager {
   // ===== STORAGE OPERATIONS =====
 
   /**
-   * Migrate plaintext localStorage keys to encrypted storage
-   * Runs once per session, preserves original data until migration confirmed
-   * IMPORTANT: Must be called before loadFromStorage()
+   * One-time cleanup of legacy encrypted localStorage values.
+   * Detects corrupted base64/pipe-separated data from v3.3.0 encryption
+   * and removes it so defaults are used instead.
    */
-  async migrateLocalStorageToEncrypted(): Promise<void> {
-    if (this.migrationComplete) return;
+  cleanupLegacyEncryptedData(): void {
+    const cleanupKey = 'encryption-cleanup-v1';
+    if (localStorage.getItem(cleanupKey) === 'complete') return;
 
-    const migrationKey = 'encryption-migration-v1';
-    const alreadyMigrated = localStorage.getItem(migrationKey);
-
-    // Skip if already migrated
-    if (alreadyMigrated === 'complete') {
-      this.migrationComplete = true;
-      return;
-    }
-
-    // Migration happens silently in production
-
-    let migratedCount = 0;
-    const keysToMigrate = [
+    const keysToCheck = [
       STORAGE_KEYS.ACCENT_COLOR,
       STORAGE_KEYS.SOCIAL_ORDER,
       STORAGE_KEYS.FORMAT_LOCK_NAME,
       STORAGE_KEYS.FORMAT_LOCK_TITLE,
-      STORAGE_KEYS.FORMAT_LOCK_DEPARTMENT
+      STORAGE_KEYS.FORMAT_LOCK_DEPARTMENT,
     ];
 
-    for (const key of keysToMigrate) {
-      try {
-        const plaintext = localStorage.getItem(key);
-
-        // Skip if key doesn't exist or already encrypted
-        if (!plaintext) continue;
-
-        // Check if already encrypted (signed data contains pipe separator)
-        if (plaintext.includes('|')) {
-          // Key already encrypted, skip
-          continue;
-        }
-
-        // Encrypt and sign the plaintext value
-        await setEncryptedSigned(key, plaintext);
-        migratedCount++;
-        // Migrated key silently
-      } catch (error) {
-        console.error(`Failed to migrate key ${key}:`, error);
-        // Continue with other keys even if one fails
+    for (const key of keysToCheck) {
+      const value = localStorage.getItem(key);
+      if (value && isLegacyEncryptedValue(value)) {
+        localStorage.removeItem(key);
       }
     }
 
-    // Mark migration as complete
-    localStorage.setItem(migrationKey, 'complete');
-    this.migrationComplete = true;
+    // Clean up old migration flag from v3.3.0
+    localStorage.removeItem('encryption-migration-v1');
 
-    // Migration complete (${migratedCount} keys encrypted)
+    localStorage.setItem(cleanupKey, 'complete');
   }
 
   /**
-   * Load state from localStorage (immutable updates)
-   * IMPORTANT: Must call migrateLocalStorageToEncrypted() first
+   * Load state from localStorage with validation (synchronous)
    */
-  async loadFromStorage(): Promise<void> {
-    let updates: Partial<AppState> = {};
+  loadFromStorage(): void {
+    const updates: Partial<AppState> = {};
 
-    // Load accent color (encrypted)
-    const savedColor = await getEncryptedVerified(STORAGE_KEYS.ACCENT_COLOR);
-    if (savedColor) {
+    // Load accent color (validated against whitelist)
+    const savedColor = localStorage.getItem(STORAGE_KEYS.ACCENT_COLOR);
+    if (savedColor && isValidAccentColor(savedColor)) {
       updates.accentColor = savedColor;
+    } else if (savedColor) {
+      // Invalid value — remove it
+      localStorage.removeItem(STORAGE_KEYS.ACCENT_COLOR);
     }
 
-    // Load social channel order (encrypted)
-    const savedOrder = await getEncryptedVerified(STORAGE_KEYS.SOCIAL_ORDER);
+    // Load social channel order (validated JSON array)
+    const savedOrder = localStorage.getItem(STORAGE_KEYS.SOCIAL_ORDER);
     if (savedOrder) {
-      try {
-        const channels = JSON.parse(savedOrder);
-        // Validate: must be array, max 5 items, only valid channel names
-        const validChannels: SocialChannel[] = ['linkedin', 'youtube', 'twitter', 'instagram', 'facebook'];
-        if (
-          Array.isArray(channels) &&
-          channels.length <= 5 &&
-          channels.every((ch: unknown) => typeof ch === 'string' && validChannels.includes(ch as SocialChannel))
-        ) {
-          updates.socialOptions = {
-            ...this.state.socialOptions,
-            channels: channels as SocialChannel[]
-          };
-        } else {
-          console.warn('Invalid social order format in localStorage, using defaults');
-        }
-      } catch (e) {
-        console.warn('Failed to parse saved social order:', e);
+      const channels = parseValidSocialOrder(savedOrder);
+      if (channels) {
+        updates.socialOptions = {
+          ...this.state.socialOptions,
+          channels,
+        };
+      } else {
+        localStorage.removeItem(STORAGE_KEYS.SOCIAL_ORDER);
       }
     }
 
-    // Load format lock states (encrypted)
+    // Load format lock states (validated boolean strings)
     const formatLockUpdates: Partial<Record<'name' | 'title' | 'department', boolean>> = {};
     for (const field of ['name', 'title', 'department'] as const) {
       const key = `${STORAGE_KEYS.FORMAT_LOCK_PREFIX}${field}`;
-      const saved = await getEncryptedVerified(key);
+      const saved = localStorage.getItem(key);
       if (saved !== null) {
-        formatLockUpdates[field] = saved !== 'false';
+        if (isValidBooleanString(saved)) {
+          formatLockUpdates[field] = saved === 'true';
+        } else {
+          localStorage.removeItem(key);
+        }
       }
     }
 
     if (Object.keys(formatLockUpdates).length > 0) {
       updates.formatLockState = {
         ...this.state.formatLockState,
-        ...formatLockUpdates
+        ...formatLockUpdates,
       };
     }
 
@@ -362,34 +372,34 @@ export class AppStateManager {
     if (Object.keys(updates).length > 0) {
       this.state = {
         ...this.state,
-        ...updates
+        ...updates,
       };
     }
   }
 
   /**
-   * Save accent color to localStorage (encrypted)
+   * Save accent color to localStorage (plaintext, validated on read)
    */
-  private async saveAccentColor(color: string): Promise<void> {
-    await setEncryptedSigned(STORAGE_KEYS.ACCENT_COLOR, color);
+  private saveAccentColor(color: string): void {
+    localStorage.setItem(STORAGE_KEYS.ACCENT_COLOR, color);
   }
 
   /**
-   * Save social channel order to localStorage (encrypted)
+   * Save social channel order to localStorage (plaintext, validated on read)
    */
-  async saveSocialOrder(): Promise<void> {
-    await setEncryptedSigned(
+  saveSocialOrder(): void {
+    localStorage.setItem(
       STORAGE_KEYS.SOCIAL_ORDER,
-      JSON.stringify(this.state.socialOptions.channels)
+      JSON.stringify(this.state.socialOptions.channels),
     );
   }
 
   /**
-   * Save format lock state to localStorage (encrypted)
+   * Save format lock state to localStorage (plaintext, validated on read)
    */
-  private async saveFormatLock(field: 'name' | 'title' | 'department', enabled: boolean): Promise<void> {
+  private saveFormatLock(field: 'name' | 'title' | 'department', enabled: boolean): void {
     const key = `${STORAGE_KEYS.FORMAT_LOCK_PREFIX}${field}`;
-    await setEncryptedSigned(key, String(enabled));
+    localStorage.setItem(key, String(enabled));
   }
 
   // ===== DATA EXPORT/IMPORT =====

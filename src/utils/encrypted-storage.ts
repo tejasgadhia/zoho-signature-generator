@@ -3,11 +3,11 @@
  * Provides encryption layer for sensitive data in localStorage
  * Uses Web Crypto API (AES-GCM 256-bit)
  *
- * USAGE GUIDELINES:
- * - Use for sensitive data (PII, credentials, tokens)
- * - Don't use for non-sensitive preferences (theme, UI state)
- * - Currently formData is NOT persisted (good for privacy)
- * - This utility is available if future features need encrypted storage
+ * @deprecated As of v3.4.0, this module is no longer used by the application.
+ * localStorage preferences (accent color, social order, format locks) are now
+ * stored as validated plaintext — encryption was causing data loss because
+ * ephemeral keys couldn't survive page reloads. Kept for potential future use
+ * if truly sensitive data (PII, tokens) needs encrypted client-side storage.
  */
 
 import { encryptData, decryptData, isCryptoAvailable } from './crypto';

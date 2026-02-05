@@ -27,9 +27,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   const state = new AppStateManager();
   state.migrateSchema(); // Run schema migration if needed
 
-  // Run encryption migration and load from storage (async)
-  await state.migrateLocalStorageToEncrypted();
-  await state.loadFromStorage();
+  // Clean up legacy encrypted data and load preferences
+  state.cleanupLegacyEncryptedData();
+  state.loadFromStorage();
 
   // Initialize preview renderer
   const previewRenderer = new PreviewRenderer(state);
