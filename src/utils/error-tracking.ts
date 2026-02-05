@@ -7,8 +7,13 @@
  * - User manually copies error details (opt-in reporting)
  */
 
-// Note: showErrorModal imported dynamically to avoid circular dependency
-// import { showErrorModal } from '../ui/error-modal';
+/** Callback type for showing error modals (injected to avoid circular dependency) */
+export type ShowModalFn = (options: {
+  title: string;
+  message: string;
+  errorContext: ErrorContext;
+  dismissible: boolean;
+}) => void;
 
 interface ErrorContext {
   message: string;
@@ -25,20 +30,18 @@ interface ErrorContext {
 
 /**
  * Setup global error boundary to catch unhandled errors
+ * @param showModal - Injected callback to display error UI (avoids circular dependency)
  */
-export function setupErrorBoundary(): void {
+export function setupErrorBoundary(showModal: ShowModalFn): void {
   // Catch unhandled JavaScript errors
-  window.addEventListener('error', async (event) => {
+  window.addEventListener('error', (event) => {
     const errorContext = captureErrorContext(event.error || event.message);
 
     // Log to console (always, for debugging)
     console.error('Unhandled error:', errorContext);
 
-    // Dynamically import showErrorModal to avoid circular dependency
-    const { showErrorModal } = await import('../ui/error-modal');
-
     // Show user-friendly error modal with recovery options
-    showErrorModal({
+    showModal({
       title: 'Something went wrong',
       message: 'The app encountered an unexpected error. You can try reloading the page or clearing your data to recover.',
       errorContext,
@@ -50,17 +53,14 @@ export function setupErrorBoundary(): void {
   });
 
   // Catch unhandled promise rejections
-  window.addEventListener('unhandledrejection', async (event) => {
+  window.addEventListener('unhandledrejection', (event) => {
     const errorContext = captureErrorContext(event.reason);
 
     // Log to console
     console.error('Unhandled promise rejection:', errorContext);
 
-    // Dynamically import showErrorModal
-    const { showErrorModal } = await import('../ui/error-modal');
-
     // Show dismissible error (async errors often non-critical)
-    showErrorModal({
+    showModal({
       title: 'Operation failed',
       message: 'An async operation failed. You can continue using the app, but some features may not work correctly.',
       errorContext,

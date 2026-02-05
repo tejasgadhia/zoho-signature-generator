@@ -13,9 +13,10 @@ import { ClipboardManager } from './app/clipboard';
 import { ModalController } from './ui/modal';
 import { DragDropHandler } from './ui/drag-drop';
 import { setupErrorBoundary } from './utils/error-tracking';
+import { showErrorModal } from './ui/error-modal';
 
 // Setup error boundary BEFORE any other initialization
-setupErrorBoundary();
+setupErrorBoundary(showErrorModal);
 
 // Initialize application when DOM is ready
 document.addEventListener('DOMContentLoaded', async () => {
