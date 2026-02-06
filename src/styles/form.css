@@ -290,7 +290,7 @@
 
 /* Phone format tooltip */
 .phone-format-icon::after {
-    content: '10 digits only, no dashes or spaces';
+    content: 'Digits only (7-15), no dashes or spaces';
     position: absolute;
     bottom: calc(100% + 12px);
     left: 50%;

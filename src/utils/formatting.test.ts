@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { toSmartTitleCase, escapeHtml, sanitizePhone, generateEmailPrefix, filterPhoneDigits } from './formatting';
+import { toSmartTitleCase, escapeHtml, sanitizePhone, generateEmailPrefix, filterPhoneDigits, formatPhoneNumber } from './formatting';
 
 describe('toSmartTitleCase', () => {
   it('should capitalize first letter of each word', () => {
@@ -101,16 +101,20 @@ describe('filterPhoneDigits', () => {
   it('should strip non-digit characters', () => {
     expect(filterPhoneDigits('abc123')).toBe('123');
     expect(filterPhoneDigits('(555) 123-4567')).toBe('5551234567');
-    expect(filterPhoneDigits('+1-555-123-4567')).toBe('5551234567');
+    expect(filterPhoneDigits('+1-555-123-4567')).toBe('15551234567');
   });
 
-  it('should strip leading 1 from 11-digit numbers', () => {
-    expect(filterPhoneDigits('15551234567')).toBe('5551234567');
-    expect(filterPhoneDigits('+15551234567')).toBe('5551234567');
+  it('should limit to 15 digits (E.164 max)', () => {
+    expect(filterPhoneDigits('1234567890123456789')).toBe('123456789012345');
   });
 
-  it('should limit to 10 digits', () => {
-    expect(filterPhoneDigits('55512345678901')).toBe('5551234567');
+  it('should allow international numbers (India, UK, Australia)', () => {
+    // India: +91 followed by 10 digits = 12 digits
+    expect(filterPhoneDigits('919876543210')).toBe('919876543210');
+    // UK: +44 followed by 10 digits = 12 digits
+    expect(filterPhoneDigits('442079460958')).toBe('442079460958');
+    // Australia: +61 followed by 9 digits = 11 digits
+    expect(filterPhoneDigits('61412345678')).toBe('61412345678');
   });
 
   it('should return empty string for empty input', () => {
@@ -119,5 +123,36 @@ describe('filterPhoneDigits', () => {
 
   it('should return empty string for non-digit input', () => {
     expect(filterPhoneDigits('abc')).toBe('');
+  });
+});
+
+describe('formatPhoneNumber', () => {
+  it('should format US 10-digit numbers', () => {
+    expect(formatPhoneNumber('2813308004')).toBe('+1 (281) 330-8004');
+    expect(formatPhoneNumber('512-555-1234')).toBe('+1 (512) 555-1234');
+  });
+
+  it('should format US 11-digit numbers starting with 1', () => {
+    expect(formatPhoneNumber('12813308004')).toBe('+1 (281) 330-8004');
+  });
+
+  it('should pass through international numbers as-is', () => {
+    // 12 digits (India) - not US format, preserved
+    expect(formatPhoneNumber('919876543210')).toBe('919876543210');
+    // 12 digits (UK) - not US format, preserved
+    expect(formatPhoneNumber('442079460958')).toBe('442079460958');
+  });
+
+  it('should handle extensions', () => {
+    expect(formatPhoneNumber('281-330-8004 x123')).toBe('+1 (281) 330-8004 x123');
+    expect(formatPhoneNumber('281-330-8004 ext 456')).toBe('+1 (281) 330-8004 x456');
+  });
+
+  it('should return empty string for empty input', () => {
+    expect(formatPhoneNumber('')).toBe('');
+  });
+
+  it('should return original for short numbers', () => {
+    expect(formatPhoneNumber('123456')).toBe('123456');
   });
 });

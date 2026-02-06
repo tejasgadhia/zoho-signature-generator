@@ -44,10 +44,15 @@ describe('InputValidator', () => {
       expect(validator.validate('phone', '+44 20 7946 0958').isValid).toBe(true);
     });
 
-    it('should reject phone numbers with fewer than 10 digits', () => {
-      const result = validator.validate('phone', '123456789');
+    it('should reject phone numbers with fewer than 7 digits', () => {
+      const result = validator.validate('phone', '123456');
       expect(result.isValid).toBe(false);
-      expect(result.message).toContain('10');
+      expect(result.message).toContain('7');
+    });
+
+    it('should accept 7-9 digit international numbers', () => {
+      expect(validator.validate('phone', '1234567').isValid).toBe(true);
+      expect(validator.validate('phone', '123456789').isValid).toBe(true);
     });
 
     it('should accept empty phone (optional field)', () => {

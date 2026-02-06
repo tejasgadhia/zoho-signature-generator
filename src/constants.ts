@@ -228,7 +228,7 @@ export const KEYBOARD_SHORTCUTS = {
  */
 export const VALIDATION = {
   MIN_EMAIL_PREFIX_LENGTH: 2,
-  MIN_PHONE_DIGITS: 10,
+  MIN_PHONE_DIGITS: 7,
 } as const;
 
 /**
@@ -242,6 +242,6 @@ export const EMAIL_PREFIX_REGEX = /^[a-z0-9.]+$/;
 export const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 /**
- * Phone validation regex (10+ digits, optional + at start)
+ * Phone validation regex (7-15 digits per E.164 standard, optional + at start)
  */
-export const PHONE_REGEX = /^\+?\d{10,}$/;
+export const PHONE_REGEX = /^\+?\d{7,15}$/;

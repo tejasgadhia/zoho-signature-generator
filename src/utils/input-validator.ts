@@ -15,9 +15,9 @@ import { EMAIL_REGEX } from '../constants';
 const ZOHOCORP_EMAIL_REGEX = /^[a-z0-9]+(?:\.[a-z0-9]+)*@zohocorp\.com$/i;
 
 /**
- * Phone validation - minimum 10 digits
+ * Phone validation - minimum 7 digits (international support per ITU-T)
  */
-const PHONE_MIN_DIGITS = 10;
+const PHONE_MIN_DIGITS = 7;
 
 /**
  * URL validation helper
@@ -140,7 +140,7 @@ export class InputValidator {
     // Count digits only (ignore + and formatting)
     const digits = value.replace(/\D/g, '');
     if (digits.length < PHONE_MIN_DIGITS) {
-      return this.createResult('phone', value, false, `Must have at least ${PHONE_MIN_DIGITS} digits. Example: +1 (281) 330-8004`);
+      return this.createResult('phone', value, false, `Must have at least ${PHONE_MIN_DIGITS} digits. Example: +1 (281) 330-8004 or +91 98765 43210`);
     }
 
     return this.createResult('phone', value, true, null);
