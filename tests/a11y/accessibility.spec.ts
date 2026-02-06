@@ -17,11 +17,12 @@ test.describe('Accessibility Tests - WCAG 2.2 AA Compliance', () => {
   });
 
   test('Preview light mode passes axe scan', async ({ page }) => {
-    // Ensure preview light mode is active
+    // Ensure preview light mode is active (click the label, not the
+    // visually-hidden checkbox, since the label intercepts pointer events)
     const themeToggle = page.locator('#themeToggle');
     const isChecked = await themeToggle.isChecked();
     if (isChecked) {
-      await themeToggle.click();
+      await page.locator('.theme-toggle').click();
       await page.waitForTimeout(100); // Wait for theme transition
     }
 
@@ -33,11 +34,12 @@ test.describe('Accessibility Tests - WCAG 2.2 AA Compliance', () => {
   });
 
   test('Preview dark mode passes axe scan', async ({ page }) => {
-    // Ensure preview dark mode is active
+    // Ensure preview dark mode is active (click the label, not the
+    // visually-hidden checkbox, since the label intercepts pointer events)
     const themeToggle = page.locator('#themeToggle');
     const isChecked = await themeToggle.isChecked();
     if (!isChecked) {
-      await themeToggle.click();
+      await page.locator('.theme-toggle').click();
       await page.waitForTimeout(100); // Wait for theme transition
     }
 
