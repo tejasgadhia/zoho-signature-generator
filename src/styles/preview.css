@@ -129,6 +129,25 @@
     border-color: #555555;
 }
 
+/* Lighten accent-colored links for WCAG AA contrast (4.5:1) on #1E1E1E dark background.
+   Only affects preview display — copied signature HTML retains original inline colors.
+   data-accent attribute set by preview-renderer to enable per-color overrides. */
+.preview-container.dark-mode .sig-link,
+.preview-container.dark-mode .sig-separator {
+    color: #F27476 !important; /* Zoho Red lightened: 5.08:1 on #1E1E1E */
+}
+.preview-container.dark-mode[data-accent="#089949"] .sig-link,
+.preview-container.dark-mode[data-accent="#089949"] .sig-separator {
+    color: #34D87E !important; /* Zoho Green lightened: 5.27:1 on #1E1E1E */
+}
+.preview-container.dark-mode[data-accent="#226DB4"] .sig-link,
+.preview-container.dark-mode[data-accent="#226DB4"] .sig-separator {
+    color: #5CA0E0 !important; /* Zoho Blue lightened: 4.68:1 on #1E1E1E */
+}
+.preview-container.dark-mode .sig-social-label {
+    color: #B0B0B0 !important; /* 5.92:1 on #1E1E1E */
+}
+
 .signature-preview {
     font-family: Arial, Helvetica, sans-serif;
     max-width: 100%;

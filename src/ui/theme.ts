@@ -52,15 +52,16 @@ export class ThemeManager {
   private applyTheme(theme: Theme): void {
     if (theme === 'dark') {
       document.body.classList.add('dark-mode');
+      document.documentElement.setAttribute('data-theme', 'dark');
     } else {
       document.body.classList.remove('dark-mode');
+      document.documentElement.setAttribute('data-theme', 'light');
     }
 
     // Update theme toggle checkbox if it exists
     const themeToggle = document.getElementById('themeToggle') as HTMLInputElement;
     if (themeToggle) {
       themeToggle.checked = theme === 'dark';
-      themeToggle.setAttribute('aria-checked', String(theme === 'dark'));
     }
   }
 

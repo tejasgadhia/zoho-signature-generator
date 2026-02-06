@@ -78,9 +78,9 @@ test.describe('Accessibility Tests - WCAG 2.2 AA Compliance', () => {
   });
 
   test('Modal dialogs pass axe scan', async ({ page }) => {
-    // Open Gmail instructions modal
-    const gmailButton = page.locator('[data-client="gmail"]');
-    await gmailButton.click();
+    // Open Zoho Mail instructions modal (always visible, not inside accordion)
+    const zohoMailButton = page.locator('[data-client="zoho-mail"]');
+    await zohoMailButton.click();
     await page.waitForSelector('.modal-backdrop', { state: 'visible' });
 
     const results = await new AxeBuilder({ page })
@@ -102,7 +102,7 @@ test.describe('Accessibility Tests - WCAG 2.2 AA Compliance', () => {
 
   test('Social media toggles pass axe scan', async ({ page }) => {
     const results = await new AxeBuilder({ page })
-      .include('.social-options')
+      .include('.social-compact-grid')
       .withTags(['wcag2a', 'wcag2aa'])
       .analyze();
 

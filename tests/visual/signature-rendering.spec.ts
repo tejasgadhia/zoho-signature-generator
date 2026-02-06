@@ -41,7 +41,7 @@ async function fillForm(page: any, data: typeof testData) {
  * Helper: Select signature style
  */
 async function selectStyle(page: any, style: string) {
-  await page.selectOption('select#signatureStyle', style);
+  await page.check(`input[name="signatureStyle"][value="${style}"]`);
   // Wait for preview to update
   await page.waitForTimeout(500);
 }
@@ -54,7 +54,8 @@ async function toggleDarkMode(page: any, enabled: boolean) {
   const isChecked = await checkbox.isChecked();
 
   if (isChecked !== enabled) {
-    await checkbox.click();
+    // Click the label (not the hidden checkbox) since label intercepts pointer events
+    await page.locator('.theme-toggle').click();
     await page.waitForTimeout(300);
   }
 }
@@ -119,9 +120,9 @@ test.describe('Signature Visual Regression', () => {
     await page.fill('input[name="department"]', '');
     await page.fill('input[name="phone"]', '');
 
-    // Disable LinkedIn and Twitter
-    await page.click('input[data-field="linkedin"]');
-    await page.click('input[data-field="twitter"]');
+    // Disable LinkedIn and Twitter (toggles are div[role="switch"], not inputs)
+    await page.click('[data-field="linkedin"]');
+    await page.click('[data-field="twitter"]');
 
     await selectStyle(page, 'classic');
 

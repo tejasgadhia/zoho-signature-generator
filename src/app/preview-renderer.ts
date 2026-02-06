@@ -84,7 +84,7 @@ export class PreviewRenderer {
       // Update preview container
       this.previewContainer.innerHTML = html;
 
-      // Apply dark mode class to parent .preview-container (CSS targets that element)
+      // Apply dark mode class and accent color to parent .preview-container
       const container = this.previewContainer.closest('.preview-container');
       if (container) {
         if (state.isDarkModePreview) {
@@ -92,6 +92,8 @@ export class PreviewRenderer {
         } else {
           container.classList.remove('dark-mode');
         }
+        // Set accent color for dark mode contrast overrides (see preview.css)
+        container.setAttribute('data-accent', state.accentColor);
       }
     } catch (error) {
       console.error('Failed to render preview:', error);

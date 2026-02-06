@@ -59,7 +59,7 @@ export function generateSocialLinks(
   // Minimized styling - smaller font, lighter colors, less visual weight
   return `
             <div style="margin-top: 8px; padding-top: 6px; border-top: 1px solid #EBEBEB;">
-                <div style="font-size: 10px; color: #767676; margin-bottom: 2px;">Follow Zoho:</div>
+                <div class="sig-social-label" style="font-size: 10px; color: #767676; margin-bottom: 2px;">Follow Zoho:</div>
                 <div style="font-size: 10px;">
                     ${linksHtml}
                 </div>

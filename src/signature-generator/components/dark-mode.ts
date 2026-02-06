@@ -16,6 +16,7 @@ export function getDarkModeStyles(isPreview: boolean = false): string {
 .dark-mode .sig-name { color: #FFFFFF !important; }
 .dark-mode .sig-title { color: #E0E0E0 !important; }
 .dark-mode .sig-separator { color: #666666 !important; }
+.dark-mode .sig-social-label { color: #B0B0B0 !important; }
 .dark-mode .sig-logo-light { display: none !important; }
 .dark-mode .sig-logo-dark { display: inline-block !important; }
 .sig-logo-dark { display: none; }
@@ -28,12 +29,14 @@ export function getDarkModeStyles(isPreview: boolean = false): string {
 .sig-name { color: #FFFFFF !important; }
 .sig-title { color: #E0E0E0 !important; }
 .sig-separator { color: #666666 !important; }
+.sig-social-label { color: #B0B0B0 !important; }
 .sig-logo-light { display: none !important; }
 .sig-logo-dark { display: inline-block !important; }
 }
 .dark-mode .sig-name { color: #FFFFFF !important; }
 .dark-mode .sig-title { color: #E0E0E0 !important; }
 .dark-mode .sig-separator { color: #666666 !important; }
+.dark-mode .sig-social-label { color: #B0B0B0 !important; }
 .dark-mode .sig-logo-light { display: none !important; }
 .dark-mode .sig-logo-dark { display: inline-block !important; }
 .sig-logo-dark { display: none; }
