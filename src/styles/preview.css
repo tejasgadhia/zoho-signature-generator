@@ -45,6 +45,7 @@
     font-size: var(--font-size-sm);
     font-weight: 500;
     color: #374151;
+    pointer-events: none;
 }
 
 .theme-toggle input[type="checkbox"] {
